@@ -1,0 +1,5 @@
+RemoteSystemsTempFiles
+.metadata
+*.a
+*.exe
+bin

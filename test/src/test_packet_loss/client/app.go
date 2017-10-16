@@ -25,8 +25,8 @@ func (this *App) OnAppReady() {
 	s.AddChart("chart", g_chart)
 	go func() { println(s.ListenAndServe(":8000").Error()) }()
 
-	go TcpClient()
-	go UdpClient()
+	TcpClient()
+	UdpClient()
 }
 
 func (this *App) OnAppShutDown() {

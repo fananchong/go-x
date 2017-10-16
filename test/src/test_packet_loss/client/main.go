@@ -9,7 +9,7 @@ import (
 var (
 	MSG                  = []byte("hello")
 	DEFAULT_REFRESH_TIME = 1
-	DEFAULT_SAMPLE_NUM   = 5 * 60 / DEFAULT_REFRESH_TIME
+	DEFAULT_SAMPLE_NUM   = 2 * 60 / DEFAULT_REFRESH_TIME * 10
 )
 
 func main() {

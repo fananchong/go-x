@@ -15,6 +15,7 @@ type Chart struct {
 
 func NewChart() *Chart {
 	this := &Chart{tcp: make([]int64, DEFAULT_SAMPLE_NUM), udp: make([]int64, DEFAULT_SAMPLE_NUM)}
+	this.TickUnit = 100
 	this.RefreshTime = strconv.Itoa(DEFAULT_REFRESH_TIME)
 	this.ChartType = "line"
 	this.Title = "网络丢包测试"
@@ -22,7 +23,10 @@ func NewChart() *Chart {
 	this.YAxisText = "delay"
 	this.YMax = "2000"
 	this.ValueSuffix = "ms"
+	this.TickLabelStep = "100"
+	//this.TickFormat = "{value: %H:%M:%S}"
 	this.PlotLinesY = "{ color:'red', dashStyle:'longdashdot', value:100, width:1, label:{ text:'100ms', align:'left' } }"
+	this.PlotLinesY += ",{ color:'red', dashStyle:'longdashdot', value:200, width:1, label:{ text:'200ms', align:'left' } }"
 	return this
 }
 

@@ -22,7 +22,7 @@ var (
 func (this *App) OnAppReady() {
 	g_chart = NewChart()
 	s := &gochart.ChartServer{}
-	s.AddChart("chart", g_chart)
+	s.AddChart("chart", g_chart, false)
 	go func() { println(s.ListenAndServe(":8000").Error()) }()
 
 	TcpClient()

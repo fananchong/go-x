@@ -2,7 +2,6 @@ package main
 
 import (
 	"github.com/fananchong/gochart"
-	"strconv"
 	"sync"
 )
 
@@ -14,9 +13,10 @@ type Chart struct {
 }
 
 func NewChart() *Chart {
-	this := &Chart{tcp: make([]int64, DEFAULT_SAMPLE_NUM), udp: make([]int64, DEFAULT_SAMPLE_NUM)}
+	this := &Chart{tcp: make([]int64, 0), udp: make([]int64, 0)}
 	this.TickUnit = 100
-	this.RefreshTime = strconv.Itoa(DEFAULT_REFRESH_TIME)
+	this.RefreshTime = DEFAULT_REFRESH_TIME
+	this.SampleNum = DEFAULT_SAMPLE_NUM
 	this.ChartType = "line"
 	this.Title = "网络丢包测试"
 	this.SubTitle = "服务器每100ms发送hello消息给客户端"
@@ -30,38 +30,31 @@ func NewChart() *Chart {
 	return this
 }
 
-func (this *Chart) Update(now int64) []interface{} {
-
-	tcp := make([]int64, DEFAULT_SAMPLE_NUM)
-	udp := make([]int64, DEFAULT_SAMPLE_NUM)
-
+func (this *Chart) Update(now int64) map[string][]interface{} {
+	datas := make(map[string][]interface{})
 	this.m.Lock()
-	copy(tcp, this.tcp)
-	copy(udp, this.udp)
+	datas["tcp"] = make([]interface{}, 0)
+	for _, v := range this.tcp {
+		datas["tcp"] = append(datas["tcp"], v)
+	}
+	datas["udp"] = make([]interface{}, 0)
+	for _, v := range this.tcp {
+		datas["udp"] = append(datas["udp"], v)
+	}
+	this.tcp = this.tcp[:0]
+	this.udp = this.udp[:0]
 	this.m.Unlock()
-
-	datas := make([]interface{}, 0)
-	json1 := this.AddData("tcp", tcp, now, DEFAULT_SAMPLE_NUM, DEFAULT_REFRESH_TIME)
-	datas = append(datas, json1)
-	json2 := this.AddData("udp", udp, now, DEFAULT_SAMPLE_NUM, DEFAULT_REFRESH_TIME)
-	datas = append(datas, json2)
 	return datas
 }
 
 func (this *Chart) AddTcpData(v int64) {
 	this.m.Lock()
 	this.tcp = append(this.tcp, v)
-	for len(this.tcp) > DEFAULT_SAMPLE_NUM {
-		this.tcp = this.tcp[1:]
-	}
 	this.m.Unlock()
 }
 
 func (this *Chart) AddUdpData(v int64) {
 	this.m.Lock()
 	this.udp = append(this.udp, v)
-	for len(this.udp) > DEFAULT_SAMPLE_NUM {
-		this.udp = this.udp[1:]
-	}
 	this.m.Unlock()
 }

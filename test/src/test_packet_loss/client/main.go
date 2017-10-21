@@ -1,6 +1,6 @@
 package main
 
-// usage: client --tcpaddr=192.168.1.3:3000 --udpaddr=192.168.1.3:3000 --log_dir=./log -stderrthreshold 0
+// usage: client --tcpaddr=192.168.1.3:3000 --udpaddr=192.168.1.3:3001 --log_dir=./log -stderrthreshold 0
 
 import (
 	"flag"
@@ -14,9 +14,9 @@ var (
 
 func main() {
 	tcpaddr := ""
-	flag.StringVar(&tcpaddr, "tcpaddr", "localhost:3000", "tcp server address")
+	flag.StringVar(&tcpaddr, "tcpaddr", "localhost:3001", "tcp server address")
 	udpaddr := ""
-	flag.StringVar(&udpaddr, "udpaddr", "localhost:3000", "udp server address")
+	flag.StringVar(&udpaddr, "udpaddr", "localhost:3001", "udp server address")
 
 	app := NewApp()
 	app.Run()

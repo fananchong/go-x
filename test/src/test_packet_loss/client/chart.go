@@ -24,7 +24,6 @@ func NewChart() *Chart {
 	this.YMax = "2000"
 	this.ValueSuffix = "ms"
 	this.TickLabelStep = "100"
-	//this.TickFormat = "{value: %H:%M:%S}"
 	this.PlotLinesY = "{ color:'red', dashStyle:'longdashdot', value:100, width:1, label:{ text:'100ms', align:'left' } }"
 	this.PlotLinesY += ",{ color:'red', dashStyle:'longdashdot', value:200, width:1, label:{ text:'200ms', align:'left' } }"
 	return this
@@ -38,7 +37,7 @@ func (this *Chart) Update(now int64) map[string][]interface{} {
 		datas["tcp"] = append(datas["tcp"], v)
 	}
 	datas["udp"] = make([]interface{}, 0)
-	for _, v := range this.tcp {
+	for _, v := range this.udp {
 		datas["udp"] = append(datas["udp"], v)
 	}
 	this.tcp = this.tcp[:0]

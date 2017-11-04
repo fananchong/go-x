@@ -14,7 +14,7 @@ var (
 
 func main() {
 	tcpaddr := ""
-	flag.StringVar(&tcpaddr, "tcpaddr", "localhost:3001", "tcp server address")
+	flag.StringVar(&tcpaddr, "tcpaddr", "localhost:3000", "tcp server address")
 	udpaddr := ""
 	flag.StringVar(&udpaddr, "udpaddr", "localhost:3001", "udp server address")
 

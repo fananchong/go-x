@@ -1,0 +1,29 @@
+{
+	"ImportPath": "github.com/fananchong/go-x",
+	"GoVersion": "go1.8",
+	"GodepVersion": "v79",
+	"Packages": [
+		"./..."
+	],
+	"Deps": [
+		{
+			"ImportPath": "github.com/bitly/go-simplejson",
+			"Comment": "v0.5.0-8-g0c96595",
+			"Rev": "0c965951289cce37dec52ad1f34200fefc816777"
+		},
+		{
+			"ImportPath": "github.com/fananchong/gochart",
+			"Comment": "v2.0-14-g9caf047",
+			"Rev": "9caf047dcbf244db0802dba9af4284363e429b7f"
+		},
+		{
+			"ImportPath": "github.com/fananchong/gonet",
+			"Comment": "17.09.09-9-gb0448f0",
+			"Rev": "b0448f0c0d628399975c332b15ab0e254c9ed3fc"
+		},
+		{
+			"ImportPath": "github.com/golang/glog",
+			"Rev": "23def4e6c14b4da8ac2ed8007337bc5eb5007998"
+		}
+	]
+}

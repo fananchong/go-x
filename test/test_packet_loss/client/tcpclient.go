@@ -3,7 +3,6 @@ package main
 import (
 	"flag"
 	"github.com/fananchong/gonet"
-	"github.com/golang/glog"
 	"io"
 	"net"
 	"time"

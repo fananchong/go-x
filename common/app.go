@@ -2,7 +2,6 @@ package common
 
 import (
 	"flag"
-	"github.com/golang/glog"
 	"os"
 	"os/signal"
 	"runtime"
@@ -20,6 +19,8 @@ type App struct {
 
 func (this *App) Run() {
 	flag.Parse()
+
+	SetLogger(NewGLog())
 
 	runtime.GOMAXPROCS(runtime.NumCPU())
 	runtime.GC()

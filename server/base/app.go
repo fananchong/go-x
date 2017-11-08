@@ -15,9 +15,15 @@ func NewApp() *App {
 }
 
 func (this *App) OnAppReady() {
-
+	initNode()
 }
 
 func (this *App) OnAppShutDown() {
 
+}
+
+func initNode() {
+	node := NewNode()
+	node.SetLogger(xlog)
+	node.OpenByStr(xargs.EtcdHosts, int(xargs.NodeType), xargs.WatchNodeTypes, xargs.PutInterval)
 }

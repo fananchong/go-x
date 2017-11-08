@@ -5,5 +5,5 @@ import (
 )
 
 var (
-	glog common.ILogger = common.NewGLog()
+	xlog common.ILogger = common.NewGLog()
 )

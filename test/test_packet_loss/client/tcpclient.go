@@ -2,10 +2,11 @@ package main
 
 import (
 	"flag"
-	"github.com/fananchong/gonet"
 	"io"
 	"net"
 	"time"
+
+	"github.com/fananchong/gonet"
 )
 
 func TcpClient() {
@@ -16,7 +17,7 @@ func TcpClient() {
 		panic(err)
 	}
 
-	glog.Infoln("connect to ", conn.RemoteAddr().String())
+	xlog.Infoln("connect to ", conn.RemoteAddr().String())
 
 	go func() {
 
@@ -31,7 +32,7 @@ func TcpClient() {
 			leastlen := msglen - buf.RdSize()
 			readnum, err := io.ReadAtLeast(conn, tempbuf[0:], leastlen)
 			if err != nil {
-				glog.Infoln(err)
+				xlog.Infoln(err)
 				return
 			}
 			buf.Append(tempbuf[:readnum])

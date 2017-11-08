@@ -15,11 +15,11 @@ func TcpServer() {
 	for {
 		conn, err := lis.AcceptTCP()
 		if err != nil {
-			glog.Infoln(err)
+			xlog.Infoln(err)
 			continue
 		}
 
-		glog.Infoln("on connect. addr =", conn.RemoteAddr())
+		xlog.Infoln("on connect. addr =", conn.RemoteAddr())
 
 		go func() {
 			conn.SetNoDelay(true)

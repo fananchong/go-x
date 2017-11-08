@@ -39,11 +39,11 @@ func (this *App) Run() {
 			default:
 				termination = true
 			}
-			glog.Infoln("[app] recive signal. signal no =", sig)
+			xlog.Infoln("[app] recive signal. signal no =", sig)
 		}
 	}
 
 	this.Derived.OnAppShutDown()
 
-	glog.Flush()
+	xlog.Flush()
 }

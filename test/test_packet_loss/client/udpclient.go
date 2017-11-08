@@ -14,7 +14,7 @@ func UdpClient() {
 		panic(err)
 	}
 
-	glog.Infoln("connect to ", conn.RemoteAddr().String())
+	xlog.Infoln("connect to ", conn.RemoteAddr().String())
 
 	go func() {
 
@@ -26,7 +26,7 @@ func UdpClient() {
 			var tempbuf [1024]byte
 			readnum, err := conn.Read(tempbuf[0:])
 			if err != nil {
-				glog.Infoln(err)
+				xlog.Infoln(err)
 				return
 			}
 			now := time.Now().UnixNano()

@@ -2,14 +2,16 @@ package main
 
 import godiscovery "github.com/fananchong/go-discovery"
 
+var (
+	xnode *Node = NewNode()
+)
+
 type Node struct {
 	godiscovery.Node
 }
 
 func NewNode() *Node {
-	this := &Node{}
-	this.Node.Init(this)
-	return this
+	return &Node{}
 }
 
 func (this *Node) OnNodeUpdate(nodeType int, id string, data []byte) {

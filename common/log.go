@@ -2,6 +2,10 @@ package common
 
 import "github.com/golang/glog"
 
+var (
+	xlog ILogger = NewGLog()
+)
+
 type ILogger interface {
 	Print(args ...interface{})
 	Println(args ...interface{})
@@ -146,10 +150,6 @@ func (this *GLog) Fatalf(format string, args ...interface{}) {
 func (this *GLog) Flush() {
 	glog.Flush()
 }
-
-var (
-	xlog ILogger = NewDefaultLogger()
-)
 
 func SetLogger(log ILogger) {
 	xlog = log

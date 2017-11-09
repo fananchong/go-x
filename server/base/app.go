@@ -4,6 +4,10 @@ import (
 	"github.com/fananchong/go-x/common"
 )
 
+var (
+	xapp *App = NewApp()
+)
+
 type App struct {
 	common.App
 }
@@ -11,19 +15,13 @@ type App struct {
 func NewApp() *App {
 	this := &App{}
 	this.Derived = this
+	this.Args = xargs
+	this.Node = xnode
 	return this
 }
 
 func (this *App) OnAppReady() {
-	initNode()
 }
 
 func (this *App) OnAppShutDown() {
-
-}
-
-func initNode() {
-	node := NewNode()
-	node.SetLogger(xlog)
-	node.OpenByStr(xargs.EtcdHosts, int(xargs.NodeType), xargs.WatchNodeTypes, xargs.PutInterval)
 }

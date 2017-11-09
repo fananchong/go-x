@@ -53,7 +53,8 @@ func (this *App) Run() {
 
 func (this *App) initArgs() {
 	if this.Args == nil {
-		panic("Need New Args Object!")
+		xlog.Warningln("Need New Args Object!")
+		return
 	}
 	this.Args.Init()
 	flag.Parse()
@@ -61,11 +62,13 @@ func (this *App) initArgs() {
 }
 
 func (this *App) initNode() {
-	if this.Node != nil {
+	if this.Node != nil && this.Args != nil {
 		node := this.Node.(godiscovery.INode)
 		node.Init(this.Node)
 		node.SetLogger(xlog)
 		args := this.Args.GetBase()
 		node.OpenByStr(args.EtcdHosts, int(args.EtcdNodeType), args.EtcdWatchNodeTypes, args.EtcdPutInterval)
+	} else {
+		xlog.Errorln("Need New Args Object OR Node Object!")
 	}
 }

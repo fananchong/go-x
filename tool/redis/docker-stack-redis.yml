@@ -1,0 +1,30 @@
+version: "3"
+services:
+
+  master:
+    image: redis
+    ports:
+      - "16379:6379"
+    networks:
+      - net
+    command: redis-server --save "" --maxmemory 5gb --timeout 0 --tcp-keepalive 60 --bind 0.0.0.0
+      
+  slave1:
+    image: redis
+    ports:
+      - "26379:6379"
+    networks:
+      - net
+    command: redis-server --save "" --maxmemory 5gb --timeout 0 --tcp-keepalive 60 --bind 0.0.0.0 --slaveof master 6379
+    
+  slave2:
+    image: redis
+    ports:
+      - "36379:6379"
+    networks:
+      - net
+    command: redis-server --save "" --maxmemory 5gb --timeout 0 --tcp-keepalive 60 --bind 0.0.0.0 --slaveof master 6379
+    
+    
+networks:
+  net:

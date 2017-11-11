@@ -21,6 +21,7 @@ func NewApp() *App {
 }
 
 func (this *App) OnAppReady() {
+	go xlogin.Start(xargs.Listen)
 }
 
 func (this *App) OnAppShutDown() {

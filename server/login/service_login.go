@@ -1,6 +1,10 @@
 package main
 
-import "github.com/fananchong/go-x/common"
+import (
+	"net/http"
+
+	"github.com/fananchong/go-x/common"
+)
 
 var (
 	xlogin *ServiceLogin = NewServiceLogin()
@@ -15,6 +19,14 @@ func NewServiceLogin() *ServiceLogin {
 }
 
 func (this *ServiceLogin) Start(addr string) {
-	//
+	this.InitHander()
 	this.ListenAndServe(addr)
+}
+
+func (this *ServiceLogin) InitHander() {
+	this.HandleFunc("/login", this.RequestLogin)
+}
+
+func (this *ServiceLogin) RequestLogin(w http.ResponseWriter, req *http.Request) {
+	xlog.Infoln("hello")
 }

@@ -1,6 +1,9 @@
 package common
 
-import "net/http"
+import (
+	"net/http"
+	"time"
+)
 
 type WebService struct {
 	server      *http.Server
@@ -9,20 +12,19 @@ type WebService struct {
 }
 
 func NewWebService() *WebService {
-	return &WebService{}
+	return &WebService{serverMux: http.NewServeMux()}
 }
 
 func (this *WebService) ListenAndServe(addr string) {
 	xlog.Infoln("start listen", addr)
 	this.termination = false
 	for !this.termination {
-		serverMux := http.NewServeMux()
-		this.server = &http.Server{Addr: addr, Handler: serverMux}
-		this.serverMux = serverMux
+		this.server = &http.Server{Addr: addr, Handler: this.serverMux}
 		err := this.server.ListenAndServe()
 		if err != nil {
 			xlog.Errorln("[web]", err)
 			this.server.Close()
+			time.Sleep(5 * time.Second)
 		}
 	}
 }
@@ -32,12 +34,12 @@ func (this *WebService) Close() {
 	if this.server != nil {
 		this.server.Close()
 		this.server = nil
-		this.serverMux = nil
 	}
 }
 
 func (this *WebService) HandleFunc(pattern string, handler func(http.ResponseWriter, *http.Request)) {
-	if this.serverMux != nil {
-		this.serverMux.HandleFunc(pattern, handler)
+	if this.serverMux == nil {
+		this.serverMux = http.NewServeMux()
 	}
+	this.serverMux.HandleFunc(pattern, handler)
 }

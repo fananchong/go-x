@@ -1,5 +1,13 @@
 #!/bin/bash
 
-set -ex
+if [ $# != 1 ] ; then
+    echo "USAGE: $0 <ip>"
+    exit
+fi
 
-docker stack deploy -c ./docker-stack-redis.yml redis
+set -e
+
+cp -f docker-stack-redis.yml docker-stack-redis.yml.temp
+sed -i 's/IP/'$1'/g' docker-stack-redis.yml.temp
+docker stack deploy -c ./docker-stack-redis.yml.temp redis
+rm -rf ./docker-stack-redis.yml.temp

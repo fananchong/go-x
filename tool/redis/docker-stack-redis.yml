@@ -11,7 +11,7 @@ services:
       - "16379:6379"
     networks:
       - net
-    command: redis-server --save "" --maxmemory 5gb --timeout 0 --tcp-keepalive 60 --bind 0.0.0.0
+    command: redis-server --save "" --maxmemory 5gb --timeout 0 --tcp-keepalive 60 --bind 0.0.0.0 --slave-announce-ip IP --slave-announce-port 16379
       
   redis2:
     image: redis
@@ -23,7 +23,7 @@ services:
       - "26379:6379"
     networks:
       - net
-    command: redis-server --save "" --maxmemory 5gb --timeout 0 --tcp-keepalive 60 --bind 0.0.0.0 --slaveof redis1 6379
+    command: redis-server --save "" --maxmemory 5gb --timeout 0 --tcp-keepalive 60 --bind 0.0.0.0 --slave-announce-ip IP --slave-announce-port 26379 --slaveof redis1 6379
     
   redis3:
     image: redis
@@ -35,7 +35,7 @@ services:
       - "36379:6379"
     networks:
       - net
-    command: redis-server --save "" --maxmemory 5gb --timeout 0 --tcp-keepalive 60 --bind 0.0.0.0 --slaveof redis1 6379
+    command: redis-server --save "" --maxmemory 5gb --timeout 0 --tcp-keepalive 60 --bind 0.0.0.0 --slave-announce-ip IP --slave-announce-port 36379 --slaveof redis1 6379
     
     
 networks:

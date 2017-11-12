@@ -13,7 +13,7 @@ services:
       - data1:/data
     networks:
       - net
-    command: /bin/bash -c "touch /data/redis_sentinel.conf && redis-server /data/redis_sentinel.conf --sentinel monitor NAME IP PORT NUM --sentinel down-after-milliseconds NAME 5000 --sentinel parallel-syncs NAME 1 --sentinel failover-timeout NAME 180000"
+    command: /bin/bash -c "touch /data/redis_sentinel.conf && redis-server /data/redis_sentinel.conf --sentinel monitor NAME IP PORT NUM --sentinel down-after-milliseconds NAME 5000 --sentinel parallel-syncs NAME 1 --sentinel failover-timeout NAME 180000 --sentinel announce-ip IP --sentinel announce-port 46379"
 
   sentinel2:
     image: redis
@@ -27,7 +27,7 @@ services:
       - data2:/data
     networks:
       - net
-    command: /bin/bash -c "touch /data/redis_sentinel.conf && redis-server /data/redis_sentinel.conf --sentinel monitor NAME IP PORT NUM --sentinel down-after-milliseconds NAME 5000 --sentinel parallel-syncs NAME 1 --sentinel failover-timeout NAME 180000"
+    command: /bin/bash -c "touch /data/redis_sentinel.conf && redis-server /data/redis_sentinel.conf --sentinel monitor NAME IP PORT NUM --sentinel down-after-milliseconds NAME 5000 --sentinel parallel-syncs NAME 1 --sentinel failover-timeout NAME 180000 --sentinel announce-ip IP --sentinel announce-port 46380"
 
   sentinel3:
     image: redis
@@ -41,7 +41,7 @@ services:
       - data3:/data
     networks:
       - net
-    command: /bin/bash -c "touch /data/redis_sentinel.conf && redis-server /data/redis_sentinel.conf --sentinel monitor NAME IP PORT NUM --sentinel down-after-milliseconds NAME 5000 --sentinel parallel-syncs NAME 1 --sentinel failover-timeout NAME 180000"
+    command: /bin/bash -c "touch /data/redis_sentinel.conf && redis-server /data/redis_sentinel.conf --sentinel monitor NAME IP PORT NUM --sentinel down-after-milliseconds NAME 5000 --sentinel parallel-syncs NAME 1 --sentinel failover-timeout NAME 180000 --sentinel announce-ip IP --sentinel announce-port 46381"
     
 networks:
   net:

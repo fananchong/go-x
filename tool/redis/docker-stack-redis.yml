@@ -1,41 +1,53 @@
-version: "3"
+version: "3.3"
 services:
 
   redis1:
     image: redis
     deploy:
+      placement:
+        constraints: [engine.labels.host_ip==IP1]
+      endpoint_mode: vip
       replicas: 1
       restart_policy:
-        condition: none
+        condition: on-failure
+        delay: 60s
     ports:
       - "16379:6379"
     networks:
       - net
-    command: redis-server --save "" --maxmemory 5gb --timeout 0 --tcp-keepalive 60 --bind 0.0.0.0 --slave-announce-ip IP --slave-announce-port 16379
+    command: redis-server --save "" --maxmemory 5gb --timeout 0 --tcp-keepalive 60 --bind 0.0.0.0 --slave-announce-ip IP1 --slave-announce-port 16379
       
   redis2:
     image: redis
     deploy:
+      placement:
+        constraints: [engine.labels.host_ip==IP2]
+      endpoint_mode: vip
       replicas: 1
       restart_policy:
-        condition: none
+        condition: on-failure
+        delay: 60s
     ports:
       - "26379:6379"
     networks:
       - net
-    command: redis-server --save "" --maxmemory 5gb --timeout 0 --tcp-keepalive 60 --bind 0.0.0.0 --slave-announce-ip IP --slave-announce-port 26379 --slaveof redis1 6379
+    command: redis-server --save "" --maxmemory 5gb --timeout 0 --tcp-keepalive 60 --bind 0.0.0.0 --slave-announce-ip IP2 --slave-announce-port 26379 --slaveof redis1 6379
     
   redis3:
     image: redis
     deploy:
+      placement:
+        constraints: [engine.labels.host_ip==IP3]
+      endpoint_mode: vip
       replicas: 1
       restart_policy:
-        condition: none
+        condition: on-failure
+        delay: 60s
     ports:
       - "36379:6379"
     networks:
       - net
-    command: redis-server --save "" --maxmemory 5gb --timeout 0 --tcp-keepalive 60 --bind 0.0.0.0 --slave-announce-ip IP --slave-announce-port 36379 --slaveof redis1 6379
+    command: redis-server --save "" --maxmemory 5gb --timeout 0 --tcp-keepalive 60 --bind 0.0.0.0 --slave-announce-ip IP3 --slave-announce-port 36379 --slaveof redis1 6379
     
     
 networks:

@@ -1,8 +1,13 @@
-### 注意事项
+### redis主从
 
-**目前Reids版本，是无法真正意义上支持Docker Swarm模式的！**
-这里的脚本仅用于方便开redis做程序调试用。**不可以用于生产环境！**
+  - install-redis.sh
 
+  
+### redis哨兵
+
+  - install-redis-sentinel.sh
+  
+  
 
 ### Redis配置说明
 

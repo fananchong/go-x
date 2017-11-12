@@ -1,18 +1,7 @@
-### Redis主从
+### 注意事项
 
-  - docker-stack-redis.yml
-
-  Redis主从编排脚本
-
-
-  - install-redis.sh
-
-  安装Redis主从
-  
-
-### Redis哨兵
-
-
+**目前的Reids版本，是无法真正意义上支持Docker Swarm模式的！**
+这里的脚本仅用于本地开redis方便而编写的。**不可以用于生产环境！**
 
 
 ### Redis配置说明
@@ -29,7 +18,6 @@
 
   - save ""
   存 DB 到磁盘。格式：save <间隔时间（秒）> <写入次数>
-
 
 
   - maxmemory 5gb

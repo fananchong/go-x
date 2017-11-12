@@ -1,0 +1,51 @@
+version: "3"
+services:
+    
+  sentinel1:
+    image: redis
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "46379:26379"
+    volumes:
+      - data1:/data
+    networks:
+      - net
+    command: /bin/bash -c "touch /data/redis_sentinel.conf && redis-server /data/redis_sentinel.conf --sentinel monitor NAME IP PORT NUM --sentinel down-after-milliseconds NAME 5000 --sentinel parallel-syncs NAME 1 --sentinel failover-timeout NAME 180000"
+
+  sentinel2:
+    image: redis
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "46380:26379"
+    volumes:
+      - data2:/data
+    networks:
+      - net
+    command: /bin/bash -c "touch /data/redis_sentinel.conf && redis-server /data/redis_sentinel.conf --sentinel monitor NAME IP PORT NUM --sentinel down-after-milliseconds NAME 5000 --sentinel parallel-syncs NAME 1 --sentinel failover-timeout NAME 180000"
+
+  sentinel3:
+    image: redis
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "46381:26379"
+    volumes:
+      - data3:/data
+    networks:
+      - net
+    command: /bin/bash -c "touch /data/redis_sentinel.conf && redis-server /data/redis_sentinel.conf --sentinel monitor NAME IP PORT NUM --sentinel down-after-milliseconds NAME 5000 --sentinel parallel-syncs NAME 1 --sentinel failover-timeout NAME 180000"
+    
+networks:
+  net:
+volumes:
+  data1:
+  data2:
+  data3:

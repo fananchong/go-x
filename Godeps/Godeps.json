@@ -7,6 +7,10 @@
 	],
 	"Deps": [
 		{
+			"ImportPath": "github.com/FZambia/go-sentinel",
+			"Rev": "7ec87ec3f92e789de83d4d4a17a5cd069bd2882f"
+		},
+		{
 			"ImportPath": "github.com/bitly/go-simplejson",
 			"Comment": "v0.5.0-8-g0c96595",
 			"Rev": "0c965951289cce37dec52ad1f34200fefc816777"
@@ -49,6 +53,16 @@
 			"ImportPath": "github.com/fananchong/gonet",
 			"Comment": "17.09.09-9-gb0448f0",
 			"Rev": "b0448f0c0d628399975c332b15ab0e254c9ed3fc"
+		},
+		{
+			"ImportPath": "github.com/garyburd/redigo/internal",
+			"Comment": "v1.3.0",
+			"Rev": "47dc60e71eed504e3ef8e77ee3c6fe720f3be57f"
+		},
+		{
+			"ImportPath": "github.com/garyburd/redigo/redis",
+			"Comment": "v1.3.0",
+			"Rev": "47dc60e71eed504e3ef8e77ee3c6fe720f3be57f"
 		},
 		{
 			"ImportPath": "github.com/golang/glog",

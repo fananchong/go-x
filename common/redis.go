@@ -34,8 +34,8 @@ func (this *RedisClient) Init(masterName string, addrs []string) {
 	}
 	this.masterName = masterName
 	this.masters = &redis.Pool{
-		MaxIdle:     3,
-		MaxActive:   64,
+		MaxIdle:     10,
+		MaxActive:   0,
 		Wait:        true,
 		IdleTimeout: 240 * time.Second,
 		Dial: func() (redis.Conn, error) {
@@ -61,6 +61,7 @@ func (this *RedisClient) Init(masterName string, addrs []string) {
 
 func (this *RedisClient) Do(commandName string, args ...interface{}) (reply interface{}, err error) {
 	conn := this.masters.Get()
+	defer conn.Close()
 	if conn != nil {
 		return conn.Do(commandName, args...)
 	} else {

@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package discovery;
+
+message ServerInfo
+{
+    string ip = 1;
+    uint32 port = 2;
+    uint32 weight = 3;
+}

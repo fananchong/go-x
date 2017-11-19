@@ -23,5 +23,5 @@ func (this *Args) Init() {
 
 func (this *Args) Parse() {
 	this.ArgsBase.Parse()
-	this.EtcdNodeType = int64(def.Login)
+	this.EtcdNodeType = int64(def.Room)
 }

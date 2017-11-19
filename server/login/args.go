@@ -4,7 +4,6 @@ import (
 	"flag"
 
 	"github.com/fananchong/go-x/common"
-	"github.com/fananchong/go-x/def"
 )
 
 var (
@@ -27,6 +26,5 @@ func (this *Args) Init() {
 
 func (this *Args) Parse() {
 	this.ArgsBase.Parse()
-	this.EtcdNodeType = int64(def.Login)
-	this.EtcdPutInterval = 600
+	this.EtcdNodeType = 0 // 不需要同步信息到discovery
 }

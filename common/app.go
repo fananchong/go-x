@@ -7,7 +7,8 @@ import (
 	"runtime"
 	"syscall"
 
-	godiscovery "github.com/fananchong/go-discovery"
+	"github.com/fananchong/go-discovery"
+	"github.com/fananchong/go-x/common/discovery"
 )
 
 type AppInterface interface {
@@ -63,10 +64,12 @@ func (this *App) initArgs() {
 
 func (this *App) initNode() {
 	if this.Node != nil && this.Args != nil {
-		node := this.Node.(godiscovery.INode)
+		args := this.Args.GetBase()
+		node := this.Node.(godiscovery.INode).GetBase().(*discovery.Node)
+		node.Info.ExternalIp = args.ExternalIp
+		node.Info.IntranetIp = args.IntranetIp
 		node.Init(this.Node)
 		node.SetLogger(xlog)
-		args := this.Args.GetBase()
 		node.OpenByStr(args.EtcdHosts, int(args.EtcdNodeType), args.EtcdWatchNodeTypes, args.EtcdPutInterval)
 	} else {
 		xlog.Errorln("Need New Args Object OR Node Object!")

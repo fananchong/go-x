@@ -42,7 +42,7 @@
 		},
 		{
 			"ImportPath": "github.com/fananchong/go-discovery",
-			"Rev": "3b46668755dc8e229e1ecbc73dc7fddcf5738ef1"
+			"Rev": "30c6b531961622568fc86a258174f2e90b94c2b3"
 		},
 		{
 			"ImportPath": "github.com/fananchong/gochart",

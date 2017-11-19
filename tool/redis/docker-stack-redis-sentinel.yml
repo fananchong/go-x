@@ -15,7 +15,7 @@ services:
       - data1:/data
     networks:
       - net
-    command: /bin/bash -c "touch /data/redis_sentinel.conf && redis-server /data/redis_sentinel.conf --sentinel monitor NAME IP PORT NUM --sentinel down-after-milliseconds NAME 5000 --sentinel parallel-syncs NAME 1 --sentinel failover-timeout NAME 180000 --sentinel announce-ip IP1 --sentinel announce-port 46379"
+    command: /bin/bash -c "rm -f /data/redis_sentinel.conf && touch /data/redis_sentinel.conf && redis-server /data/redis_sentinel.conf --sentinel monitor NAME IP PORT NUM --sentinel down-after-milliseconds NAME 5000 --sentinel parallel-syncs NAME 1 --sentinel failover-timeout NAME 180000 --sentinel announce-ip IP1 --sentinel announce-port 46379"
 
   sentinel2:
     image: redis
@@ -31,7 +31,7 @@ services:
       - data2:/data
     networks:
       - net
-    command: /bin/bash -c "touch /data/redis_sentinel.conf && redis-server /data/redis_sentinel.conf --sentinel monitor NAME IP PORT NUM --sentinel down-after-milliseconds NAME 5000 --sentinel parallel-syncs NAME 1 --sentinel failover-timeout NAME 180000 --sentinel announce-ip IP2 --sentinel announce-port 46380"
+    command: /bin/bash -c "rm -f /data/redis_sentinel.conf && touch /data/redis_sentinel.conf && redis-server /data/redis_sentinel.conf --sentinel monitor NAME IP PORT NUM --sentinel down-after-milliseconds NAME 5000 --sentinel parallel-syncs NAME 1 --sentinel failover-timeout NAME 180000 --sentinel announce-ip IP2 --sentinel announce-port 46380"
 
   sentinel3:
     image: redis
@@ -47,7 +47,7 @@ services:
       - data3:/data
     networks:
       - net
-    command: /bin/bash -c "touch /data/redis_sentinel.conf && redis-server /data/redis_sentinel.conf --sentinel monitor NAME IP PORT NUM --sentinel down-after-milliseconds NAME 5000 --sentinel parallel-syncs NAME 1 --sentinel failover-timeout NAME 180000 --sentinel announce-ip IP3 --sentinel announce-port 46381"
+    command: /bin/bash -c "rm -f /data/redis_sentinel.conf && touch /data/redis_sentinel.conf && redis-server /data/redis_sentinel.conf --sentinel monitor NAME IP PORT NUM --sentinel down-after-milliseconds NAME 5000 --sentinel parallel-syncs NAME 1 --sentinel failover-timeout NAME 180000 --sentinel announce-ip IP3 --sentinel announce-port 46381"
     
 networks:
   net:

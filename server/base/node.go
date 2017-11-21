@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/fananchong/go-x/Godeps/src/github.com/golang/protobuf/proto"
 	"github.com/fananchong/go-x/common/discovery"
+	"github.com/fananchong/go-x/def"
 )
 
 var (
@@ -14,21 +14,7 @@ type Node struct {
 }
 
 func NewNode() *Node {
-	return &Node{}
-}
-
-func (this *Node) OnNodeUpdate(nodeType int, id string, data []byte) {
-}
-
-func (this *Node) OnNodeJoin(nodeType int, id string, data []byte) {
-}
-
-func (this *Node) OnNodeLeave(nodeType int, id string) {
-}
-
-func (this *Node) GetPutData() (string, error) {
-	info := discovery.ServerInfo{}
-	//
-	data, err := proto.Marshal(&info)
-	return string(data), err
+	node := &Node{}
+	node.Info.Type = uint32(def.Base)
+	return node
 }

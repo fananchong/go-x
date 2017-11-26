@@ -1,0 +1,10 @@
+{
+	"ImportPath": "github.com/fananchong/go-x",
+	"GoVersion": "go1.9",
+	"GodepVersion": "v79",
+	"Packages": [
+		"./..."
+	],
+	"Deps": [
+	]
+}

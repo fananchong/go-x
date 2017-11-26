@@ -1,12 +1,17 @@
-rd /q /s D:\tmp
-mkdir D:\tmp
-move /y src D:\tmp\src
+set TEMP_DIR=D:\temp
+if not exist %TEMP_DIR% ( mkdir %TEMP_DIR% )
+if not exist %TEMP_DIR%\src (
+    gen.bat
+    move /y src %TEMP_DIR%\src
+)
 set CURDIR=%~dp0
 set BASEDIR=%~dp0
 set BASEDIR=%BASEDIR:\src\github.com\fananchong\go-x\Godeps\=\%
-set GOPATH=%BASEDIR%;D:\tmp
+set GOPATH=%BASEDIR%;%TEMP_DIR%
+copy /y Godeps.json.template Godeps.json
 cd %CURDIR%\..
-.\tool\godep\godep.exe save -v ./...
-rd /q /s vendor
+if exist vendor ( rd /q /s vendor )
+.\tool\godep\godep.exe update
+.\tool\godep\godep.exe save ./...
 cd %CURDIR%
-gen.bat
+pause

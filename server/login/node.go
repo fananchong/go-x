@@ -16,5 +16,6 @@ type Node struct {
 func NewNode() *Node {
 	node := &Node{}
 	node.Info.Type = uint32(def.Login)
+	node.InitPolicy(discovery.Ordered)
 	return node
 }

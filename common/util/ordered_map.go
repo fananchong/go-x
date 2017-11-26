@@ -1,6 +1,8 @@
 package util
 
-import "sort"
+import (
+	"sort"
+)
 
 type itemInfo struct {
 	key interface{}
@@ -16,6 +18,8 @@ type OrderedMap struct {
 
 func NewOrderedMap(less func(v1, v2 interface{}) bool) *OrderedMap {
 	return &OrderedMap{
+		m:    make(map[interface{}]*itemInfo),
+		s:    make([]*itemInfo, 0),
 		less: less,
 	}
 }
@@ -86,7 +90,28 @@ func (this *OrderedMap) Delete(key interface{}) {
 }
 
 // Iterate
-// TODO:迭代器
+
+func (this *OrderedMap) Iterator() *Iterator {
+	return &Iterator{
+		data:  this.s,
+		index: 0,
+	}
+}
+
+type Iterator struct {
+	data  []*itemInfo
+	index int
+}
+
+func (i *Iterator) HasNext() bool {
+	return i.index < len(i.data)
+}
+
+func (i *Iterator) Next() (key, val interface{}) {
+	tempindex := i.index
+	i.index++
+	return i.data[tempindex].key, i.data[tempindex].val
+}
 
 // sort interface
 
@@ -103,8 +128,10 @@ func (this *OrderedMap) Swap(i, j int) {
 	this.s[j].pos = j
 	this.s[j].key = tempk
 	this.s[j].val = tempv
+	this.m[this.s[i].key] = this.s[i]
+	this.m[this.s[j].key] = this.s[j]
 }
 
 func (this *OrderedMap) Less(i, j int) bool {
-	return this.less(this.s[i], this.s[j])
+	return this.less(this.s[i].val, this.s[j].val)
 }

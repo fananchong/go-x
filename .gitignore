@@ -3,5 +3,4 @@ RemoteSystemsTempFiles
 *.a
 *.exe
 bin
-vendor
 .idea

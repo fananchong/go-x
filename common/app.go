@@ -31,6 +31,7 @@ func (this *App) Run() {
 	signal.Notify(ch, syscall.SIGINT, syscall.SIGQUIT, syscall.SIGABRT, syscall.SIGTERM, syscall.SIGPIPE)
 
 	this.initArgs()
+	this.initLog()
 	this.initNode()
 
 	this.Derived.OnAppReady()
@@ -50,6 +51,15 @@ func (this *App) Run() {
 	this.Derived.OnAppShutDown()
 
 	xlog.Flush()
+}
+
+func (this *App) initLog() {
+	arg := flag.Lookup("log_dir")
+	if arg != nil && arg.Value != nil {
+		if arg.Value.String() != "" {
+			os.MkdirAll(arg.Value.String(), os.ModeDir)
+		}
+	}
 }
 
 func (this *App) initArgs() {

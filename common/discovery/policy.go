@@ -16,7 +16,7 @@ type ServersPolicyOrdered struct {
 	gomap.OrderedMap
 }
 
-func NewServersPolicyOrdered() *Servers {
+func NewServersPolicyOrdered() IServers {
 	m := &ServersPolicyOrdered{}
 	m.OrderedMap = *gomap.NewOrderedMap(less)
 	return &Servers{
@@ -38,7 +38,7 @@ type ServersPolicyRandom struct {
 	gomap.RandomMap
 }
 
-func NewServersPolicyRandom() *Servers {
+func NewServersPolicyRandom() IServers {
 	return &Servers{
 		ss:      make(map[int]IMap),
 		creator: func() IMap { return &ServersPolicyRandom{} },
@@ -54,7 +54,7 @@ type ServersPolicyRoundRobin struct {
 	gomap.RoundRobinMap
 }
 
-func NewServersPolicyRoundRobin() *Servers {
+func NewServersPolicyRoundRobin() IServers {
 	return &Servers{
 		ss:      make(map[int]IMap),
 		creator: func() IMap { return &ServersPolicyRoundRobin{} },

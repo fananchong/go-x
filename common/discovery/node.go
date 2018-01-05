@@ -1,16 +1,9 @@
 package discovery
 
 import (
-	"github.com/fananchong/go-discovery"
+	godiscovery "github.com/fananchong/go-discovery"
 	proto "github.com/golang/protobuf/proto"
 )
-
-type IServers interface {
-	GetOne(nodeType int) (*ServerInfo, bool)
-	GetAll(nodeType int) ([]*ServerInfo, bool)
-	Set(nodeType int, id string, val *ServerInfo)
-	Delete(nodeType int, id string)
-}
 
 type Node struct {
 	godiscovery.Node

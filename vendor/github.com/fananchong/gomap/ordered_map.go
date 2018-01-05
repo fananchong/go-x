@@ -15,11 +15,12 @@ func NewOrderedMap(less func(v1, v2 interface{}) bool) *OrderedMap {
 	return this
 }
 
-func (this *OrderedMap) Set(key interface{}, val interface{}) {
+func (this *OrderedMap) Set(key interface{}, val interface{}) bool {
 	needSort := this.MapBase.Set(key, val)
 	if needSort {
 		sort.Sort(this)
 	}
+	return needSort
 }
 
 func (this *OrderedMap) First() (key, val interface{}, ok bool) {

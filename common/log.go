@@ -1,12 +1,19 @@
 package common
 
-import "github.com/golang/glog"
+import (
+	"fmt"
+
+	"github.com/golang/glog"
+)
 
 var (
 	xlog ILogger = NewGLog()
 )
 
 type ILogger interface {
+	Debug(args ...interface{})
+	Debugln(args ...interface{})
+	Debugf(format string, args ...interface{})
 	Print(args ...interface{})
 	Println(args ...interface{})
 	Printf(format string, args ...interface{})
@@ -30,6 +37,15 @@ type DefaultLogger struct {
 
 func NewDefaultLogger() *DefaultLogger {
 	return &DefaultLogger{}
+}
+
+func (this *DefaultLogger) Debug(args ...interface{}) {
+}
+
+func (this *DefaultLogger) Debugln(args ...interface{}) {
+}
+
+func (this *DefaultLogger) Debugf(format string, args ...interface{}) {
 }
 
 func (this *DefaultLogger) Print(args ...interface{}) {
@@ -87,64 +103,76 @@ func NewGLog() *GLog {
 	return &GLog{}
 }
 
+func (this *GLog) Debug(args ...interface{}) {
+	fmt.Print(args...)
+}
+
+func (this *GLog) Debugf(format string, args ...interface{}) {
+	fmt.Printf(format, args...)
+}
+
+func (this *GLog) Debugln(args ...interface{}) {
+	fmt.Println(args...)
+}
+
 func (this *GLog) Print(args ...interface{}) {
-	glog.Info(args)
+	glog.Info(args...)
 }
 
 func (this *GLog) Printf(format string, args ...interface{}) {
-	glog.Infof(format, args)
+	glog.Infof(format, args...)
 }
 
 func (this *GLog) Println(args ...interface{}) {
-	glog.Infoln(args)
+	glog.Infoln(args...)
 }
 
 func (this *GLog) Info(args ...interface{}) {
-	glog.Info(args)
+	glog.Info(args...)
 }
 
 func (this *GLog) Infof(format string, args ...interface{}) {
-	glog.Infof(format, args)
+	glog.Infof(format, args...)
 }
 
 func (this *GLog) Infoln(args ...interface{}) {
-	glog.Infoln(args)
+	glog.Infoln(args...)
 }
 
 func (this *GLog) Warning(args ...interface{}) {
-	glog.Warning(args)
+	glog.Warning(args...)
 }
 
 func (this *GLog) Warningln(args ...interface{}) {
-	glog.Warningln(args)
+	glog.Warningln(args...)
 }
 
 func (this *GLog) Warningf(format string, args ...interface{}) {
-	glog.Warningf(format, args)
+	glog.Warningf(format, args...)
 }
 
 func (this *GLog) Error(args ...interface{}) {
-	glog.Error(args)
+	glog.Error(args...)
 }
 
 func (this *GLog) Errorf(format string, args ...interface{}) {
-	glog.Errorf(format, args)
+	glog.Errorf(format, args...)
 }
 
 func (this *GLog) Errorln(args ...interface{}) {
-	glog.Errorln(args)
+	glog.Errorln(args...)
 }
 
 func (this *GLog) Fatal(args ...interface{}) {
-	glog.Fatal(args)
+	glog.Fatal(args...)
 }
 
 func (this *GLog) Fatalln(args ...interface{}) {
-	glog.Fatalln(args)
+	glog.Fatalln(args...)
 }
 
 func (this *GLog) Fatalf(format string, args ...interface{}) {
-	glog.Fatalf(format, args)
+	glog.Fatalf(format, args...)
 }
 
 func (this *GLog) Flush() {
@@ -153,4 +181,8 @@ func (this *GLog) Flush() {
 
 func SetLogger(log ILogger) {
 	xlog = log
+}
+
+func GetLogger() ILogger {
+	return xlog
 }

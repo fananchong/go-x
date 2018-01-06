@@ -39,9 +39,11 @@ type ServersPolicyRandom struct {
 }
 
 func NewServersPolicyRandom() IServers {
+	m := &ServersPolicyRandom{}
+	m.RandomMap = *gomap.NewRandomMap()
 	return &Servers{
 		ss:      make(map[int]IMap),
-		creator: func() IMap { return &ServersPolicyRandom{} },
+		creator: func() IMap { return m },
 	}
 }
 
@@ -55,9 +57,11 @@ type ServersPolicyRoundRobin struct {
 }
 
 func NewServersPolicyRoundRobin() IServers {
+	m := &ServersPolicyRoundRobin{}
+	m.RoundRobinMap = *gomap.NewRoundRobinMap()
 	return &Servers{
 		ss:      make(map[int]IMap),
-		creator: func() IMap { return &ServersPolicyRoundRobin{} },
+		creator: func() IMap { return m },
 	}
 }
 

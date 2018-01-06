@@ -4,6 +4,7 @@ import (
 	"context"
 	"runtime/debug"
 	"strconv"
+	"sync"
 
 	"github.com/coreos/etcd/clientv3"
 	"github.com/coreos/etcd/mvcc/mvccpb"
@@ -19,6 +20,7 @@ type IWatch interface {
 type Watch struct {
 	Derived IWatch
 	nodes   map[int]map[string]int
+	mutex   sync.Mutex
 }
 
 func (this *Watch) Open(watchNodeTypes []int) {
@@ -46,16 +48,23 @@ func (this *Watch) watch(nodeType int) {
 				continue
 			}
 			if ev.Type == mvccpb.PUT {
+				this.mutex.Lock()
 				if _, ok := this.nodes[nodeType][key]; ok {
+					this.mutex.Unlock()
 					this.Derived.OnNodeUpdate(nodeType, key, ev.Kv.Value)
 				} else {
 					this.nodes[nodeType][key] = 1
+					this.mutex.Unlock()
 					this.Derived.OnNodeJoin(nodeType, key, ev.Kv.Value)
 				}
 			} else if ev.Type == mvccpb.DELETE {
+				this.mutex.Lock()
 				if _, ok := this.nodes[nodeType][key]; ok {
 					delete(this.nodes[nodeType], key)
+					this.mutex.Unlock()
 					this.Derived.OnNodeLeave(nodeType, key)
+				} else {
+					this.mutex.Unlock()
 				}
 			} else {
 				panic("unknow error!")

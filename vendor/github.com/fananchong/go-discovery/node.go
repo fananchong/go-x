@@ -129,6 +129,7 @@ func (this *Node) SetLogger(log ILogger) {
 }
 
 // 子类可以根据需要重载下面的方法
+//     注意 OnNodeUpdate、OnNodeJoin、OnNodeLeave、GetPutData 在内部协程被调用，请注意多协程安全！！！
 func (this *Node) OnNodeUpdate(nodeType int, id string, data []byte) {
 
 }

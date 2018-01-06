@@ -1,6 +1,10 @@
 package discovery
 
-import "github.com/fananchong/gomap"
+import (
+	"sync"
+
+	"github.com/fananchong/gomap"
+)
 
 type IServers interface {
 	GetOne(nodeType int) (*ServerInfo, bool)
@@ -20,9 +24,12 @@ type IMap interface {
 type Servers struct {
 	ss      map[int]IMap
 	creator func() IMap
+	mutex   sync.Mutex
 }
 
 func (this *Servers) GetOne(nodeType int) (*ServerInfo, bool) {
+	this.mutex.Lock()
+	defer this.mutex.Unlock()
 	if m, ok := this.ss[nodeType]; ok {
 		if _, info, ok := m.GetOne(); ok {
 			return info.(*ServerInfo), true
@@ -32,6 +39,8 @@ func (this *Servers) GetOne(nodeType int) (*ServerInfo, bool) {
 }
 
 func (this *Servers) GetAll(nodeType int) ([]*ServerInfo, bool) {
+	this.mutex.Lock()
+	defer this.mutex.Unlock()
 	if m, ok := this.ss[nodeType]; ok {
 		ret := make([]*ServerInfo, 0)
 		for iter := m.Iterator(); iter.HasNext(); {
@@ -43,6 +52,8 @@ func (this *Servers) GetAll(nodeType int) ([]*ServerInfo, bool) {
 	return nil, false
 }
 func (this *Servers) Set(nodeType int, id string, val *ServerInfo) {
+	this.mutex.Lock()
+	defer this.mutex.Unlock()
 	if m, ok := this.ss[nodeType]; ok {
 		m.Set(id, val)
 	} else {
@@ -53,6 +64,8 @@ func (this *Servers) Set(nodeType int, id string, val *ServerInfo) {
 }
 
 func (this *Servers) Delete(nodeType int, id string) {
+	this.mutex.Lock()
+	defer this.mutex.Unlock()
 	if m, ok := this.ss[nodeType]; ok {
 		m.Delete(id)
 	}

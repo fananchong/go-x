@@ -76,8 +76,7 @@ func (this *App) initNode() {
 	if this.Node != nil && this.Args != nil {
 		args := this.Args.GetBase()
 		node := this.Node.(godiscovery.INode).GetBase().(*discovery.Node)
-		node.Info.ExternalIp = args.ExternalIp
-		node.Info.IntranetIp = args.IntranetIp
+		node.SetBaseInfoIP(args.ExternalIp, args.IntranetIp)
 		node.SetLogger(xlog)
 		node.Init(this.Node)
 		node.OpenByStr(args.EtcdHosts, int(args.EtcdNodeType), args.EtcdWatchNodeTypes, args.EtcdPutInterval)

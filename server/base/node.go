@@ -15,6 +15,6 @@ type Node struct {
 
 func NewNode() *Node {
 	node := &Node{}
-	node.Info.Type = uint32(def.Base)
+	node.SetBaseInfoType(uint32(def.Base))
 	return node
 }

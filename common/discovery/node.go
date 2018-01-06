@@ -1,14 +1,17 @@
 package discovery
 
 import (
+	"sync"
+
 	godiscovery "github.com/fananchong/go-discovery"
 	proto "github.com/golang/protobuf/proto"
 )
 
 type Node struct {
 	godiscovery.Node
-	Info    ServerInfo
+	info    ServerInfo
 	Servers IServers
+	mutex   sync.RWMutex
 }
 
 func (this *Node) InitPolicy(policy Policy) {
@@ -52,7 +55,34 @@ func (this *Node) OnNodeLeave(nodeType int, id string) {
 }
 
 func (this *Node) GetPutData() (string, error) {
-	info := this.Info
+	info := this.GetBaseInfo()
 	data, err := proto.Marshal(&info)
 	return string(data), err
+}
+
+// base info safe write / read
+
+func (this *Node) GetBaseInfo() ServerInfo {
+	this.mutex.RLock()
+	defer this.mutex.RUnlock()
+	return this.info
+}
+
+func (this *Node) SetBaseInfoIP(externalIp, intranetIp string) {
+	this.mutex.Lock()
+	defer this.mutex.Unlock()
+	this.info.ExternalIp = externalIp
+	this.info.IntranetIp = intranetIp
+}
+
+func (this *Node) SetBaseInfoType(t uint32) {
+	this.mutex.Lock()
+	defer this.mutex.Unlock()
+	this.info.Type = t
+}
+
+func (this *Node) SetBaseInfoOrdered(ordered uint32) {
+	this.mutex.Lock()
+	defer this.mutex.Unlock()
+	this.info.Ordered = ordered
 }

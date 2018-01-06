@@ -15,7 +15,7 @@ type Node struct {
 
 func NewNode() *Node {
 	node := &Node{}
-	node.Info.Type = uint32(def.Gateway)
+	node.SetBaseInfoType(uint32(def.Gateway))
 	node.InitPolicy(discovery.Random)
 	return node
 }

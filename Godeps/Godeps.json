@@ -7,6 +7,11 @@
 	],
 	"Deps": [
 		{
+			"ImportPath": "github.com/BurntSushi/toml",
+			"Comment": "v0.3.0-7-ga368813",
+			"Rev": "a368813c5e648fee92e5f6c30e3944ff9d5e8895"
+		},
+		{
 			"ImportPath": "github.com/bitly/go-simplejson",
 			"Comment": "v0.5.0-8-g0c96595",
 			"Rev": "0c965951289cce37dec52ad1f34200fefc816777"
@@ -55,6 +60,15 @@
 			"Rev": "d255190912e08be2e9d109491e486022f61e411c"
 		},
 		{
+			"ImportPath": "github.com/fatih/camelcase",
+			"Rev": "44e46d280b43ec1531bb25252440e34f1b800b65"
+		},
+		{
+			"ImportPath": "github.com/fatih/structs",
+			"Comment": "v1.0-6-gf5faa72",
+			"Rev": "f5faa72e73092639913f5833b75e1ac1d6bc7a63"
+		},
+		{
 			"ImportPath": "github.com/golang/glog",
 			"Rev": "23def4e6c14b4da8ac2ed8007337bc5eb5007998"
 		},
@@ -81,6 +95,10 @@
 		{
 			"ImportPath": "github.com/golang/protobuf/ptypes/timestamp",
 			"Rev": "1e59b77b52bf8e4b449a57e6f79f21226d571845"
+		},
+		{
+			"ImportPath": "github.com/koding/multiconfig",
+			"Rev": "69c27309b2d751c576b59ea9c3726597c2375da3"
 		},
 		{
 			"ImportPath": "github.com/satori/go.uuid",
@@ -248,6 +266,10 @@
 			"ImportPath": "google.golang.org/grpc/transport",
 			"Comment": "v1.2.0-340-g10873b3",
 			"Rev": "10873b30bf245efc365a957b425da2e15f47a560"
+		},
+		{
+			"ImportPath": "gopkg.in/yaml.v2",
+			"Rev": "0e4404da71227dcc02fb1deee803d93e86d08f72"
 		}
 	]
 }

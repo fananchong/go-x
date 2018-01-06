@@ -9,6 +9,9 @@ type IArgs interface {
 }
 
 type ArgsBase struct {
+	// version
+	Version string // 版本号
+
 	// ip
 	ExternalIp string // 外网ip（包括端口。格式 ip:port）
 	IntranetIp string // 内网ip（包括端口。格式 ip:port）
@@ -21,6 +24,9 @@ type ArgsBase struct {
 }
 
 func (this *ArgsBase) Init() {
+	// version
+	flag.StringVar(&this.Version, "version", "", "version")
+
 	// ip
 	flag.StringVar(&this.ExternalIp, "externalIp", "", "external ip")
 	flag.StringVar(&this.IntranetIp, "intranetIp", "", "intranet ip")

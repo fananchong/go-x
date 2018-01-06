@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/fananchong/go-x/common/discovery"
-	"github.com/fananchong/go-x/def"
+	"github.com/fananchong/go-x/server/def"
 )
 
 var (

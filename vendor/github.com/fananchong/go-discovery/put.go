@@ -23,7 +23,8 @@ type Put struct {
 }
 
 func (this *Put) Open(nodeType int, putInterval int64) {
-	nodeId := fmt.Sprintf("%d-%s", nodeType, uuid.NewV1().String())
+	u, _ := uuid.NewV1()
+	nodeId := fmt.Sprintf("%d-%s", nodeType, u.String())
 	this.Derived.SetId(nodeId)
 	this.Derived.GetLogger().Infoln("node id:", nodeId)
 	go this.put(nodeType, putInterval)

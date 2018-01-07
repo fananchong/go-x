@@ -5,20 +5,20 @@ import (
 	"github.com/fananchong/go-x/server/def"
 )
 
-var (
-	xargs *Args = NewArgs()
-)
-
 type Args struct {
 	common.ArgsBase
 }
 
-func NewArgs() *Args {
-	return &Args{}
-}
-
 func (this *Args) OnInit() {
 	this.Etcd.NodeType = int(def.Base)
+}
+
+var (
+	xargs *Args = NewArgs()
+)
+
+func NewArgs() *Args {
+	return &Args{}
 }
 
 func (this *Args) GetDerived() common.IArgs {

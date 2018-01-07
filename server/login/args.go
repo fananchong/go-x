@@ -1,9 +1,6 @@
 package main
 
 import (
-	"flag"
-	"fmt"
-
 	"github.com/fananchong/go-x/common"
 	"github.com/fananchong/go-x/server/def"
 )
@@ -14,20 +11,18 @@ var (
 
 type Args struct {
 	common.ArgsBase
-	Listen string
+	Listen string `default:":8000"`
 }
 
 func NewArgs() *Args {
 	return &Args{}
 }
 
-func (this *Args) Init() {
-	this.ArgsBase.Init()
-	flag.StringVar(&this.Listen, "listen", ":8000", "listen address")
+func (this *Args) OnInit() {
+	this.Etcd.NodeType = 0                                            // 不需要同步信息到discovery
+	this.Etcd.WatchNodeTypes = []int{int(def.Gateway), int(def.Room)} // 监视服务节点类型
 }
 
-func (this *Args) Parse() {
-	this.ArgsBase.Parse()
-	this.EtcdNodeType = 0                                                 // 不需要同步信息到discovery
-	this.EtcdWatchNodeTypes = fmt.Sprintf("%v,%v", def.Gateway, def.Room) // 监视服务节点类型
+func (this *Args) GetDerived() common.IArgs {
+	return this
 }

@@ -52,5 +52,6 @@ func (this *Login) Request(w http.ResponseWriter, req *http.Request) {
 		common.GetLogger().Debugln("version error!")
 		return
 	}
-
+	common.GetLogger().Debugln(c)
+	common.GetLogger().Debugln(paramd[0])
 }

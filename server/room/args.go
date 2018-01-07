@@ -17,11 +17,10 @@ func NewArgs() *Args {
 	return &Args{}
 }
 
-func (this *Args) Init() {
-	this.ArgsBase.Init()
+func (this *Args) OnInit() {
+	this.Etcd.NodeType = int(def.Room)
 }
 
-func (this *Args) Parse() {
-	this.ArgsBase.Parse()
-	this.EtcdNodeType = int64(def.Room)
+func (this *Args) GetDerived() common.IArgs {
+	return this
 }

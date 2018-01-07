@@ -67,9 +67,7 @@ func (this *App) initArgs() {
 		xlog.Warningln("Need New Args Object!")
 		return
 	}
-	this.Args.Init()
-	flag.Parse()
-	this.Args.Parse()
+	this.Args.Init(this.Args.GetDerived())
 }
 
 func (this *App) initNode() {
@@ -79,7 +77,7 @@ func (this *App) initNode() {
 		node.SetBaseInfoIP(args.ExternalIp, args.IntranetIp)
 		node.SetLogger(xlog)
 		node.Init(this.Node)
-		node.OpenByStr(args.EtcdHosts, int(args.EtcdNodeType), args.EtcdWatchNodeTypes, args.EtcdPutInterval)
+		node.Open(args.Etcd.Hosts, args.Etcd.NodeType, args.Etcd.WatchNodeTypes, int64(args.Etcd.PutInterval))
 	} else {
 		xlog.Errorln("Need New Args Object OR Node Object!")
 	}

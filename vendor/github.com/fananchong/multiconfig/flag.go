@@ -59,9 +59,8 @@ type FlagLoader struct {
 // Load loads the source into the config defined by struct s
 func (f *FlagLoader) Load(s interface{}) error {
 	strct := structs.New(s)
-	structName := strct.Name()
 
-	flagSet := flag.NewFlagSet(structName, f.ErrorHandling)
+	flagSet := flag.CommandLine
 	f.flagSet = flagSet
 
 	for _, field := range strct.Fields() {

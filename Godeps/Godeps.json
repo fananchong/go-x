@@ -60,6 +60,10 @@
 			"Rev": "d255190912e08be2e9d109491e486022f61e411c"
 		},
 		{
+			"ImportPath": "github.com/fananchong/multiconfig",
+			"Rev": "8e910cce60434681462f7975dbeb28a4fe968cc9"
+		},
+		{
 			"ImportPath": "github.com/fatih/camelcase",
 			"Rev": "44e46d280b43ec1531bb25252440e34f1b800b65"
 		},
@@ -95,10 +99,6 @@
 		{
 			"ImportPath": "github.com/golang/protobuf/ptypes/timestamp",
 			"Rev": "1e59b77b52bf8e4b449a57e6f79f21226d571845"
-		},
-		{
-			"ImportPath": "github.com/koding/multiconfig",
-			"Rev": "69c27309b2d751c576b59ea9c3726597c2375da3"
 		},
 		{
 			"ImportPath": "github.com/satori/go.uuid",

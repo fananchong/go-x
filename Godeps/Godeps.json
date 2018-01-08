@@ -46,6 +46,10 @@
 			"Rev": "e4ed4266db3e255bb72b90ee5fd0df18929ca25e"
 		},
 		{
+			"ImportPath": "github.com/fananchong/go-proto-helper",
+			"Rev": "7882bd5b69dadd6ddca4955017b6e1e1ac9f8bf3"
+		},
+		{
 			"ImportPath": "github.com/fananchong/gochart",
 			"Comment": "v2.0-17-g74caf9b",
 			"Rev": "74caf9bf2257f54ed527b53561afea46eea6a3ab"

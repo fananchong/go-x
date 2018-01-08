@@ -31,12 +31,12 @@ class User():
     def login_detail(self, account, password, mode, userdata):
         try:
             cmd = LoginCmd.Login.value
-            msg = "11111111111111111111111"
-            url = msgurl(self.addr, self.port, self.version, cmd, msg)
-            print("url=", url)
-        
-            request = urllib.request.urlopen(url)
-            result = request.read()
+            msg = proto.login_pb2.MsgLogin()
+            msg.account = account
+            msg.password = password
+            msg.mode = mode
+            #msg.userdata = userdata
+            result = self.send_login_msg(cmd, msg)
         
             self.cookie = request.getheader("Set-Cookie")
             if self.cookie != None and self.cookie != "":
@@ -45,6 +45,12 @@ class User():
         except Exception as e:
             print(traceback.format_exc())
             return False
-            
         return True
+            
+    def send_login_msg(self, cmd, msg):
+        url, postdata = msgurl(self.addr, self.port, self.version, cmd, msg)
+        print("url=", url)
+        request = urllib.request.urlopen(url, postdata)
+        result = request.read()
+        return result
         

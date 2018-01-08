@@ -18,14 +18,14 @@ _sym_db = _symbol_database.Default()
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='login.proto',
-  package='login',
+  package='proto',
   syntax='proto3',
-  serialized_pb=_b('\n\x0blogin.proto\x12\x05login\"M\n\x08MsgLogin\x12\x0f\n\x07\x61\x63\x63ount\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\x12\x0c\n\x04mode\x18\x03 \x01(\r\x12\x10\n\x08userdata\x18\x04 \x01(\x0c*(\n\nMsgTypeCmd\x12\x0f\n\x0bUNSPECIFIED\x10\x00\x12\t\n\x05Login\x10\x01\x62\x06proto3')
+  serialized_pb=_b('\n\x0blogin.proto\x12\x05proto\"M\n\x08MsgLogin\x12\x0f\n\x07\x61\x63\x63ount\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\x12\x0c\n\x04mode\x18\x03 \x01(\r\x12\x10\n\x08userdata\x18\x04 \x01(\x0c*(\n\nMsgTypeCmd\x12\x0f\n\x0bUNSPECIFIED\x10\x00\x12\t\n\x05Login\x10\x01\x62\x06proto3')
 )
 
 _MSGTYPECMD = _descriptor.EnumDescriptor(
   name='MsgTypeCmd',
-  full_name='login.MsgTypeCmd',
+  full_name='proto.MsgTypeCmd',
   filename=None,
   file=DESCRIPTOR,
   values=[
@@ -53,34 +53,34 @@ Login = 1
 
 _MSGLOGIN = _descriptor.Descriptor(
   name='MsgLogin',
-  full_name='login.MsgLogin',
+  full_name='proto.MsgLogin',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='account', full_name='login.MsgLogin.account', index=0,
+      name='account', full_name='proto.MsgLogin.account', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='password', full_name='login.MsgLogin.password', index=1,
+      name='password', full_name='proto.MsgLogin.password', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='mode', full_name='login.MsgLogin.mode', index=2,
+      name='mode', full_name='proto.MsgLogin.mode', index=2,
       number=3, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='userdata', full_name='login.MsgLogin.userdata', index=3,
+      name='userdata', full_name='proto.MsgLogin.userdata', index=3,
       number=4, type=12, cpp_type=9, label=1,
       has_default_value=False, default_value=_b(""),
       message_type=None, enum_type=None, containing_type=None,
@@ -109,7 +109,7 @@ _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 MsgLogin = _reflection.GeneratedProtocolMessageType('MsgLogin', (_message.Message,), dict(
   DESCRIPTOR = _MSGLOGIN,
   __module__ = 'login_pb2'
-  # @@protoc_insertion_point(class_scope:login.MsgLogin)
+  # @@protoc_insertion_point(class_scope:proto.MsgLogin)
   ))
 _sym_db.RegisterMessage(MsgLogin)
 

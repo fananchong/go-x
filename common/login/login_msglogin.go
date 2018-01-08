@@ -12,4 +12,11 @@ func (this *Login) MsgLogin(w http.ResponseWriter, req *http.Request, data strin
 	common.GetLogger().Debugln("account =", msg.GetAccount())
 	common.GetLogger().Debugln("password =", msg.GetPassword())
 	common.GetLogger().Debugln("mode =", msg.GetMode())
+
+	accountId, err := this.Derived.OnVerifyAccount(msg.GetAccount(), msg.GetPassword(), msg.GetMode(), msg.GetUserdata())
+	if err != nil {
+		return
+	}
+
+	common.GetLogger().Debugln("accountId =", accountId)
 }

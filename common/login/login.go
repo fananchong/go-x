@@ -3,12 +3,13 @@ package login
 import (
 	"net/http"
 
+	pb "github.com/fananchong/go-proto-helper"
 	"github.com/fananchong/go-x/common"
 	"github.com/fananchong/go-x/common/proto"
 )
 
 type ILogin interface {
-	OnVerifyAccount()
+	OnVerifyAccount(string, string, proto.LoginMode, []byte) (uint64, error)
 }
 
 type LoginMsgHandlerType func(http.ResponseWriter, *http.Request, string)
@@ -24,6 +25,7 @@ func (this *Login) Start(addr string) {
 		this.cmds = make(map[proto.MsgTypeCmd]LoginMsgHandlerType)
 		this.cmds[proto.MsgTypeCmd_Login] = this.MsgLogin
 	}
+	pb.SetLogger(common.GetLogger())
 	this.HandleFunc("/msg", this.request)
 	this.ListenAndServe(addr)
 }

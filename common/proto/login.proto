@@ -5,13 +5,17 @@ package proto;
 enum MsgTypeCmd {
     UNSPECIFIED = 0;
     Login = 1;      		// 登录
-    
 };
+
+
+enum LoginMode {
+	Default = 0;			// 缺省登录
+}
 
 message MsgLogin
 {
     string account = 1;     // 帐号
     string password = 2;    // 密码
-    uint32 mode = 3;        // 登录模式
+    LoginMode mode = 3;     // 登录模式
     bytes userdata = 4;     // 不同登录模式，可能需要携带自定义数据
 }

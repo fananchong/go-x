@@ -47,6 +47,7 @@ func (this *Login) request(w http.ResponseWriter, req *http.Request) {
 		handler(w, req, paramd[0])
 	} else {
 		common.GetLogger().Debugln("unknow cmd, cmd =", c)
+		return
 	}
 }
 

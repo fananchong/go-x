@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='login.proto',
   package='proto',
   syntax='proto3',
-  serialized_pb=_b('\n\x0blogin.proto\x12\x05proto\"M\n\x08MsgLogin\x12\x0f\n\x07\x61\x63\x63ount\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\x12\x0c\n\x04mode\x18\x03 \x01(\r\x12\x10\n\x08userdata\x18\x04 \x01(\x0c*(\n\nMsgTypeCmd\x12\x0f\n\x0bUNSPECIFIED\x10\x00\x12\t\n\x05Login\x10\x01\x62\x06proto3')
+  serialized_pb=_b('\n\x0blogin.proto\x12\x05proto\"_\n\x08MsgLogin\x12\x0f\n\x07\x61\x63\x63ount\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\x12\x1e\n\x04mode\x18\x03 \x01(\x0e\x32\x10.proto.LoginMode\x12\x10\n\x08userdata\x18\x04 \x01(\x0c*(\n\nMsgTypeCmd\x12\x0f\n\x0bUNSPECIFIED\x10\x00\x12\t\n\x05Login\x10\x01*\x18\n\tLoginMode\x12\x0b\n\x07\x44\x65\x66\x61ult\x10\x00\x62\x06proto3')
 )
 
 _MSGTYPECMD = _descriptor.EnumDescriptor(
@@ -40,14 +40,34 @@ _MSGTYPECMD = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=101,
-  serialized_end=141,
+  serialized_start=119,
+  serialized_end=159,
 )
 _sym_db.RegisterEnumDescriptor(_MSGTYPECMD)
 
 MsgTypeCmd = enum_type_wrapper.EnumTypeWrapper(_MSGTYPECMD)
+_LOGINMODE = _descriptor.EnumDescriptor(
+  name='LoginMode',
+  full_name='proto.LoginMode',
+  filename=None,
+  file=DESCRIPTOR,
+  values=[
+    _descriptor.EnumValueDescriptor(
+      name='Default', index=0, number=0,
+      options=None,
+      type=None),
+  ],
+  containing_type=None,
+  options=None,
+  serialized_start=161,
+  serialized_end=185,
+)
+_sym_db.RegisterEnumDescriptor(_LOGINMODE)
+
+LoginMode = enum_type_wrapper.EnumTypeWrapper(_LOGINMODE)
 UNSPECIFIED = 0
 Login = 1
+Default = 0
 
 
 
@@ -74,7 +94,7 @@ _MSGLOGIN = _descriptor.Descriptor(
       options=None),
     _descriptor.FieldDescriptor(
       name='mode', full_name='proto.MsgLogin.mode', index=2,
-      number=3, type=13, cpp_type=3, label=1,
+      number=3, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -99,11 +119,13 @@ _MSGLOGIN = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=22,
-  serialized_end=99,
+  serialized_end=117,
 )
 
+_MSGLOGIN.fields_by_name['mode'].enum_type = _LOGINMODE
 DESCRIPTOR.message_types_by_name['MsgLogin'] = _MSGLOGIN
 DESCRIPTOR.enum_types_by_name['MsgTypeCmd'] = _MSGTYPECMD
+DESCRIPTOR.enum_types_by_name['LoginMode'] = _LOGINMODE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 MsgLogin = _reflection.GeneratedProtocolMessageType('MsgLogin', (_message.Message,), dict(

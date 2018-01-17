@@ -8,7 +8,7 @@ import (
 	"text/template"
 	"time"
 
-	"github.com/bitly/go-simplejson"
+	simplejson "github.com/bitly/go-simplejson"
 )
 
 type ChartServer struct {

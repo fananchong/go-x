@@ -51,8 +51,8 @@
 		},
 		{
 			"ImportPath": "github.com/fananchong/gochart",
-			"Comment": "v2.0-17-g74caf9b",
-			"Rev": "74caf9bf2257f54ed527b53561afea46eea6a3ab"
+			"Comment": "v2.0-19-g44355d2",
+			"Rev": "44355d23310ea539af7044790e4fdc81f03e44cc"
 		},
 		{
 			"ImportPath": "github.com/fananchong/gomap",

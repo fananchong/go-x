@@ -3,8 +3,9 @@ package gochart
 import (
 	"fmt"
 	"strconv"
+	"sync/atomic"
 
-	"github.com/bitly/go-simplejson"
+	simplejson "github.com/bitly/go-simplejson"
 )
 
 type ChartTime struct {
@@ -59,6 +60,9 @@ func (this *ChartTime) AddData(newDatas map[string][]interface{}, UTCTime int64)
 		json.Set("pointStart", begintime)
 		json.Set("pointEnd", endtime)
 		datas = append(datas, json)
+
+		temlen := int64(len(this.chartData[k]))
+		atomic.StoreInt64(&this.chartDataSamleNum, temlen)
 	}
 	return datas
 }

@@ -6,9 +6,10 @@ import (
 	"runtime/debug"
 	"strconv"
 	"sync"
+	"sync/atomic"
 	"time"
 
-	"github.com/bitly/go-simplejson"
+	simplejson "github.com/bitly/go-simplejson"
 )
 
 type IChart interface {
@@ -63,7 +64,8 @@ type ChartBase struct {
 	m         sync.RWMutex
 
 	//chart data
-	chartData map[string][]interface{}
+	chartData         map[string][]interface{}
+	chartDataSamleNum int64
 
 	// save data
 	filename     string
@@ -147,11 +149,8 @@ func (this *ChartBase) GoSaveData(filename string) {
 
 					root.Set("beginTime", this.beginTime)
 
-					tmplen := 0
-					for _, val := range this.chartData {
-						tmplen = len(val)
-					}
-					root.Set("SampleNum", tmplen)
+					temlen := atomic.LoadInt64(&this.chartDataSamleNum)
+					root.Set("SampleNum", temlen)
 
 					outdatas := make([]interface{}, 0)
 					for k, v := range this.saveData {

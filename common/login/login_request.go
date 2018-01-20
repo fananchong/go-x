@@ -12,12 +12,6 @@ import (
 	proto1 "github.com/golang/protobuf/proto"
 )
 
-const (
-	sign1 = "5UY6$f$h"
-	sign2 = "3wokZB%q"
-	sign3 = "%2Fi9TRf"
-)
-
 func (this *Login) request(w http.ResponseWriter, req *http.Request) {
 	req.ParseForm()
 	paramc, ok1 := req.Form["c"]
@@ -34,7 +28,7 @@ func (this *Login) request(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	s1 := []byte(sign1 + paramc[0] + sign2 + paramt[0] + sign3 + "0.0.1") // TODO: 配置参数待优化
+	s1 := []byte(this.sign1 + paramc[0] + this.sign2 + paramt[0] + this.sign3 + this.version)
 	s2 := md5.Sum(s1)
 	s3 := fmt.Sprintf("%x", s2)
 
@@ -44,7 +38,7 @@ func (this *Login) request(w http.ResponseWriter, req *http.Request) {
 	}
 
 	if handler, ok := this.cmds[proto.MsgTypeCmd(c)]; ok {
-		handler(w, req, paramd[0])
+		handler(w, req, paramd[0], params[0])
 	} else {
 		common.GetLogger().Debugln("unknow cmd, cmd =", c)
 		return

@@ -9,15 +9,21 @@ import (
 )
 
 type ILogin interface {
-	OnVerifyAccount(string, string, proto.LoginMode, []byte) (uint64, error)
+	GetPassword(string, proto.LoginMode, []byte) (string, proto.LoginError)
 }
 
-type LoginMsgHandlerType func(http.ResponseWriter, *http.Request, string)
+type LoginMsgHandlerType func(http.ResponseWriter, *http.Request, string, string)
 
 type Login struct {
 	common.WebService
 	cmds    map[proto.MsgTypeCmd]LoginMsgHandlerType
 	Derived ILogin
+
+	// sign
+	sign1   string
+	sign2   string
+	sign3   string
+	version string
 }
 
 func (this *Login) Start(addr string) {
@@ -36,4 +42,20 @@ func (this *Login) Register(cmd proto.MsgTypeCmd, f LoginMsgHandlerType) {
 	} else {
 		panic("Register fail.")
 	}
+}
+
+func (this *Login) SetSign1(sign string) {
+	this.sign1 = sign
+}
+
+func (this *Login) SetSign2(sign string) {
+	this.sign2 = sign
+}
+
+func (this *Login) SetSign3(sign string) {
+	this.sign3 = sign
+}
+
+func (this *Login) SetVersion(ver string) {
+	this.version = ver
 }

@@ -4,18 +4,34 @@ package proto;
 
 enum MsgTypeCmd {
     UNSPECIFIED = 0;
-    Login = 1;      		// 登录
+    Login = 1;              // 登录
 };
 
 
 enum LoginMode {
-	Default = 0;			// 缺省登录
+    Default = 0;            // 缺省登录
+    Unknow = 1000;          // go-x common层不支持的第3方平台登录
+}
+
+enum LoginError {
+    NoErr = 0;
+    ErrPassword = 1;        // 密码错误
+    ErrAccount = 2;         // 帐号错误
+    ErrPlatformSide = 3;    // 平台方错误
 }
 
 message MsgLogin
 {
-    string account = 1;     // 帐号
-    string password = 2;    // 密码
-    LoginMode mode = 3;     // 登录模式
-    bytes userdata = 4;     // 不同登录模式，可能需要携带自定义数据
+    string Account = 1;     // 帐号
+    string Password = 2;    // 密码
+    bool IsSalt = 3;        // 密码是否做过变换。通常只有首次进游戏时，不加salt。提高密码安全性
+    LoginMode Mode = 4;     // 登录模式
+    bytes Userdata = 5;     // 不同登录模式，可能需要携带自定义数据
+}
+
+message MsgLoginResult
+{
+    LoginError Err = 1;     // 0:登录成功；非0:错误号
+    uint64 AccountId = 2;   // 帐号ID
+    string Token = 3;       // 令牌
 }

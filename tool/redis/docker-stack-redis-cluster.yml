@@ -1,0 +1,108 @@
+version: "3"
+services:
+    
+  node1:
+    image: redis
+    deploy:
+      placement:
+        constraints: [engine.labels.host_ip==IP1]
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "56379:6379"
+    volumes:
+      - data1:/data
+    networks:
+      - net
+    command: /bin/bash -c "redis-server --save "" --maxmemory 5gb --timeout 0 --tcp-keepalive 60 --bind 0.0.0.0 --cluster-announce-ip IP1 --cluster-announce-port 56379 --cluster-enabled yes --cluster-config-file nodes-6379.conf --cluster-node-timeout 15000"
+
+  node2:
+    image: redis
+    deploy:
+      placement:
+        constraints: [engine.labels.host_ip==IP2]
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "56380:6379"
+    volumes:
+      - data2:/data
+    networks:
+      - net
+    command: /bin/bash -c "redis-server --save "" --maxmemory 5gb --timeout 0 --tcp-keepalive 60 --bind 0.0.0.0 --cluster-announce-ip IP2 --cluster-announce-port 56380 --cluster-enabled yes --cluster-config-file nodes-6379.conf --cluster-node-timeout 15000"
+
+  node3:
+    image: redis
+    deploy:
+      placement:
+        constraints: [engine.labels.host_ip==IP3]
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "56381:6379"
+    volumes:
+      - data3:/data
+    networks:
+      - net
+    command: /bin/bash -c "redis-server --save "" --maxmemory 5gb --timeout 0 --tcp-keepalive 60 --bind 0.0.0.0 --cluster-announce-ip IP3 --cluster-announce-port 56381 --cluster-enabled yes --cluster-config-file nodes-6379.conf --cluster-node-timeout 15000"
+    
+  node4:
+    image: redis
+    deploy:
+      placement:
+        constraints: [engine.labels.host_ip==IP4]
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "56382:6379"
+    volumes:
+      - data4:/data
+    networks:
+      - net
+    command: /bin/bash -c "redis-server --save "" --maxmemory 5gb --timeout 0 --tcp-keepalive 60 --bind 0.0.0.0 --cluster-announce-ip IP4 --cluster-announce-port 56382 --cluster-enabled yes --cluster-config-file nodes-6379.conf --cluster-node-timeout 15000"
+    
+  node5:
+    image: redis
+    deploy:
+      placement:
+        constraints: [engine.labels.host_ip==IP5]
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "56383:6379"
+    volumes:
+      - data5:/data
+    networks:
+      - net
+    command: /bin/bash -c "redis-server --save "" --maxmemory 5gb --timeout 0 --tcp-keepalive 60 --bind 0.0.0.0 --cluster-announce-ip IP5 --cluster-announce-port 56383 --cluster-enabled yes --cluster-config-file nodes-6379.conf --cluster-node-timeout 15000"
+    
+  node6:
+    image: redis
+    deploy:
+      placement:
+        constraints: [engine.labels.host_ip==IP6]
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "56384:6379"
+    volumes:
+      - data6:/data
+    networks:
+      - net
+    command: /bin/bash -c "redis-server --save "" --maxmemory 5gb --timeout 0 --tcp-keepalive 60 --bind 0.0.0.0 --cluster-announce-ip IP6 --cluster-announce-port 56384 --cluster-enabled yes --cluster-config-file nodes-6379.conf --cluster-node-timeout 15000"
+    
+networks:
+  net:
+volumes:
+  data1:
+  data2:
+  data3:
+  data4:
+  data5:
+  data6:

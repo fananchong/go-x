@@ -2,6 +2,8 @@
 
 docker stack rm redis-cluster
 
+sleep 10s
+
 set -e
 
 [ "$HOST_IP1" ] || HOST_IP1="192.168.1.4"
@@ -22,5 +24,17 @@ docker stack deploy -c ./docker-stack-redis-cluster.yml.temp redis-cluster
 rm -rf ./docker-stack-redis-cluster.yml.temp
 
 # temp
-docker run -it --rm zvelo/redis-trib /bin/bash -c "redis-trib.rb  create --replicas 1 192.168.1.4:56379 192.168.1.4:56380 192.168.1.4:56381 192.168.1.4:56382 192.168.1.4:56383 192.168.1.4:56384"
+docker run -it --rm redis redis-cli -h 192.168.1.4 -p 39379 flushall
+docker run -it --rm redis redis-cli -h 192.168.1.4 -p 39379 cluster reset
+docker run -it --rm redis redis-cli -h 192.168.1.4 -p 39380 flushall
+docker run -it --rm redis redis-cli -h 192.168.1.4 -p 39380 cluster reset
+docker run -it --rm redis redis-cli -h 192.168.1.4 -p 39381 flushall
+docker run -it --rm redis redis-cli -h 192.168.1.4 -p 39381 cluster reset
+docker run -it --rm redis redis-cli -h 192.168.1.4 -p 39382 flushall
+docker run -it --rm redis redis-cli -h 192.168.1.4 -p 39382 cluster reset
+docker run -it --rm redis redis-cli -h 192.168.1.4 -p 39383 flushall
+docker run -it --rm redis redis-cli -h 192.168.1.4 -p 39383 cluster reset
+docker run -it --rm redis redis-cli -h 192.168.1.4 -p 39384 flushall
+docker run -it --rm redis redis-cli -h 192.168.1.4 -p 39384 cluster reset
+docker run -it --rm zvelo/redis-trib create --replicas 1 192.168.1.4:39379 192.168.1.4:39380 192.168.1.4:39381 192.168.1.4:39382 192.168.1.4:39383 192.168.1.4:39384
 

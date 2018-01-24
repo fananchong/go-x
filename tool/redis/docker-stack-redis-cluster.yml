@@ -5,7 +5,7 @@ services:
     image: redis
     deploy:
       placement:
-        constraints: [engine.labels.host_ip==IP1]
+        constraints: [node.labels.host_ip==IP1]
       replicas: 1
       restart_policy:
         condition: on-failure
@@ -22,7 +22,7 @@ services:
     image: redis
     deploy:
       placement:
-        constraints: [engine.labels.host_ip==IP2]
+        constraints: [node.labels.host_ip==IP2]
       replicas: 1
       restart_policy:
         condition: on-failure
@@ -39,7 +39,7 @@ services:
     image: redis
     deploy:
       placement:
-        constraints: [engine.labels.host_ip==IP3]
+        constraints: [node.labels.host_ip==IP3]
       replicas: 1
       restart_policy:
         condition: on-failure
@@ -56,7 +56,7 @@ services:
     image: redis
     deploy:
       placement:
-        constraints: [engine.labels.host_ip==IP4]
+        constraints: [node.labels.host_ip==IP4]
       replicas: 1
       restart_policy:
         condition: on-failure
@@ -73,7 +73,7 @@ services:
     image: redis
     deploy:
       placement:
-        constraints: [engine.labels.host_ip==IP5]
+        constraints: [node.labels.host_ip==IP5]
       replicas: 1
       restart_policy:
         condition: on-failure
@@ -90,7 +90,7 @@ services:
     image: redis
     deploy:
       placement:
-        constraints: [engine.labels.host_ip==IP6]
+        constraints: [node.labels.host_ip==IP6]
       replicas: 1
       restart_policy:
         condition: on-failure

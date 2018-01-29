@@ -9,7 +9,6 @@ services:
       endpoint_mode: vip
       replicas: 1
       restart_policy:
-        condition: on-failure
         delay: 60s
     ports:
       - "16379:6379"
@@ -25,7 +24,6 @@ services:
       endpoint_mode: vip
       replicas: 1
       restart_policy:
-        condition: on-failure
         delay: 60s
     ports:
       - "26379:6379"
@@ -41,7 +39,6 @@ services:
       endpoint_mode: vip
       replicas: 1
       restart_policy:
-        condition: on-failure
         delay: 60s
     ports:
       - "36379:6379"

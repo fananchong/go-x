@@ -8,7 +8,7 @@ services:
         constraints: [node.labels.host_ip==IP1]
       replicas: 1
       restart_policy:
-        condition: on-failure
+        delay: 60s
     ports:
       - "46379:26379"
     volumes:
@@ -24,7 +24,7 @@ services:
         constraints: [node.labels.host_ip==IP2]
       replicas: 1
       restart_policy:
-        condition: on-failure
+        delay: 60s
     ports:
       - "46380:26379"
     volumes:
@@ -40,7 +40,7 @@ services:
         constraints: [node.labels.host_ip==IP3]
       replicas: 1
       restart_policy:
-        condition: on-failure
+        delay: 60s
     ports:
       - "46381:26379"
     volumes:

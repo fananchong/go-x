@@ -8,7 +8,7 @@ services:
         constraints: [node.labels.host_ip==IP1]
       replicas: 1
       restart_policy:
-        condition: on-failure
+        delay: 60s
     ports:
       - "39379:6379"
       - "49379:16379"
@@ -25,7 +25,7 @@ services:
         constraints: [node.labels.host_ip==IP2]
       replicas: 1
       restart_policy:
-        condition: on-failure
+        delay: 60s
     ports:
       - "39380:6379"
       - "49380:16379"
@@ -42,7 +42,7 @@ services:
         constraints: [node.labels.host_ip==IP3]
       replicas: 1
       restart_policy:
-        condition: on-failure
+        delay: 60s
     ports:
       - "39381:6379"
       - "49381:16379"
@@ -59,7 +59,7 @@ services:
         constraints: [node.labels.host_ip==IP4]
       replicas: 1
       restart_policy:
-        condition: on-failure
+        delay: 60s
     ports:
       - "39382:6379"
       - "49382:16379"
@@ -76,7 +76,7 @@ services:
         constraints: [node.labels.host_ip==IP5]
       replicas: 1
       restart_policy:
-        condition: on-failure
+        delay: 60s
     ports:
       - "39383:6379"
       - "49383:16379"
@@ -93,7 +93,7 @@ services:
         constraints: [node.labels.host_ip==IP6]
       replicas: 1
       restart_policy:
-        condition: on-failure
+        delay: 60s
     ports:
       - "39384:6379"
       - "49384:16379"

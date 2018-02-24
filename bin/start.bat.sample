@@ -1,3 +1,11 @@
+set MYDIR=%~dp0
+
+call stop.bat
+
+cd ..
+call build.bat
+
+cd %MYDIR%
 
 set ETCD_HOSTS="192.168.1.12:12379, 192.168.1.12:22379, 192.168.1.12:32379"
 

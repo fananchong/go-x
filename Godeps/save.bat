@@ -11,7 +11,7 @@ set GOPATH=%BASEDIR%;%TEMP_DIR%
 copy /y Godeps.json.template Godeps.json
 cd %CURDIR%\..
 if exist vendor ( rd /q /s vendor )
-.\tool\godep\godep.exe update
-.\tool\godep\godep.exe save ./...
+.\tools\godep\godep.exe update
+.\tools\godep\godep.exe save ./...
 cd %CURDIR%
 pause

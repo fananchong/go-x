@@ -1,3 +1,3 @@
-..\..\tool\protoc\protoc.exe --go_out=. *.proto
+..\..\tools\protoc\protoc.exe --go_out=. *.proto
 
 pause

@@ -6,5 +6,5 @@ git config https.proxy https://127.0.0.1:1080
 if exist src ( rd /q /s src )
 set GOPATH=%~dp0
 cd %GOPATH%\..
-.\tools\godep\godep.exe restore
+.\tools\build\godep\godep.exe restore
 cd %GOPATH%

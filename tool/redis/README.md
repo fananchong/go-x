@@ -14,6 +14,10 @@
   - install-redis-sentinel.sh
   
   
+### redis集群
+
+  - install-reids-cluster.sh
+  
 
 ### Redis配置说明
 

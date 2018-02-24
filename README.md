@@ -1,9 +1,16 @@
 # go-x
 Go服务器
 
+### 编译
+
+```dos
+git submodule update --init -- "tools/build"
+build.bat
+```
+
+
 ### TODO
 
-- 数据库访问模块
 - 完善登录服务器
 
   + 可定制支持的登录模式

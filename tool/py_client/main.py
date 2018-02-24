@@ -1,5 +1,7 @@
 import user
 from util import *
+import log
+print = log.log
 
 if __name__ == "__main__":
     args, cfg = parse_args("py_client")

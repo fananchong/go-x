@@ -7,6 +7,7 @@ import (
 
 	"github.com/fananchong/go-x/common"
 	"github.com/fananchong/go-x/common/proto"
+	proto1 "github.com/golang/protobuf/proto"
 )
 
 func (this *Login) MsgLogin(w http.ResponseWriter, req *http.Request, data string, sign string) {
@@ -29,25 +30,25 @@ func (this *Login) MsgLogin(w http.ResponseWriter, req *http.Request, data strin
 	} else {
 		passwd, err := this.Derived.GetPassword(msg.GetAccount(), msg.GetMode(), msg.GetUserdata())
 		if err != proto.LoginError_NoErr {
-			// TODO:
+			w.Write(getErrRepString(err))
 			return
 		}
 		if passwd == "" {
-			// TODO:
+			w.Write(getErrRepString(proto.LoginError_ErrPlatformSide))
 			return
 		}
 		password = passwd
 	}
 
 	if password != "" && !this.checkPassword(msg.GetPassword(), password, msg.GetIsSalt()) {
-		// TODO:
+		w.Write(getErrRepString(proto.LoginError_ErrPassword))
 		return
 	}
 
 	if accountId == 0 {
 
 		if msg.GetMode() == proto.LoginMode_Default && msg.GetIsSalt() {
-			// TODO:
+			w.Write(getErrRepString(proto.LoginError_ErrSalt))
 			return
 		}
 
@@ -59,8 +60,16 @@ func (this *Login) MsgLogin(w http.ResponseWriter, req *http.Request, data strin
 	// 生成Token、设置Cookie、保存Token
 
 	// 登录成功
-
+	w.Write(getErrRepString(proto.LoginError_NoErr))
 	common.GetLogger().Debugln("accountId =", accountId)
+}
+
+func getErrRepString(err proto.LoginError) []byte {
+	common.GetLogger().Debugln("err =", err)
+	rep := &proto.MsgLoginResult{}
+	rep.Err = err
+	data, _ := proto1.Marshal(rep)
+	return data
 }
 
 func (this *Login) checkPassword(msgPassword, dbPassword string, isSalt bool) bool {

@@ -34,6 +34,15 @@ func (this *Login) request(w http.ResponseWriter, req *http.Request) {
 
 	if s3 != params[0] {
 		common.GetLogger().Debugln("version error!")
+		common.GetLogger().Debugln("   client sign =", params[0])
+		common.GetLogger().Debugln("   server sign =", s3)
+		common.GetLogger().Debugln("   sign1 =", this.sign1)
+		common.GetLogger().Debugln("   sign2 =", this.sign2)
+		common.GetLogger().Debugln("   sign3 =", this.sign3)
+		common.GetLogger().Debugln("   c =", paramc[0])
+		common.GetLogger().Debugln("   t =", paramt[0])
+		common.GetLogger().Debugln("   version =", this.version)
+
 		return
 	}
 

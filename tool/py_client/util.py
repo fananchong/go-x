@@ -2,6 +2,8 @@ import argparse
 import os
 import json
 import time
+import log
+print = log.log
 
 def parse_args(title):
     parser = argparse.ArgumentParser(description=title, formatter_class=argparse.RawDescriptionHelpFormatter)

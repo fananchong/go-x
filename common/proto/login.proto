@@ -18,6 +18,7 @@ enum LoginError {
     ErrPassword = 1;        // 密码错误
     ErrAccount = 2;         // 帐号错误
     ErrPlatformSide = 3;    // 平台方错误
+    ErrSalt = 4;            // Salt错误
 }
 
 message MsgLogin

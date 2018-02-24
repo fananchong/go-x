@@ -6,7 +6,7 @@ import (
 )
 
 var (
-	xlogin *ServiceLogin = NewServiceLogin()
+	xlogin *ServiceLogin = nil
 )
 
 type ServiceLogin struct {

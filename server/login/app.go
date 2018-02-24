@@ -21,6 +21,7 @@ func NewApp() *App {
 }
 
 func (this *App) OnAppReady() {
+	xlogin = NewServiceLogin()
 	go xlogin.Start(xargs.Listen)
 }
 

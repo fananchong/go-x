@@ -30,15 +30,15 @@ class LoginMode():
         try:
             cmd = LoginCmd.Login.value
             msg = proto.login_pb2.MsgLogin()
-            msg.account = account
-            msg.password = password
-            msg.mode = mode
+            msg.Account = account
+            msg.Password = password
+            msg.Mode = mode
             #msg.userdata = userdata
             request, result = self.send(cmd, msg)
+            pmsg = proto.login_pb2.MsgLoginResult()
+            pmsg.ParseFromString(result)
         
-            self.cookie = request.getheader("Set-Cookie")
-            if self.cookie != None and self.cookie != "":
-                self.cookie = self.cookie[self.cookie.find("=")+1: self.cookie.find(";")]
+            print("MsgLoginResult.Err:", pmsg.Err)
             
         except Exception as e:
             print(traceback.format_exc())

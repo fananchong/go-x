@@ -10,9 +10,12 @@ build.bat
 
 ### 执行
 
+当前目录下执行：
+
 ```dos
-bin\server.exe
-bin\client.exe
+cd bin
+server.exe
+client.exe
 ```
 
 在IE中， 键入 `127.0.0.1:8000?query=chart`，回车。

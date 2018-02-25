@@ -1,8 +1,9 @@
 package main
 
 import (
+	"def"
+
 	"github.com/fananchong/go-x/common"
-	"github.com/fananchong/go-x/server/def"
 )
 
 type Args struct {
@@ -10,8 +11,7 @@ type Args struct {
 }
 
 func (this *Args) OnInit() {
-	this.Etcd.NodeType = int(def.Gateway)
-	this.Etcd.WatchNodeTypes = []int{int(def.Base)} // 监视服务节点类型
+	this.Etcd.NodeType = int(def.Base)
 }
 
 var (

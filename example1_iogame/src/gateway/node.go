@@ -1,8 +1,9 @@
 package main
 
 import (
+	"def"
+
 	"github.com/fananchong/go-x/common/discovery"
-	"github.com/fananchong/go-x/server/def"
 )
 
 var (
@@ -15,7 +16,7 @@ type Node struct {
 
 func NewNode() *Node {
 	node := &Node{}
-	node.SetBaseInfoType(uint32(def.Login))
-	node.InitPolicy(discovery.Ordered)
+	node.SetBaseInfoType(uint32(def.Gateway))
+	node.InitPolicy(discovery.Random)
 	return node
 }

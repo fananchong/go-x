@@ -43,7 +43,7 @@
 		},
 		{
 			"ImportPath": "github.com/fananchong/go-discovery",
-			"Rev": "e4ed4266db3e255bb72b90ee5fd0df18929ca25e"
+			"Rev": "8c7e3222ed568d47fa46a6983b7a6fd1f7c1545f"
 		},
 		{
 			"ImportPath": "github.com/fananchong/go-proto-helper",
@@ -51,8 +51,8 @@
 		},
 		{
 			"ImportPath": "github.com/fananchong/gochart",
-			"Comment": "v2.0-19-g44355d2",
-			"Rev": "44355d23310ea539af7044790e4fdc81f03e44cc"
+			"Comment": "v2.1",
+			"Rev": "a0d1b57622da11a84f9fbcdb0b1e4240f3cebbae"
 		},
 		{
 			"ImportPath": "github.com/fananchong/gomap",

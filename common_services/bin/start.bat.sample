@@ -1,0 +1,10 @@
+set MYDIR=%~dp0
+
+call stop.bat
+
+cd ..
+call build.bat
+
+cd %MYDIR%
+
+start login.exe -cfg config.toml --log_dir=./log -stderrthreshold 0

@@ -28,12 +28,8 @@ func (this *Login) Start() bool {
 	}
 	this.db = common.NewRedisObj(common.GetArgs().DbAccount.Name, common.GetArgs().DbAccount.Addrs)
 	if this.db == nil {
-		common.GetLogger().Fatalln("can't connect db account(redis).")
 		return false
 	}
-
-	common.GetLogger().Infoln("connect db account(redis) success. addrs =", common.GetArgs().DbAccount.Addrs)
-
 	pb.SetLogger(common.GetLogger())
 	this.HandleFunc("/msg", this.request)
 	this.ListenAndServe(common.GetArgs().Login.Listen)

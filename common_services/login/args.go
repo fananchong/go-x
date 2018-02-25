@@ -1,8 +1,6 @@
 package main
 
 import (
-	"def"
-
 	"github.com/fananchong/go-x/common"
 )
 
@@ -12,8 +10,8 @@ type Args struct {
 }
 
 func (this *Args) OnInit() {
-	this.Etcd.NodeType = 0                                            // 不需要同步信息到discovery
-	this.Etcd.WatchNodeTypes = []int{int(def.Gateway), int(def.Room)} // 监视服务节点类型
+	this.Etcd.NodeType = 0                                                  // 不需要同步信息到discovery
+	this.Etcd.WatchNodeTypes = []int{int(common.Gateway), int(common.Room)} // 监视服务节点类型
 }
 
 var (

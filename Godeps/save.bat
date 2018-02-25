@@ -7,7 +7,7 @@ if not exist %TEMP_DIR%\src (
 set CURDIR=%~dp0
 set BASEDIR=%~dp0
 set BASEDIR=%BASEDIR:\src\github.com\fananchong\go-x\Godeps\=\%
-set GOPATH=%BASEDIR%;%TEMP_DIR%;%CURDIR%\..\example1_iogame\
+set GOPATH=%BASEDIR%;%TEMP_DIR%
 copy /y Godeps.json.template Godeps.json
 cd %CURDIR%\..
 if exist vendor ( rd /q /s vendor )

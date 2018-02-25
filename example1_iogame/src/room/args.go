@@ -1,8 +1,6 @@
 package main
 
 import (
-	"def"
-
 	"github.com/fananchong/go-x/common"
 )
 
@@ -11,7 +9,7 @@ type Args struct {
 }
 
 func (this *Args) OnInit() {
-	this.Etcd.NodeType = int(def.Room)
+	this.Etcd.NodeType = int(common.Room)
 }
 
 var (

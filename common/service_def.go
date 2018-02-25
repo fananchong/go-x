@@ -1,4 +1,4 @@
-package def
+package common
 
 type ServerType int
 

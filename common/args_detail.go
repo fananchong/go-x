@@ -43,3 +43,13 @@ func (this *ArgsBase) Init(derived IArgs) {
 func (this *ArgsBase) GetBase() *ArgsBase {
 	return this
 }
+
+var xargs *ArgsBase
+
+func SetArgs(args *ArgsBase) {
+	xargs = args
+}
+
+func GetArgs() *ArgsBase {
+	return xargs
+}

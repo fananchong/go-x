@@ -16,6 +16,7 @@ func NewApp() *App {
 	this := &App{}
 	this.Derived = this
 	this.Args = xargs
+	this.Logger = xlog
 	this.Node = xnode
 	return this
 }

@@ -6,7 +6,6 @@ import (
 
 type Args struct {
 	common.ArgsBase
-	Listen string `default:":8000"`
 }
 
 func (this *Args) OnInit() {

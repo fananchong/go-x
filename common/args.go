@@ -1,10 +1,20 @@
 package common
 
 type ArgsBase struct {
-	Version    string   // 版本号
-	ExternalIp string   // 外网ip（包括端口。格式 ip:port）
-	IntranetIp string   // 内网ip（包括端口。格式 ip:port）
-	Etcd       ArgsEtcd // etcd
+	Common    ArgsCommon  // 一些基础参数
+	Pending   ArgsPending // 悬而未决的配置，OnInit()函数内用户最终设置
+	Etcd      ArgsEtcd    // Etcd配置
+	DbAccount ArgsRedis   // 帐号数据库（Redis）
+	Login     ArgsLogin   // 登录服务配置
+}
+
+type ArgsCommon struct {
+	Version string // 版本号
+}
+
+type ArgsPending struct {
+	ExternalIp string
+	IntranetIp string
 }
 
 type ArgsEtcd struct {
@@ -12,4 +22,16 @@ type ArgsEtcd struct {
 	NodeType       int      `default:"0"` // 本节点类型。填0，则本节点不会上报自身信息给etcd。
 	WatchNodeTypes []int    `default:""`  // 本节点要watch其他节点的节点类型
 	PutInterval    int      `default:"1"` // 本节点上报信息间隔，单位秒
+}
+
+type ArgsRedis struct {
+	Name  string   `default:""`
+	Addrs []string `default:""`
+}
+
+type ArgsLogin struct {
+	Listen string `default:":8000"`
+	Sign1  string `default:""`
+	Sign2  string `default:""`
+	Sign3  string `default:""`
 }

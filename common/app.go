@@ -17,8 +17,10 @@ type AppInterface interface {
 }
 
 type App struct {
+	signal  chan os.Signal
 	Derived AppInterface
 	Args    IArgs
+	Logger  ILogger
 	Node    interface{}
 }
 
@@ -27,8 +29,8 @@ func (this *App) Run() {
 	runtime.GC()
 
 	termination := false
-	ch := make(chan os.Signal)
-	signal.Notify(ch, syscall.SIGINT, syscall.SIGQUIT, syscall.SIGABRT, syscall.SIGTERM, syscall.SIGPIPE)
+	this.signal = make(chan os.Signal)
+	signal.Notify(this.signal, syscall.SIGINT, syscall.SIGQUIT, syscall.SIGABRT, syscall.SIGTERM, syscall.SIGPIPE)
 
 	this.initArgs()
 	this.initLog()
@@ -38,7 +40,7 @@ func (this *App) Run() {
 
 	for !termination {
 		select {
-		case sig := <-ch:
+		case sig := <-this.signal:
 			switch sig {
 			case syscall.SIGPIPE:
 			default:
@@ -53,6 +55,10 @@ func (this *App) Run() {
 	xlog.Flush()
 }
 
+func (this *App) Close() {
+	close(this.signal)
+}
+
 func (this *App) initLog() {
 	arg := flag.Lookup("log_dir")
 	if arg != nil && arg.Value != nil {
@@ -60,6 +66,7 @@ func (this *App) initLog() {
 			os.MkdirAll(arg.Value.String(), os.ModeDir)
 		}
 	}
+	SetLogger(this.Logger)
 }
 
 func (this *App) initArgs() {
@@ -68,13 +75,14 @@ func (this *App) initArgs() {
 		return
 	}
 	this.Args.Init(this.Args.GetDerived())
+	SetArgs(this.Args.GetBase())
 }
 
 func (this *App) initNode() {
 	if this.Node != nil && this.Args != nil {
 		args := this.Args.GetBase()
 		node := this.Node.(godiscovery.INode).GetBase().(*discovery.Node)
-		node.SetBaseInfoIP(args.ExternalIp, args.IntranetIp)
+		node.SetBaseInfoIP(args.Pending.ExternalIp, args.Pending.IntranetIp)
 		node.SetLogger(xlog)
 		node.Init(this.Node)
 		node.Open(args.Etcd.Hosts, args.Etcd.NodeType, args.Etcd.WatchNodeTypes, int64(args.Etcd.PutInterval))

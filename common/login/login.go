@@ -16,24 +16,28 @@ type LoginMsgHandlerType func(http.ResponseWriter, *http.Request, string, string
 
 type Login struct {
 	common.WebService
+	db      *common.RedisObj
 	cmds    map[proto.MsgTypeCmd]LoginMsgHandlerType
 	Derived ILogin
-
-	// sign
-	sign1   string
-	sign2   string
-	sign3   string
-	version string
 }
 
-func (this *Login) Start(addr string) {
+func (this *Login) Start() bool {
 	if this.cmds == nil {
 		this.cmds = make(map[proto.MsgTypeCmd]LoginMsgHandlerType)
 		this.cmds[proto.MsgTypeCmd_Login] = this.MsgLogin
 	}
+	this.db = common.NewRedisObj(common.GetArgs().DbAccount.Name, common.GetArgs().DbAccount.Addrs)
+	if this.db == nil {
+		common.GetLogger().Fatalln("can't connect db account(redis).")
+		return false
+	}
+
+	common.GetLogger().Infoln("connect db account(redis) success. addrs =", common.GetArgs().DbAccount.Addrs)
+
 	pb.SetLogger(common.GetLogger())
 	this.HandleFunc("/msg", this.request)
-	this.ListenAndServe(addr)
+	this.ListenAndServe(common.GetArgs().Login.Listen)
+	return true
 }
 
 func (this *Login) Register(cmd proto.MsgTypeCmd, f LoginMsgHandlerType) {
@@ -42,20 +46,4 @@ func (this *Login) Register(cmd proto.MsgTypeCmd, f LoginMsgHandlerType) {
 	} else {
 		panic("Register fail.")
 	}
-}
-
-func (this *Login) SetSign1(sign string) {
-	this.sign1 = sign
-}
-
-func (this *Login) SetSign2(sign string) {
-	this.sign2 = sign
-}
-
-func (this *Login) SetSign3(sign string) {
-	this.sign3 = sign
-}
-
-func (this *Login) SetVersion(ver string) {
-	this.version = ver
 }

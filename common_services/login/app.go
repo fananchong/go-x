@@ -16,13 +16,17 @@ func NewApp() *App {
 	this := &App{}
 	this.Derived = this
 	this.Args = xargs
+	this.Logger = xlog
 	this.Node = xnode
 	return this
 }
 
 func (this *App) OnAppReady() {
-	xlogin = NewServiceLogin()
-	go xlogin.Start(xargs.Listen)
+	go func() {
+		if xlogin.Start() == false {
+			this.Close()
+		}
+	}()
 }
 
 func (this *App) OnAppShutDown() {

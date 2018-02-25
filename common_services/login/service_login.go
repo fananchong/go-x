@@ -6,7 +6,7 @@ import (
 )
 
 var (
-	xlogin *ServiceLogin = nil
+	xlogin *ServiceLogin = NewServiceLogin()
 )
 
 type ServiceLogin struct {
@@ -16,10 +16,6 @@ type ServiceLogin struct {
 func NewServiceLogin() *ServiceLogin {
 	this := &ServiceLogin{}
 	this.Derived = this
-	this.Login.SetSign1("5UY6$f$h")
-	this.Login.SetSign2("3wokZB%q")
-	this.Login.SetSign3("%2Fi9TRf")
-	this.Login.SetVersion(xargs.ArgsBase.Version)
 	return this
 }
 

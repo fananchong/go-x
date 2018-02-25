@@ -13,5 +13,9 @@ cd %CURDIR%\..
 if exist vendor ( rd /q /s vendor )
 ..\..\tools\build\godep\godep.exe update
 ..\..\tools\build\godep\godep.exe save ./...
+
+REM 在go-x目录下，把冗余的go-x删除
+rd /q /s vendor\github.com\fananchong\go-x
+
 cd %CURDIR%
 pause

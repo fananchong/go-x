@@ -1,5 +1,5 @@
 {
-	"ImportPath": "github.com/fananchong/go-x/example1_iogame/src",
+	"ImportPath": "github.com/fananchong/go-x",
 	"GoVersion": "go1.9",
 	"GodepVersion": "v79",
 	"Packages": [
@@ -10,6 +10,11 @@
 			"ImportPath": "github.com/BurntSushi/toml",
 			"Comment": "v0.3.0-7-ga368813",
 			"Rev": "a368813c5e648fee92e5f6c30e3944ff9d5e8895"
+		},
+		{
+			"ImportPath": "github.com/bitly/go-simplejson",
+			"Comment": "v0.5.0-8-g0c96595",
+			"Rev": "0c965951289cce37dec52ad1f34200fefc816777"
 		},
 		{
 			"ImportPath": "github.com/coreos/etcd/auth/authpb",
@@ -38,31 +43,25 @@
 		},
 		{
 			"ImportPath": "github.com/fananchong/go-discovery",
-			"Rev": "8c7e3222ed568d47fa46a6983b7a6fd1f7c1545f"
+			"Rev": "e4ed4266db3e255bb72b90ee5fd0df18929ca25e"
 		},
 		{
 			"ImportPath": "github.com/fananchong/go-proto-helper",
 			"Rev": "7882bd5b69dadd6ddca4955017b6e1e1ac9f8bf3"
 		},
 		{
-			"ImportPath": "github.com/fananchong/go-x/common",
-			"Rev": "2bc7f1cc50aa2dcb43abec3f7e93ea68a2c035b3"
-		},
-		{
-			"ImportPath": "github.com/fananchong/go-x/common/discovery",
-			"Rev": "2bc7f1cc50aa2dcb43abec3f7e93ea68a2c035b3"
-		},
-		{
-			"ImportPath": "github.com/fananchong/go-x/common/login",
-			"Rev": "2bc7f1cc50aa2dcb43abec3f7e93ea68a2c035b3"
-		},
-		{
-			"ImportPath": "github.com/fananchong/go-x/common/proto",
-			"Rev": "2bc7f1cc50aa2dcb43abec3f7e93ea68a2c035b3"
+			"ImportPath": "github.com/fananchong/gochart",
+			"Comment": "v2.0-19-g44355d2",
+			"Rev": "44355d23310ea539af7044790e4fdc81f03e44cc"
 		},
 		{
 			"ImportPath": "github.com/fananchong/gomap",
 			"Rev": "64a48ce2749825d5cb5816f71424aa075c600d09"
+		},
+		{
+			"ImportPath": "github.com/fananchong/gonet",
+			"Comment": "17.09.09-11-gd255190",
+			"Rev": "d255190912e08be2e9d109491e486022f61e411c"
 		},
 		{
 			"ImportPath": "github.com/fananchong/multiconfig",

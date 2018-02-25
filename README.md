@@ -1,5 +1,5 @@
 # go-x
-Go服务器
+Go游戏服务器框架
 
 ### 编译
 
@@ -9,10 +9,17 @@ build.bat
 ```
 
 
+### 例子
+
+  - [example1_iogame](example1_iogame)
+
+
 ### TODO
 
-- 完善登录服务器
+- 完善登录服务器，以可执行文件login提供，通过lua脚本可定制支持的登录模式
 
-  + 可定制支持的登录模式
-  + common args对象, common子模块可以访问
-  + 完善登录流程
+- common args对象, common子模块可以访问
+
+- 以可执行文件gateway提供网关服务
+
+- 其他待续

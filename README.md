@@ -18,8 +18,6 @@ build.bat
 
 - 完善登录服务器，以可执行文件login提供，通过lua脚本可定制支持的登录模式
 
-- common args对象, common子模块可以访问
-
 - 以可执行文件gateway提供网关服务
 
 - 其他待续

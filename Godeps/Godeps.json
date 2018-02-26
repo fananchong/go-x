@@ -77,33 +77,33 @@
 		},
 		{
 			"ImportPath": "github.com/fananchong/zap",
-			"Comment": "v1.7.1-15-gbe6de67",
+			"Comment": "v1.7.1-16-gf88baec",
 			"Rev": "f88baec3c05e4cb10f0b10e573b8f6994a20f754"
 		},
 		{
 			"ImportPath": "github.com/fananchong/zap/buffer",
-			"Comment": "v1.7.1-15-gbe6de67",
-			"Rev": "be6de67c83ca70152242369b3ce120151e49bda6"
+			"Comment": "v1.7.1-16-gf88baec",
+			"Rev": "f88baec3c05e4cb10f0b10e573b8f6994a20f754"
 		},
 		{
 			"ImportPath": "github.com/fananchong/zap/internal/bufferpool",
-			"Comment": "v1.7.1-15-gbe6de67",
-			"Rev": "be6de67c83ca70152242369b3ce120151e49bda6"
+			"Comment": "v1.7.1-16-gf88baec",
+			"Rev": "f88baec3c05e4cb10f0b10e573b8f6994a20f754"
 		},
 		{
 			"ImportPath": "github.com/fananchong/zap/internal/color",
-			"Comment": "v1.7.1-15-gbe6de67",
-			"Rev": "be6de67c83ca70152242369b3ce120151e49bda6"
+			"Comment": "v1.7.1-16-gf88baec",
+			"Rev": "f88baec3c05e4cb10f0b10e573b8f6994a20f754"
 		},
 		{
 			"ImportPath": "github.com/fananchong/zap/internal/exit",
-			"Comment": "v1.7.1-15-gbe6de67",
-			"Rev": "be6de67c83ca70152242369b3ce120151e49bda6"
+			"Comment": "v1.7.1-16-gf88baec",
+			"Rev": "f88baec3c05e4cb10f0b10e573b8f6994a20f754"
 		},
 		{
 			"ImportPath": "github.com/fananchong/zap/zapcore",
-			"Comment": "v1.7.1-15-gbe6de67",
-			"Rev": "be6de67c83ca70152242369b3ce120151e49bda6"
+			"Comment": "v1.7.1-16-gf88baec",
+			"Rev": "f88baec3c05e4cb10f0b10e573b8f6994a20f754"
 		},
 		{
 			"ImportPath": "github.com/fatih/camelcase",

@@ -18,14 +18,22 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-// Package bufferpool houses zap's shared internal buffer pool. Third-party
-// packages can recreate the same functionality with buffers.NewPool.
-package bufferpool
+package zap
 
-import "go.uber.org/zap/buffer"
+import (
+	"flag"
 
-var (
-	_pool = buffer.NewPool()
-	// Get retrieves a buffer from the pool, creating one if necessary.
-	Get = _pool.Get
+	"github.com/fananchong/zap/zapcore"
 )
+
+// LevelFlag uses the standard library's flag.Var to declare a global flag
+// with the specified name, default, and usage guidance. The returned value is
+// a pointer to the value of the flag.
+//
+// If you don't want to use the flag package's global state, you can use any
+// non-nil *Level as a flag.Value with your own *flag.FlagSet.
+func LevelFlag(name string, defaultLevel zapcore.Level, usage string) *zapcore.Level {
+	lvl := defaultLevel
+	flag.Var(&lvl, name, usage)
+	return &lvl
+}

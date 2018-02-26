@@ -18,22 +18,29 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-package zap
+package zapcore
 
-import (
-	"flag"
+import "github.com/fananchong/zap/internal/color"
 
-	"go.uber.org/zap/zapcore"
+var (
+	_levelToColor = map[Level]color.Color{
+		DebugLevel:  color.Magenta,
+		InfoLevel:   color.Blue,
+		WarnLevel:   color.Yellow,
+		ErrorLevel:  color.Red,
+		DPanicLevel: color.Red,
+		PanicLevel:  color.Red,
+		FatalLevel:  color.Red,
+	}
+	_unknownLevelColor = color.Red
+
+	_levelToLowercaseColorString = make(map[Level]string, len(_levelToColor))
+	_levelToCapitalColorString   = make(map[Level]string, len(_levelToColor))
 )
 
-// LevelFlag uses the standard library's flag.Var to declare a global flag
-// with the specified name, default, and usage guidance. The returned value is
-// a pointer to the value of the flag.
-//
-// If you don't want to use the flag package's global state, you can use any
-// non-nil *Level as a flag.Value with your own *flag.FlagSet.
-func LevelFlag(name string, defaultLevel zapcore.Level, usage string) *zapcore.Level {
-	lvl := defaultLevel
-	flag.Var(&lvl, name, usage)
-	return &lvl
+func init() {
+	for level, color := range _levelToColor {
+		_levelToLowercaseColorString[level] = color.Add(level.String())
+		_levelToCapitalColorString[level] = color.Add(level.CapitalString())
+	}
 }

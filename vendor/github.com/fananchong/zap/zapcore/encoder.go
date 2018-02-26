@@ -23,7 +23,7 @@ package zapcore
 import (
 	"time"
 
-	"go.uber.org/zap/buffer"
+	"github.com/fananchong/zap/buffer"
 )
 
 // DefaultLineEnding defines the default line ending when writing logs.

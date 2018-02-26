@@ -73,7 +73,7 @@ func (this *App) initLog() {
 
 func (this *App) initArgs() {
 	if this.Args == nil {
-		xlog.Warningln("Need New Args Object!")
+		fmt.Println("Need New Args Object!")
 		return
 	}
 	this.Args.Init(this.Args.GetDerived())

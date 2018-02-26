@@ -91,13 +91,13 @@
 //
 // More unusual configurations (splitting output between files, sending logs
 // to a message queue, etc.) are possible, but require direct use of
-// go.uber.org/zap/zapcore. See the package-level AdvancedConfiguration
+// github.com/fananchong/zap/zapcore. See the package-level AdvancedConfiguration
 // example for sample code.
 //
 // Extending Zap
 //
 // The zap package itself is a relatively thin wrapper around the interfaces
-// in go.uber.org/zap/zapcore. Extending zap to support a new encoding (e.g.,
+// in github.com/fananchong/zap/zapcore. Extending zap to support a new encoding (e.g.,
 // BSON), a new log sink (e.g., Kafka), or something more exotic (perhaps an
 // exception aggregation service, like Sentry or Rollbar) typically requires
 // implementing the zapcore.Encoder, zapcore.WriteSyncer, or zapcore.Core

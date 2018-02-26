@@ -25,7 +25,7 @@ import (
 	"math"
 	"time"
 
-	"go.uber.org/zap/zapcore"
+	"github.com/fananchong/zap/zapcore"
 )
 
 // Skip constructs a no-op field, which is often useful when handling invalid

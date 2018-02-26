@@ -76,6 +76,36 @@
 			"Rev": "8e910cce60434681462f7975dbeb28a4fe968cc9"
 		},
 		{
+			"ImportPath": "github.com/fananchong/zap",
+			"Comment": "v1.7.1-15-gbe6de67",
+			"Rev": "f88baec3c05e4cb10f0b10e573b8f6994a20f754"
+		},
+		{
+			"ImportPath": "github.com/fananchong/zap/buffer",
+			"Comment": "v1.7.1-15-gbe6de67",
+			"Rev": "be6de67c83ca70152242369b3ce120151e49bda6"
+		},
+		{
+			"ImportPath": "github.com/fananchong/zap/internal/bufferpool",
+			"Comment": "v1.7.1-15-gbe6de67",
+			"Rev": "be6de67c83ca70152242369b3ce120151e49bda6"
+		},
+		{
+			"ImportPath": "github.com/fananchong/zap/internal/color",
+			"Comment": "v1.7.1-15-gbe6de67",
+			"Rev": "be6de67c83ca70152242369b3ce120151e49bda6"
+		},
+		{
+			"ImportPath": "github.com/fananchong/zap/internal/exit",
+			"Comment": "v1.7.1-15-gbe6de67",
+			"Rev": "be6de67c83ca70152242369b3ce120151e49bda6"
+		},
+		{
+			"ImportPath": "github.com/fananchong/zap/zapcore",
+			"Comment": "v1.7.1-15-gbe6de67",
+			"Rev": "be6de67c83ca70152242369b3ce120151e49bda6"
+		},
+		{
 			"ImportPath": "github.com/fatih/camelcase",
 			"Rev": "44e46d280b43ec1531bb25252440e34f1b800b65"
 		},
@@ -136,36 +166,6 @@
 			"ImportPath": "go.uber.org/multierr",
 			"Comment": "v1.1.0-2-gddea229",
 			"Rev": "ddea229ff1dff9e6fe8a6c0344ac73b09e81fce5"
-		},
-		{
-			"ImportPath": "go.uber.org/zap",
-			"Comment": "v1.7.1-11-gf85c78b",
-			"Rev": "f85c78b1dd998214c5f2138155b320a4a43fbe36"
-		},
-		{
-			"ImportPath": "go.uber.org/zap/buffer",
-			"Comment": "v1.7.1-11-gf85c78b",
-			"Rev": "f85c78b1dd998214c5f2138155b320a4a43fbe36"
-		},
-		{
-			"ImportPath": "go.uber.org/zap/internal/bufferpool",
-			"Comment": "v1.7.1-11-gf85c78b",
-			"Rev": "f85c78b1dd998214c5f2138155b320a4a43fbe36"
-		},
-		{
-			"ImportPath": "go.uber.org/zap/internal/color",
-			"Comment": "v1.7.1-11-gf85c78b",
-			"Rev": "f85c78b1dd998214c5f2138155b320a4a43fbe36"
-		},
-		{
-			"ImportPath": "go.uber.org/zap/internal/exit",
-			"Comment": "v1.7.1-11-gf85c78b",
-			"Rev": "f85c78b1dd998214c5f2138155b320a4a43fbe36"
-		},
-		{
-			"ImportPath": "go.uber.org/zap/zapcore",
-			"Comment": "v1.7.1-11-gf85c78b",
-			"Rev": "f85c78b1dd998214c5f2138155b320a4a43fbe36"
 		},
 		{
 			"ImportPath": "golang.org/x/net/context",

@@ -20,7 +20,7 @@
 
 package zap
 
-import "go.uber.org/zap/zapcore"
+import "github.com/fananchong/zap/zapcore"
 
 // An Option configures a Logger.
 type Option interface {

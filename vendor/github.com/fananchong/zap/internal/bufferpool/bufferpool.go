@@ -18,29 +18,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-package zapcore
+// Package bufferpool houses zap's shared internal buffer pool. Third-party
+// packages can recreate the same functionality with buffers.NewPool.
+package bufferpool
 
-import "go.uber.org/zap/internal/color"
+import "github.com/fananchong/zap/buffer"
 
 var (
-	_levelToColor = map[Level]color.Color{
-		DebugLevel:  color.Magenta,
-		InfoLevel:   color.Blue,
-		WarnLevel:   color.Yellow,
-		ErrorLevel:  color.Red,
-		DPanicLevel: color.Red,
-		PanicLevel:  color.Red,
-		FatalLevel:  color.Red,
-	}
-	_unknownLevelColor = color.Red
-
-	_levelToLowercaseColorString = make(map[Level]string, len(_levelToColor))
-	_levelToCapitalColorString   = make(map[Level]string, len(_levelToColor))
+	_pool = buffer.NewPool()
+	// Get retrieves a buffer from the pool, creating one if necessary.
+	Get = _pool.Get
 )
-
-func init() {
-	for level, color := range _levelToColor {
-		_levelToLowercaseColorString[level] = color.Add(level.String())
-		_levelToCapitalColorString[level] = color.Add(level.CapitalString())
-	}
-}

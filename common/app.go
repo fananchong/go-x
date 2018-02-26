@@ -2,6 +2,7 @@ package common
 
 import (
 	"flag"
+	"fmt"
 	"os"
 	"os/signal"
 	"runtime"
@@ -25,6 +26,8 @@ type App struct {
 }
 
 func (this *App) Run() {
+	defer xlog.Flush()
+
 	runtime.GOMAXPROCS(runtime.NumCPU())
 	runtime.GC()
 
@@ -51,8 +54,6 @@ func (this *App) Run() {
 	}
 
 	this.Derived.OnAppShutDown()
-
-	xlog.Flush()
 }
 
 func (this *App) Close() {
@@ -66,6 +67,7 @@ func (this *App) initLog() {
 			os.MkdirAll(arg.Value.String(), os.ModeDir)
 		}
 	}
+	this.Logger.Init()
 	SetLogger(this.Logger)
 }
 

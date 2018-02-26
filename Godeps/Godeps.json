@@ -95,10 +95,6 @@
 			"Rev": "d1ed5c67e5794de818ea85e6b522fda02623a484"
 		},
 		{
-			"ImportPath": "github.com/golang/glog",
-			"Rev": "23def4e6c14b4da8ac2ed8007337bc5eb5007998"
-		},
-		{
 			"ImportPath": "github.com/golang/protobuf/proto",
 			"Rev": "1e59b77b52bf8e4b449a57e6f79f21226d571845"
 		},
@@ -130,6 +126,46 @@
 			"ImportPath": "github.com/satori/go.uuid",
 			"Comment": "v1.1.0-31-g36e9d2e",
 			"Rev": "36e9d2ebbde5e3f13ab2e25625fd453271d6522e"
+		},
+		{
+			"ImportPath": "go.uber.org/atomic",
+			"Comment": "v1.3.1",
+			"Rev": "8474b86a5a6f79c443ce4b2992817ff32cf208b8"
+		},
+		{
+			"ImportPath": "go.uber.org/multierr",
+			"Comment": "v1.1.0-2-gddea229",
+			"Rev": "ddea229ff1dff9e6fe8a6c0344ac73b09e81fce5"
+		},
+		{
+			"ImportPath": "go.uber.org/zap",
+			"Comment": "v1.7.1-11-gf85c78b",
+			"Rev": "f85c78b1dd998214c5f2138155b320a4a43fbe36"
+		},
+		{
+			"ImportPath": "go.uber.org/zap/buffer",
+			"Comment": "v1.7.1-11-gf85c78b",
+			"Rev": "f85c78b1dd998214c5f2138155b320a4a43fbe36"
+		},
+		{
+			"ImportPath": "go.uber.org/zap/internal/bufferpool",
+			"Comment": "v1.7.1-11-gf85c78b",
+			"Rev": "f85c78b1dd998214c5f2138155b320a4a43fbe36"
+		},
+		{
+			"ImportPath": "go.uber.org/zap/internal/color",
+			"Comment": "v1.7.1-11-gf85c78b",
+			"Rev": "f85c78b1dd998214c5f2138155b320a4a43fbe36"
+		},
+		{
+			"ImportPath": "go.uber.org/zap/internal/exit",
+			"Comment": "v1.7.1-11-gf85c78b",
+			"Rev": "f85c78b1dd998214c5f2138155b320a4a43fbe36"
+		},
+		{
+			"ImportPath": "go.uber.org/zap/zapcore",
+			"Comment": "v1.7.1-11-gf85c78b",
+			"Rev": "f85c78b1dd998214c5f2138155b320a4a43fbe36"
 		},
 		{
 			"ImportPath": "golang.org/x/net/context",

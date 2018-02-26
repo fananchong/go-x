@@ -12,10 +12,6 @@ func (this *Args) OnInit() {
 	this.Etcd.NodeType = int(common.Base)
 }
 
-var (
-	xargs *Args = NewArgs()
-)
-
 func NewArgs() *Args {
 	return &Args{}
 }

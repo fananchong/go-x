@@ -5,6 +5,10 @@ import (
 	"github.com/fananchong/gochart"
 )
 
+var (
+	xlog common.ILogger = common.NewDefaultLogger()
+)
+
 type App struct {
 	common.App
 }

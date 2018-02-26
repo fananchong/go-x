@@ -1,8 +1,6 @@
 package common
 
 import (
-	"flag"
-	"fmt"
 	"os"
 	"os/signal"
 	"runtime"
@@ -26,8 +24,6 @@ type App struct {
 }
 
 func (this *App) Run() {
-	defer xlog.Flush()
-
 	runtime.GOMAXPROCS(runtime.NumCPU())
 	runtime.GC()
 
@@ -36,7 +32,11 @@ func (this *App) Run() {
 	signal.Notify(this.signal, syscall.SIGINT, syscall.SIGQUIT, syscall.SIGABRT, syscall.SIGTERM, syscall.SIGPIPE)
 
 	this.initArgs()
-	this.initLog()
+	if this.initLog() == false {
+		this.Close()
+		return
+	}
+	defer xlog.Flush()
 	this.initNode()
 
 	this.Derived.OnAppReady()
@@ -60,20 +60,19 @@ func (this *App) Close() {
 	close(this.signal)
 }
 
-func (this *App) initLog() {
-	arg := flag.Lookup("log_dir")
-	if arg != nil && arg.Value != nil {
-		if arg.Value.String() != "" {
-			os.MkdirAll(arg.Value.String(), os.ModeDir)
-		}
+func (this *App) initLog() bool {
+	if this.Logger == nil {
+		this.Logger = NewDefaultLogger()
 	}
-	this.Logger.Init()
+	if this.Logger.Init() == false {
+		return false
+	}
 	SetLogger(this.Logger)
+	return true
 }
 
 func (this *App) initArgs() {
 	if this.Args == nil {
-		fmt.Println("Need New Args Object!")
 		return
 	}
 	this.Args.Init(this.Args.GetDerived())
@@ -89,6 +88,5 @@ func (this *App) initNode() {
 		node.Init(this.Node)
 		node.Open(args.Etcd.Hosts, args.Etcd.NodeType, args.Etcd.WatchNodeTypes, int64(args.Etcd.PutInterval))
 	} else {
-		xlog.Errorln("Need New Args Object OR Node Object!")
 	}
 }

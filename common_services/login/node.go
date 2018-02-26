@@ -5,10 +5,6 @@ import (
 	"github.com/fananchong/go-x/common/discovery"
 )
 
-var (
-	xnode *Node = NewNode()
-)
-
 type Node struct {
 	discovery.Node
 }

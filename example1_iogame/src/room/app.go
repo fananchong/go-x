@@ -5,7 +5,10 @@ import (
 )
 
 var (
-	xapp *App = NewApp()
+	xargs *Args          = NewArgs()
+	xlog  common.ILogger = common.NewZapLogger()
+	xnode *Node          = NewNode()
+	xapp  *App           = NewApp()
 )
 
 type App struct {

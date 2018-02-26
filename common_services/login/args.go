@@ -13,10 +13,6 @@ func (this *Args) OnInit() {
 	this.Etcd.WatchNodeTypes = []int{int(common.Gateway), int(common.Room)} // 监视服务节点类型
 }
 
-var (
-	xargs *Args = NewArgs()
-)
-
 func NewArgs() *Args {
 	return &Args{}
 }

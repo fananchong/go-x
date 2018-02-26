@@ -7,4 +7,4 @@ call build.bat
 
 cd %MYDIR%
 
-start login.exe -cfg config.toml --log_dir=./log -stderrthreshold 0
+start login.exe -cfg config.toml

@@ -10,6 +10,7 @@ type ArgsBase struct {
 
 type ArgsCommon struct {
 	Version string // 版本号
+	LogCfg  string // log配置
 }
 
 type ArgsPending struct {

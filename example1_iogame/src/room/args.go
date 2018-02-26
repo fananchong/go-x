@@ -12,10 +12,6 @@ func (this *Args) OnInit() {
 	this.Etcd.NodeType = int(common.Room)
 }
 
-var (
-	xargs *Args = NewArgs()
-)
-
 func NewArgs() *Args {
 	return &Args{}
 }

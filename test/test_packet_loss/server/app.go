@@ -4,6 +4,10 @@ import (
 	"github.com/fananchong/go-x/common"
 )
 
+var (
+	xlog common.ILogger = common.NewDefaultLogger()
+)
+
 type App struct {
 	common.App
 }

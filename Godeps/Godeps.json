@@ -46,6 +46,10 @@
 			"Rev": "95a726a27e09030f9ccbd9982a1508f5a6d25ada"
 		},
 		{
+			"ImportPath": "github.com/fananchong/glog",
+			"Rev": "5d710a7b3c2bfdc633046a7b148a2678bb839ef5"
+		},
+		{
 			"ImportPath": "github.com/fananchong/go-discovery",
 			"Rev": "8c7e3222ed568d47fa46a6983b7a6fd1f7c1545f"
 		},
@@ -74,36 +78,6 @@
 		{
 			"ImportPath": "github.com/fananchong/multiconfig",
 			"Rev": "8e910cce60434681462f7975dbeb28a4fe968cc9"
-		},
-		{
-			"ImportPath": "github.com/fananchong/zap",
-			"Comment": "v1.7.1-16-gf88baec",
-			"Rev": "f88baec3c05e4cb10f0b10e573b8f6994a20f754"
-		},
-		{
-			"ImportPath": "github.com/fananchong/zap/buffer",
-			"Comment": "v1.7.1-16-gf88baec",
-			"Rev": "f88baec3c05e4cb10f0b10e573b8f6994a20f754"
-		},
-		{
-			"ImportPath": "github.com/fananchong/zap/internal/bufferpool",
-			"Comment": "v1.7.1-16-gf88baec",
-			"Rev": "f88baec3c05e4cb10f0b10e573b8f6994a20f754"
-		},
-		{
-			"ImportPath": "github.com/fananchong/zap/internal/color",
-			"Comment": "v1.7.1-16-gf88baec",
-			"Rev": "f88baec3c05e4cb10f0b10e573b8f6994a20f754"
-		},
-		{
-			"ImportPath": "github.com/fananchong/zap/internal/exit",
-			"Comment": "v1.7.1-16-gf88baec",
-			"Rev": "f88baec3c05e4cb10f0b10e573b8f6994a20f754"
-		},
-		{
-			"ImportPath": "github.com/fananchong/zap/zapcore",
-			"Comment": "v1.7.1-16-gf88baec",
-			"Rev": "f88baec3c05e4cb10f0b10e573b8f6994a20f754"
 		},
 		{
 			"ImportPath": "github.com/fatih/camelcase",
@@ -156,16 +130,6 @@
 			"ImportPath": "github.com/satori/go.uuid",
 			"Comment": "v1.1.0-31-g36e9d2e",
 			"Rev": "36e9d2ebbde5e3f13ab2e25625fd453271d6522e"
-		},
-		{
-			"ImportPath": "go.uber.org/atomic",
-			"Comment": "v1.3.1",
-			"Rev": "8474b86a5a6f79c443ce4b2992817ff32cf208b8"
-		},
-		{
-			"ImportPath": "go.uber.org/multierr",
-			"Comment": "v1.1.0-2-gddea229",
-			"Rev": "ddea229ff1dff9e6fe8a6c0344ac73b09e81fce5"
 		},
 		{
 			"ImportPath": "golang.org/x/net/context",

@@ -31,12 +31,12 @@ func (this *App) Run() {
 	this.signal = make(chan os.Signal)
 	signal.Notify(this.signal, syscall.SIGINT, syscall.SIGQUIT, syscall.SIGABRT, syscall.SIGTERM, syscall.SIGPIPE)
 
-	this.initArgs()
-	if this.initLog() == false {
-		this.Close()
-		return
+	if this.Logger == nil {
+		this.Logger = NewDefaultLogger()
 	}
-	defer xlog.Flush()
+	defer this.Logger.Flush()
+
+	this.initArgs()
 	this.initNode()
 
 	this.Derived.OnAppReady()
@@ -60,15 +60,13 @@ func (this *App) Close() {
 	close(this.signal)
 }
 
-func (this *App) initLog() bool {
-	if this.Logger == nil {
-		this.Logger = NewDefaultLogger()
+func (this *App) initLog() {
+	if this.Args.GetBase().Common.LogDir != "" {
+		os.MkdirAll(this.Args.GetBase().Common.LogDir, os.ModeDir)
 	}
-	if this.Logger.Init() == false {
-		return false
-	}
+	this.Logger.SetLogDir(&this.Args.GetBase().Common.LogDir)
+	this.Logger.SetLogLevel(this.Args.GetBase().Common.LogLevel)
 	SetLogger(this.Logger)
-	return true
 }
 
 func (this *App) initArgs() {
@@ -76,6 +74,8 @@ func (this *App) initArgs() {
 		return
 	}
 	this.Args.Init(this.Args.GetDerived())
+	this.initLog()
+	this.Args.GetDerived().OnInit()
 	SetArgs(this.Args.GetBase())
 }
 

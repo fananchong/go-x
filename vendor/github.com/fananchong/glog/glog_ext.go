@@ -82,6 +82,14 @@ func (l *loggingT) Fatalf(format string, args ...interface{}) {
 	l.printf(fatalLog, format, args...)
 }
 
+func (l *loggingT) SetLogLevel(level int) {
+	l.stderrThreshold = severity(level)
+}
+
+func (l *loggingT) SetLogDir(dir *string) {
+	logDir = dir
+}
+
 type LoggingT = loggingT
 
 func GetLogger() *LoggingT {

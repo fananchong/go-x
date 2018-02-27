@@ -9,8 +9,9 @@ type ArgsBase struct {
 }
 
 type ArgsCommon struct {
-	Version string // 版本号
-	LogCfg  string // log配置
+	Version  string `default:""` // 版本号
+	LogDir   string `default:""` // log路径
+	LogLevel int    `default:2`  // log等级
 }
 
 type ArgsPending struct {

@@ -37,7 +37,6 @@ func (this *ArgsBase) Init(derived IArgs) {
 	}
 	m := multiconfig.NewWithPath(cfg)
 	m.MustLoad(derived)
-	derived.OnInit()
 }
 
 func (this *ArgsBase) GetBase() *ArgsBase {

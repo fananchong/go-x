@@ -1,6 +1,7 @@
 [common]
 Version = "0.0.1"
-LogCfg = "xlog.json"
+LogDir = "./logs"
+LogLevel = 0
 
 [etcd]
 Hosts = ["192.168.1.12:12379", "192.168.1.12:22379", "192.168.1.12:32379"]

@@ -29,8 +29,9 @@ type ILogger interface {
 	Fatal(args ...interface{})
 	Fatalln(args ...interface{})
 	Fatalf(format string, args ...interface{})
-	Init() bool
 	Flush()
+	SetLogLevel(level int)
+	SetLogDir(dir *string)
 }
 
 func SetLogger(log ILogger) {
@@ -125,9 +126,12 @@ func (this *DefaultLogger) Fatalf(format string, args ...interface{}) {
 	panic("")
 }
 
-func (this *DefaultLogger) Init() bool {
-	return true
+func (this *DefaultLogger) Flush() {
 }
 
-func (this *DefaultLogger) Flush() {
+func (this *DefaultLogger) SetLogLevel(level int) {
+
+}
+
+func (this *DefaultLogger) SetLogDir(dir *string) {
 }

@@ -64,7 +64,7 @@ func (this *App) initLog() {
 	if this.Args.GetBase().Common.LogDir != "" {
 		os.MkdirAll(this.Args.GetBase().Common.LogDir, os.ModeDir)
 	}
-	this.Logger.SetLogDir(&this.Args.GetBase().Common.LogDir)
+	this.Logger.SetLogDir(this.Args.GetBase().Common.LogDir)
 	this.Logger.SetLogLevel(this.Args.GetBase().Common.LogLevel)
 	SetLogger(this.Logger)
 }

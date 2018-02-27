@@ -31,7 +31,7 @@ type ILogger interface {
 	Fatalf(format string, args ...interface{})
 	Flush()
 	SetLogLevel(level int)
-	SetLogDir(dir *string)
+	SetLogDir(dir string)
 }
 
 func SetLogger(log ILogger) {
@@ -133,5 +133,5 @@ func (this *DefaultLogger) SetLogLevel(level int) {
 
 }
 
-func (this *DefaultLogger) SetLogDir(dir *string) {
+func (this *DefaultLogger) SetLogDir(dir string) {
 }

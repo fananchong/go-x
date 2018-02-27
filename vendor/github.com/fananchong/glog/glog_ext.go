@@ -86,7 +86,7 @@ func (l *loggingT) SetLogLevel(level int) {
 	l.stderrThreshold = severity(level)
 }
 
-func (l *loggingT) SetLogDir(dir *string) {
+func (l *loggingT) SetLogDir(dir string) {
 	logDir = dir
 }
 

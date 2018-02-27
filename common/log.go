@@ -1,11 +1,9 @@
 package common
 
 import (
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
 
-	"github.com/fananchong/zap"
+	"github.com/fananchong/glog"
 )
 
 var (
@@ -43,37 +41,8 @@ func GetLogger() ILogger {
 	return xlog
 }
 
-type ZapLogger struct {
-	*zap.SugaredLogger
-}
-
-func NewZapLogger() *ZapLogger {
-	return &ZapLogger{}
-}
-
-func (this *ZapLogger) Init() bool {
-	rawJSON, err := ioutil.ReadFile(GetArgs().Common.LogCfg)
-	if err != nil {
-		fmt.Println("open logcfg file fail. file:", GetArgs().Common.LogCfg)
-		fmt.Println(err)
-		return false
-	}
-	var cfg zap.Config
-	if err := json.Unmarshal(rawJSON, &cfg); err != nil {
-		fmt.Println(err)
-		return false
-	}
-	logger, err := cfg.Build()
-	if err != nil {
-		fmt.Println(err)
-		return false
-	}
-	this.SugaredLogger = logger.Sugar()
-	return true
-}
-
-func (this *ZapLogger) Flush() {
-	this.SugaredLogger.Sync()
+func NewGLogger() *glog.LoggingT {
+	return glog.GetLogger()
 }
 
 type DefaultLogger struct {

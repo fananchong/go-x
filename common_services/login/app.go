@@ -6,7 +6,7 @@ import (
 
 var (
 	xargs *Args          = NewArgs()
-	xlog  common.ILogger = common.NewZapLogger()
+	xlog  common.ILogger = common.NewGLogger()
 	xnode *Node          = NewNode()
 	xapp  *App           = NewApp()
 )

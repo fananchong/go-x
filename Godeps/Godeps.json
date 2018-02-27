@@ -47,7 +47,7 @@
 		},
 		{
 			"ImportPath": "github.com/fananchong/glog",
-			"Rev": "5d710a7b3c2bfdc633046a7b148a2678bb839ef5"
+			"Rev": "8c2b0620ede5ee2b788e9328ded6e9f203a50b0b"
 		},
 		{
 			"ImportPath": "github.com/fananchong/go-discovery",

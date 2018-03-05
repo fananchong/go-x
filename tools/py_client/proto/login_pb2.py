@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='login.proto',
   package='proto',
   syntax='proto3',
-  serialized_pb=_b('\n\x0blogin.proto\x12\x05proto\"_\n\x08MsgLogin\x12\x0f\n\x07\x41\x63\x63ount\x18\x01 \x01(\t\x12\x10\n\x08Password\x18\x02 \x01(\t\x12\x1e\n\x04Mode\x18\x03 \x01(\x0e\x32\x10.proto.LoginMode\x12\x10\n\x08Userdata\x18\x04 \x01(\x0c\"R\n\x0eMsgLoginResult\x12\x1e\n\x03\x45rr\x18\x01 \x01(\x0e\x32\x11.proto.LoginError\x12\x11\n\tAccountId\x18\x02 \x01(\x04\x12\r\n\x05Token\x18\x03 \x01(\t*(\n\nMsgTypeCmd\x12\x0f\n\x0bUNSPECIFIED\x10\x00\x12\t\n\x05Login\x10\x01**\n\tLoginMode\x12\x0b\n\x07\x44\x65\x66\x61ult\x10\x00\x12\x10\n\x0c\x43USTOM_BEGIN\x10\x64*Z\n\nLoginError\x12\t\n\x05NoErr\x10\x00\x12\x0f\n\x0b\x45rrPassword\x10\x01\x12\x0e\n\nErrAccount\x10\x02\x12\x13\n\x0f\x45rrPlatformSide\x10\x03\x12\x0b\n\x07\x45rrMode\x10\x04\x62\x06proto3')
+  serialized_pb=_b('\n\x0blogin.proto\x12\x05proto\"_\n\x08MsgLogin\x12\x0f\n\x07\x41\x63\x63ount\x18\x01 \x01(\t\x12\x10\n\x08Password\x18\x02 \x01(\t\x12\x1e\n\x04Mode\x18\x03 \x01(\x0e\x32\x10.proto.LoginMode\x12\x10\n\x08Userdata\x18\x04 \x01(\x0c\"R\n\x0eMsgLoginResult\x12\x1e\n\x03\x45rr\x18\x01 \x01(\x0e\x32\x11.proto.LoginError\x12\x11\n\tAccountId\x18\x02 \x01(\x04\x12\r\n\x05Token\x18\x03 \x01(\t*(\n\nMsgTypeCmd\x12\x0f\n\x0bUNSPECIFIED\x10\x00\x12\t\n\x05Login\x10\x01**\n\tLoginMode\x12\x0b\n\x07\x44\x65\x66\x61ult\x10\x00\x12\x10\n\x0c\x43USTOM_BEGIN\x10\x64*e\n\nLoginError\x12\t\n\x05NoErr\x10\x00\x12\x0f\n\x0b\x45rrPassword\x10\x01\x12\x0e\n\nErrAccount\x10\x02\x12\x13\n\x0f\x45rrPlatformSide\x10\x03\x12\x0b\n\x07\x45rrMode\x10\x04\x12\t\n\x05\x45rrDB\x10\x05\x62\x06proto3')
 )
 
 _MSGTYPECMD = _descriptor.EnumDescriptor(
@@ -95,11 +95,15 @@ _LOGINERROR = _descriptor.EnumDescriptor(
       name='ErrMode', index=4, number=4,
       options=None,
       type=None),
+    _descriptor.EnumValueDescriptor(
+      name='ErrDB', index=5, number=5,
+      options=None,
+      type=None),
   ],
   containing_type=None,
   options=None,
   serialized_start=289,
-  serialized_end=379,
+  serialized_end=390,
 )
 _sym_db.RegisterEnumDescriptor(_LOGINERROR)
 
@@ -113,6 +117,7 @@ ErrPassword = 1
 ErrAccount = 2
 ErrPlatformSide = 3
 ErrMode = 4
+ErrDB = 5
 
 
 

@@ -59,7 +59,7 @@
 		},
 		{
 			"ImportPath": "github.com/fananchong/go-redis-orm.v2",
-			"Rev": "29ecd839d4d7f212bbc9989cc90e5df60cd56cae"
+			"Rev": "352c6d926ed77f68828289b1c66dc6a9d81b9221"
 		},
 		{
 			"ImportPath": "github.com/fananchong/gochart",

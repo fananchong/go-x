@@ -18,6 +18,9 @@ func NewRedisMgr() *RedisMgr {
 }
 
 func (this *RedisMgr) Create(dbName string, addrs []string, password string, dbindex int) error {
+	if _, ok := this.dbs[dbName]; ok {
+		return nil
+	}
 	if this.newRedis == nil {
 		return errors.New("no set new handler!")
 	}

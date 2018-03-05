@@ -19,6 +19,7 @@ enum LoginError {
     ErrAccount = 2;         // 帐号错误
     ErrPlatformSide = 3;    // 平台方错误
     ErrMode = 4;            // Mode错误
+    ErrDB = 5;              // 数据库错误
 }
 
 message MsgLogin

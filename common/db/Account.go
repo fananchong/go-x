@@ -7,14 +7,15 @@ package db
 
 import (
 	"errors"
-	"fmt"
+
 	go_redis_orm "github.com/fananchong/go-redis-orm.v2"
 	"github.com/garyburd/redigo/redis"
 )
 
 type Account struct {
-	Key  uint64
+	Key  string
 	pswd string
+	uid  uint64
 
 	__dirtyData map[string]interface{}
 	__isLoad    bool
@@ -22,11 +23,11 @@ type Account struct {
 	__dbName    string
 }
 
-func NewAccount(dbName string, key uint64) *Account {
+func NewAccount(dbName string, key string) *Account {
 	return &Account{
 		Key:         key,
 		__dbName:    dbName,
-		__dbKey:     "Account:" + fmt.Sprintf("%d", key),
+		__dbKey:     "Account:" + key,
 		__dirtyData: make(map[string]interface{}),
 	}
 }
@@ -51,15 +52,17 @@ func (this *Account) Load() error {
 		return err
 	}
 	if len(val) == 0 {
-		return errors.New("the key is not exist. key = " + this.__dbKey)
+		return go_redis_orm.ERR_ISNOT_EXIST_KEY
 	}
 	var data struct {
 		Pswd string `redis:"pswd"`
+		Uid  uint64 `redis:"uid"`
 	}
 	if err := redis.ScanStruct(val, &data); err != nil {
 		return err
 	}
 	this.pswd = data.Pswd
+	this.uid = data.Uid
 	this.__isLoad = true
 	return nil
 }
@@ -94,7 +97,16 @@ func (this *Account) GetPswd() string {
 	return this.pswd
 }
 
+func (this *Account) GetUid() uint64 {
+	return this.uid
+}
+
 func (this *Account) SetPswd(value string) {
 	this.pswd = value
 	this.__dirtyData["pswd"] = value
+}
+
+func (this *Account) SetUid(value uint64) {
+	this.uid = value
+	this.__dirtyData["uid"] = value
 }

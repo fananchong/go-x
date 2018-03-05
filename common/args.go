@@ -5,6 +5,7 @@ type ArgsBase struct {
 	Pending   ArgsPending // 悬而未决的配置，OnInit()函数内用户最终设置
 	Etcd      ArgsEtcd    // Etcd配置
 	DbAccount ArgsRedis   // 帐号数据库（Redis）
+	DbToken   ArgsRedis   // Token数据库（Redis）
 	Login     ArgsLogin   // 登录服务配置
 }
 
@@ -27,8 +28,10 @@ type ArgsEtcd struct {
 }
 
 type ArgsRedis struct {
-	Name  string   `default:""`
-	Addrs []string `default:""`
+	Name     string   `default:""`
+	Addrs    []string `default:""`
+	Password string   `default:""`
+	DBIndex  int      `default:0`
 }
 
 type ArgsLogin struct {

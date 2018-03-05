@@ -1,0 +1,3 @@
+[submodule "tools/build"]
+	path = tools/build
+	url = https://github.com/fananchong/my_build_tools.git

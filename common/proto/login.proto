@@ -20,6 +20,7 @@ enum LoginError {
     ErrPlatformSide = 3;    // 平台方错误
     ErrMode = 4;            // Mode错误
     ErrDB = 5;              // 数据库错误
+    ErrGateway = 6;         // 找不到Gateway
 }
 
 message MsgLogin
@@ -34,4 +35,5 @@ message MsgLoginResult
 {
     LoginError Err = 1;     // 0:登录成功；非0:错误号
     string Token = 2;       // 令牌
+    string Address = 3;     // Gateway IP、PORT(格式 ip:port)
 }

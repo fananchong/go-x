@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='login.proto',
   package='proto',
   syntax='proto3',
-  serialized_pb=_b('\n\x0blogin.proto\x12\x05proto\"_\n\x08MsgLogin\x12\x0f\n\x07\x41\x63\x63ount\x18\x01 \x01(\t\x12\x10\n\x08Password\x18\x02 \x01(\t\x12\x1e\n\x04Mode\x18\x03 \x01(\x0e\x32\x10.proto.LoginMode\x12\x10\n\x08Userdata\x18\x04 \x01(\x0c\"?\n\x0eMsgLoginResult\x12\x1e\n\x03\x45rr\x18\x01 \x01(\x0e\x32\x11.proto.LoginError\x12\r\n\x05Token\x18\x02 \x01(\t*(\n\nMsgTypeCmd\x12\x0f\n\x0bUNSPECIFIED\x10\x00\x12\t\n\x05Login\x10\x01**\n\tLoginMode\x12\x0b\n\x07\x44\x65\x66\x61ult\x10\x00\x12\x10\n\x0c\x43USTOM_BEGIN\x10\x64*e\n\nLoginError\x12\t\n\x05NoErr\x10\x00\x12\x0f\n\x0b\x45rrPassword\x10\x01\x12\x0e\n\nErrAccount\x10\x02\x12\x13\n\x0f\x45rrPlatformSide\x10\x03\x12\x0b\n\x07\x45rrMode\x10\x04\x12\t\n\x05\x45rrDB\x10\x05\x62\x06proto3')
+  serialized_pb=_b('\n\x0blogin.proto\x12\x05proto\"_\n\x08MsgLogin\x12\x0f\n\x07\x41\x63\x63ount\x18\x01 \x01(\t\x12\x10\n\x08Password\x18\x02 \x01(\t\x12\x1e\n\x04Mode\x18\x03 \x01(\x0e\x32\x10.proto.LoginMode\x12\x10\n\x08Userdata\x18\x04 \x01(\x0c\"P\n\x0eMsgLoginResult\x12\x1e\n\x03\x45rr\x18\x01 \x01(\x0e\x32\x11.proto.LoginError\x12\r\n\x05Token\x18\x02 \x01(\t\x12\x0f\n\x07\x41\x64\x64ress\x18\x03 \x01(\t*(\n\nMsgTypeCmd\x12\x0f\n\x0bUNSPECIFIED\x10\x00\x12\t\n\x05Login\x10\x01**\n\tLoginMode\x12\x0b\n\x07\x44\x65\x66\x61ult\x10\x00\x12\x10\n\x0c\x43USTOM_BEGIN\x10\x64*u\n\nLoginError\x12\t\n\x05NoErr\x10\x00\x12\x0f\n\x0b\x45rrPassword\x10\x01\x12\x0e\n\nErrAccount\x10\x02\x12\x13\n\x0f\x45rrPlatformSide\x10\x03\x12\x0b\n\x07\x45rrMode\x10\x04\x12\t\n\x05\x45rrDB\x10\x05\x12\x0e\n\nErrGateway\x10\x06\x62\x06proto3')
 )
 
 _MSGTYPECMD = _descriptor.EnumDescriptor(
@@ -40,8 +40,8 @@ _MSGTYPECMD = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=184,
-  serialized_end=224,
+  serialized_start=201,
+  serialized_end=241,
 )
 _sym_db.RegisterEnumDescriptor(_MSGTYPECMD)
 
@@ -63,8 +63,8 @@ _LOGINMODE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=226,
-  serialized_end=268,
+  serialized_start=243,
+  serialized_end=285,
 )
 _sym_db.RegisterEnumDescriptor(_LOGINMODE)
 
@@ -99,11 +99,15 @@ _LOGINERROR = _descriptor.EnumDescriptor(
       name='ErrDB', index=5, number=5,
       options=None,
       type=None),
+    _descriptor.EnumValueDescriptor(
+      name='ErrGateway', index=6, number=6,
+      options=None,
+      type=None),
   ],
   containing_type=None,
   options=None,
-  serialized_start=270,
-  serialized_end=371,
+  serialized_start=287,
+  serialized_end=404,
 )
 _sym_db.RegisterEnumDescriptor(_LOGINERROR)
 
@@ -118,6 +122,7 @@ ErrAccount = 2
 ErrPlatformSide = 3
 ErrMode = 4
 ErrDB = 5
+ErrGateway = 6
 
 
 
@@ -194,6 +199,13 @@ _MSGLOGINRESULT = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
+    _descriptor.FieldDescriptor(
+      name='Address', full_name='proto.MsgLoginResult.Address', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
   ],
   extensions=[
   ],
@@ -207,7 +219,7 @@ _MSGLOGINRESULT = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=119,
-  serialized_end=182,
+  serialized_end=199,
 )
 
 _MSGLOGIN.fields_by_name['Mode'].enum_type = _LOGINMODE

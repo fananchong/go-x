@@ -86,3 +86,13 @@ func (this *Node) SetBaseInfoOrdered(ordered uint32) {
 	defer this.mutex.Unlock()
 	this.info.Ordered = ordered
 }
+
+var xnode *Node
+
+func SetNode(node *Node) {
+	xnode = node
+}
+
+func GetNode() *Node {
+	return xnode
+}

@@ -87,6 +87,7 @@ func (this *App) initNode() {
 		node.SetLogger(xlog)
 		node.Init(this.Node)
 		node.Open(args.Etcd.Hosts, args.Etcd.NodeType, args.Etcd.WatchNodeTypes, int64(args.Etcd.PutInterval))
+		discovery.SetNode(node)
 	} else {
 	}
 }

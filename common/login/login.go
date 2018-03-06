@@ -31,9 +31,10 @@ func (this *Login) Start() bool {
 		this.cmds[proto.MsgTypeCmd_Login] = this.MsgLogin
 	}
 
+	go_redis_orm.SetNewRedisHandler(go_redis_orm.NewDefaultRedisClient)
+
 	// db account
 	this.dbAccountName = common.GetArgs().DbAccount.Name
-	go_redis_orm.SetNewRedisHandler(go_redis_orm.NewDefaultRedisClient)
 	err := go_redis_orm.CreateDB(this.dbAccountName, common.GetArgs().DbAccount.Addrs, common.GetArgs().DbAccount.Password, common.GetArgs().DbAccount.DBIndex)
 	if err != nil {
 		common.GetLogger().Errorln(err)
@@ -42,7 +43,6 @@ func (this *Login) Start() bool {
 
 	// db token
 	this.dbTokenName = common.GetArgs().DbToken.Name
-	go_redis_orm.SetNewRedisHandler(go_redis_orm.NewDefaultRedisClient)
 	err = go_redis_orm.CreateDB(this.dbTokenName, common.GetArgs().DbToken.Addrs, common.GetArgs().DbToken.Password, common.GetArgs().DbToken.DBIndex)
 	if err != nil {
 		common.GetLogger().Errorln(err)

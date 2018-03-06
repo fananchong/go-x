@@ -11,6 +11,7 @@ import (
 	go_redis_orm "github.com/fananchong/go-redis-orm.v2"
 	"github.com/fananchong/go-x/common"
 	"github.com/fananchong/go-x/common/db"
+	"github.com/fananchong/go-x/common/discovery"
 	"github.com/fananchong/go-x/common/proto"
 	proto1 "github.com/golang/protobuf/proto"
 )
@@ -75,6 +76,13 @@ func (this *Login) MsgLogin(w http.ResponseWriter, req *http.Request, data strin
 		accountId = uid
 	}
 
+	// 获取一个Gateway
+	gw, _ := discovery.GetNode().Servers.GetOne(int(common.Gateway))
+	if gw == nil {
+		w.Write(getErrRepString(proto.LoginError_ErrGateway))
+		return
+	}
+
 	// 生成Token、保存Token
 	temptkn := ""
 	uid, err := uuid.NewV4()
@@ -96,9 +104,11 @@ func (this *Login) MsgLogin(w http.ResponseWriter, req *http.Request, data strin
 
 	// 登录成功
 	common.GetLogger().Debugln("accountId =", accountId)
+	common.GetLogger().Debugln("gateway =", gw.GetExternalIp())
 	rep := &proto.MsgLoginResult{}
 	rep.Err = proto.LoginError_NoErr
 	rep.Token = temptkn
+	rep.Address = gw.GetExternalIp()
 	succmsg, _ := proto1.Marshal(rep)
 	w.Write(succmsg)
 }

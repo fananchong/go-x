@@ -7,7 +7,5 @@ call build.bat
 
 cd %MYDIR%
 
-start base.exe -cfg config.toml
-start gateway.exe -cfg config.toml
-start room.exe -cfg config.toml
-start login.exe -cfg config.toml
+start base.exe -cfg ..\..\assets\config.toml
+start room.exe -cfg ..\..\assets\config.toml

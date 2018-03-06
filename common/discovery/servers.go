@@ -24,12 +24,12 @@ type IMap interface {
 type Servers struct {
 	ss      map[int]IMap
 	creator func() IMap
-	mutex   sync.Mutex
+	mutex   sync.RWMutex
 }
 
 func (this *Servers) GetOne(nodeType int) (*ServerInfo, bool) {
-	this.mutex.Lock()
-	defer this.mutex.Unlock()
+	this.mutex.RLock()
+	defer this.mutex.RUnlock()
 	if m, ok := this.ss[nodeType]; ok {
 		if _, info, ok := m.GetOne(); ok {
 			return info.(*ServerInfo), true
@@ -39,8 +39,8 @@ func (this *Servers) GetOne(nodeType int) (*ServerInfo, bool) {
 }
 
 func (this *Servers) GetAll(nodeType int) ([]*ServerInfo, bool) {
-	this.mutex.Lock()
-	defer this.mutex.Unlock()
+	this.mutex.RLock()
+	defer this.mutex.RUnlock()
 	if m, ok := this.ss[nodeType]; ok {
 		ret := make([]*ServerInfo, 0)
 		for iter := m.Iterator(); iter.HasNext(); {

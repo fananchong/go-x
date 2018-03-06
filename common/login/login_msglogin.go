@@ -4,6 +4,9 @@ import (
 	"crypto/md5"
 	"fmt"
 	"net/http"
+	"time"
+
+	"github.com/satori/go.uuid"
 
 	go_redis_orm "github.com/fananchong/go-redis-orm.v2"
 	"github.com/fananchong/go-x/common"
@@ -61,16 +64,43 @@ func (this *Login) MsgLogin(w http.ResponseWriter, req *http.Request, data strin
 			w.Write(getErrRepString(proto.LoginError_ErrDB))
 			return
 		}
-		account := db.NewAccount(this.dbName, msg.GetAccount())
+		account := db.NewAccount(this.dbAccountName, msg.GetAccount())
 		account.SetUid(uid)
 		account.SetPswd(msg.GetPassword())
+		err = account.Save()
+		if err != nil {
+			w.Write(getErrRepString(proto.LoginError_ErrDB))
+			return
+		}
+		accountId = uid
 	}
 
 	// 生成Token、保存Token
+	temptkn := ""
+	uid, err := uuid.NewV4()
+	if err == nil {
+		temptkn = uid.String()
+	} else {
+		temptkn = fmt.Sprintf("%d%d", time.Now().UnixNano()*1234, accountId*2345)
+	}
+
+	token := db.NewToken(this.dbTokenName, msg.GetAccount())
+	token.Expire(60 * 30) // 30分钟
+	token.SetUid(accountId)
+	token.SetToken(temptkn)
+	err = token.Save()
+	if err != nil {
+		w.Write(getErrRepString(proto.LoginError_ErrDB))
+		return
+	}
 
 	// 登录成功
 	common.GetLogger().Debugln("accountId =", accountId)
-	w.Write(getErrRepString(proto.LoginError_NoErr))
+	rep := &proto.MsgLoginResult{}
+	rep.Err = proto.LoginError_NoErr
+	rep.Token = temptkn
+	succmsg, _ := proto1.Marshal(rep)
+	w.Write(succmsg)
 }
 
 // 帐号密码通过第3方平台获取的，密码都必须salt。
@@ -101,7 +131,7 @@ func (this *Login) checkPassword(msgPassword, dbPassword string, isSalt bool) bo
 }
 
 func (this *Login) loginByDefault(msg *proto.MsgLogin) (uint64, string, error) {
-	account := db.NewAccount(this.dbName, msg.GetAccount())
+	account := db.NewAccount(this.dbAccountName, msg.GetAccount())
 	err := account.Load()
 	if err != nil {
 		if err == go_redis_orm.ERR_ISNOT_EXIST_KEY {

@@ -33,6 +33,5 @@ message MsgLogin
 message MsgLoginResult
 {
     LoginError Err = 1;     // 0:登录成功；非0:错误号
-    uint64 AccountId = 2;   // 帐号ID
-    string Token = 3;       // 令牌
+    string Token = 2;       // 令牌
 }

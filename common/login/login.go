@@ -18,10 +18,11 @@ type LoginMsgHandlerType func(http.ResponseWriter, *http.Request, string, string
 
 type Login struct {
 	common.WebService
-	cmds    map[proto.MsgTypeCmd]LoginMsgHandlerType
-	dbName  string
-	suid    *db.SUID
-	Derived ILogin
+	cmds          map[proto.MsgTypeCmd]LoginMsgHandlerType
+	dbAccountName string
+	dbTokenName   string
+	suid          *db.SUID
+	Derived       ILogin
 }
 
 func (this *Login) Start() bool {
@@ -30,15 +31,31 @@ func (this *Login) Start() bool {
 		this.cmds[proto.MsgTypeCmd_Login] = this.MsgLogin
 	}
 
-	this.dbName = common.GetArgs().DbAccount.Name
+	// db account
+	this.dbAccountName = common.GetArgs().DbAccount.Name
 	go_redis_orm.SetNewRedisHandler(go_redis_orm.NewDefaultRedisClient)
-	err := go_redis_orm.CreateDB(this.dbName, common.GetArgs().DbAccount.Addrs, common.GetArgs().DbAccount.Password, common.GetArgs().DbAccount.DBIndex)
+	err := go_redis_orm.CreateDB(this.dbAccountName, common.GetArgs().DbAccount.Addrs, common.GetArgs().DbAccount.Password, common.GetArgs().DbAccount.DBIndex)
 	if err != nil {
 		common.GetLogger().Errorln(err)
 		return false
 	}
-	this.suid = &db.SUID{Cli: go_redis_orm.GetDB(this.dbName)}
+
+	// db token
+	this.dbTokenName = common.GetArgs().DbToken.Name
+	go_redis_orm.SetNewRedisHandler(go_redis_orm.NewDefaultRedisClient)
+	err = go_redis_orm.CreateDB(this.dbTokenName, common.GetArgs().DbToken.Addrs, common.GetArgs().DbToken.Password, common.GetArgs().DbToken.DBIndex)
+	if err != nil {
+		common.GetLogger().Errorln(err)
+		return false
+	}
+
+	// suid
+	this.suid = &db.SUID{Cli: go_redis_orm.GetDB(this.dbAccountName)}
+
+	// logger
 	pb.SetLogger(common.GetLogger())
+
+	// http service
 	this.HandleFunc("/msg", this.request)
 	this.ListenAndServe(common.GetArgs().Login.Listen)
 	return true

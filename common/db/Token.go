@@ -12,10 +12,10 @@ import (
 	"github.com/garyburd/redigo/redis"
 )
 
-type Account struct {
-	Key  string
-	pswd string
-	uid  uint64
+type Token struct {
+	Key   string
+	token string
+	uid   uint64
 
 	__dirtyData map[string]interface{}
 	__isLoad    bool
@@ -24,17 +24,17 @@ type Account struct {
 	__expire    uint
 }
 
-func NewAccount(dbName string, key string) *Account {
-	return &Account{
+func NewToken(dbName string, key string) *Token {
+	return &Token{
 		Key:         key,
 		__dbName:    dbName,
-		__dbKey:     "Account:" + key,
+		__dbKey:     "Token:" + key,
 		__dirtyData: make(map[string]interface{}),
 	}
 }
 
 // 若访问数据库失败返回-1；若 key 存在返回 1 ，否则返回 0 。
-func (this *Account) HasKey() (int, error) {
+func (this *Token) HasKey() (int, error) {
 	db := go_redis_orm.GetDB(this.__dbName)
 	val, err := redis.Int(db.Do("EXISTS", this.__dbKey))
 	if err != nil {
@@ -43,7 +43,7 @@ func (this *Account) HasKey() (int, error) {
 	return val, nil
 }
 
-func (this *Account) Load() error {
+func (this *Token) Load() error {
 	if this.__isLoad == true {
 		return errors.New("alreay load!")
 	}
@@ -56,19 +56,19 @@ func (this *Account) Load() error {
 		return go_redis_orm.ERR_ISNOT_EXIST_KEY
 	}
 	var data struct {
-		Pswd string `redis:"pswd"`
-		Uid  uint64 `redis:"uid"`
+		Token string `redis:"token"`
+		Uid   uint64 `redis:"uid"`
 	}
 	if err := redis.ScanStruct(val, &data); err != nil {
 		return err
 	}
-	this.pswd = data.Pswd
+	this.token = data.Token
 	this.uid = data.Uid
 	this.__isLoad = true
 	return nil
 }
 
-func (this *Account) Save() error {
+func (this *Token) Save() error {
 	if len(this.__dirtyData) == 0 {
 		return nil
 	}
@@ -85,7 +85,7 @@ func (this *Account) Save() error {
 	return nil
 }
 
-func (this *Account) Delete() error {
+func (this *Token) Delete() error {
 	db := go_redis_orm.GetDB(this.__dbName)
 	_, err := db.Do("DEL", this.__dbKey)
 	if err == nil {
@@ -95,28 +95,28 @@ func (this *Account) Delete() error {
 	return err
 }
 
-func (this *Account) IsLoad() bool {
+func (this *Token) IsLoad() bool {
 	return this.__isLoad
 }
 
-func (this *Account) Expire(v uint) {
+func (this *Token) Expire(v uint) {
 	this.__expire = v
 }
 
-func (this *Account) GetPswd() string {
-	return this.pswd
+func (this *Token) GetToken() string {
+	return this.token
 }
 
-func (this *Account) GetUid() uint64 {
+func (this *Token) GetUid() uint64 {
 	return this.uid
 }
 
-func (this *Account) SetPswd(value string) {
-	this.pswd = value
-	this.__dirtyData["pswd"] = value
+func (this *Token) SetToken(value string) {
+	this.token = value
+	this.__dirtyData["token"] = value
 }
 
-func (this *Account) SetUid(value uint64) {
+func (this *Token) SetUid(value uint64) {
 	this.uid = value
 	this.__dirtyData["uid"] = value
 }

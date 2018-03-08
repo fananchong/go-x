@@ -10,10 +10,6 @@ import (
 	"github.com/fananchong/go-x/common/proto"
 )
 
-type ILogin interface {
-	GetPassword(string, proto.LoginMode, []byte) (string, proto.LoginError)
-}
-
 type LoginMsgHandlerType func(http.ResponseWriter, *http.Request, string, string)
 
 type Login struct {

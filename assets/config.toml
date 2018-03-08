@@ -23,3 +23,7 @@ Listen = ":8000"
 Sign1 = "5UY6$f$h"
 Sign2 = "3wokZB%q"
 Sign3 = "%2Fi9TRf"
+
+[Gateway]
+ExternalIp = "192.168.1.12" #完整格式为IP:PORT。不填PORT，则自动生产。
+IntranetIp = "localhost"    #完整格式为IP:PORT。不填PORT，则自动生产。

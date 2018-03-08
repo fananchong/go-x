@@ -1,4 +1,4 @@
-package login
+package main
 
 import (
 	"net/http"
@@ -22,7 +22,10 @@ type Login struct {
 	dbAccountName string
 	dbTokenName   string
 	suid          *db.SUID
-	Derived       ILogin
+}
+
+func NewLogin() *Login {
+	return &Login{}
 }
 
 func (this *Login) Start() bool {
@@ -57,7 +60,7 @@ func (this *Login) Start() bool {
 
 	// http service
 	this.HandleFunc("/msg", this.request)
-	this.ListenAndServe(common.GetArgs().Login.Listen)
+	this.ListenAndServe(xargs.Login.Listen)
 	return true
 }
 

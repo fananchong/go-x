@@ -1,4 +1,4 @@
-package login
+package main
 
 import (
 	"crypto/md5"
@@ -28,7 +28,7 @@ func (this *Login) request(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	s1 := []byte(common.GetArgs().Login.Sign1 + paramc[0] + common.GetArgs().Login.Sign2 + paramt[0] + common.GetArgs().Login.Sign3 + common.GetArgs().Common.Version)
+	s1 := []byte(xargs.Login.Sign1 + paramc[0] + xargs.Login.Sign2 + paramt[0] + xargs.Login.Sign3 + xargs.Common.Version)
 	s2 := md5.Sum(s1)
 	s3 := fmt.Sprintf("%x", s2)
 
@@ -36,12 +36,12 @@ func (this *Login) request(w http.ResponseWriter, req *http.Request) {
 		common.GetLogger().Debugln("version error!")
 		common.GetLogger().Debugln("   client sign =", params[0])
 		common.GetLogger().Debugln("   server sign =", s3)
-		common.GetLogger().Debugln("   sign1 =", common.GetArgs().Login.Sign1)
-		common.GetLogger().Debugln("   sign2 =", common.GetArgs().Login.Sign2)
-		common.GetLogger().Debugln("   sign3 =", common.GetArgs().Login.Sign3)
+		common.GetLogger().Debugln("   sign1 =", xargs.Login.Sign1)
+		common.GetLogger().Debugln("   sign2 =", xargs.Login.Sign2)
+		common.GetLogger().Debugln("   sign3 =", xargs.Login.Sign3)
 		common.GetLogger().Debugln("   c =", paramc[0])
 		common.GetLogger().Debugln("   t =", paramt[0])
-		common.GetLogger().Debugln("   version =", common.GetArgs().Common.Version)
+		common.GetLogger().Debugln("   version =", xargs.Common.Version)
 
 		return
 	}

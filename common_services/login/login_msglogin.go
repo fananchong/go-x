@@ -1,4 +1,4 @@
-package login
+package main
 
 import (
 	"crypto/md5"
@@ -42,7 +42,7 @@ func (this *Login) MsgLogin(w http.ResponseWriter, req *http.Request, data strin
 		}
 	} else {
 		// 应用层的登录模式
-		passwd, err := this.Derived.GetPassword(msg.GetAccount(), msg.GetMode(), msg.GetUserdata())
+		passwd, err := this.GetPassword(msg.GetAccount(), msg.GetMode(), msg.GetUserdata())
 		if err != proto.LoginError_NoErr {
 			w.Write(getErrRepString(err))
 			return
@@ -131,7 +131,7 @@ func getErrRepString(err proto.LoginError) []byte {
 
 func (this *Login) checkPassword(msgPassword, dbPassword string, isSalt bool) bool {
 	if isSalt {
-		s1 := []byte(common.GetArgs().Login.Sign1 + dbPassword + common.GetArgs().Login.Sign2 + common.GetArgs().Common.Version)
+		s1 := []byte(xargs.Login.Sign1 + dbPassword + xargs.Login.Sign2 + xargs.Common.Version)
 		s2 := md5.Sum(s1)
 		s3 := fmt.Sprintf("%x", s2)
 		return msgPassword == s3

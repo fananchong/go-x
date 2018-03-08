@@ -5,10 +5,11 @@ import (
 )
 
 var (
-	xargs *Args          = NewArgs()
-	xlog  common.ILogger = common.NewGLogger()
-	xnode *Node          = NewNode()
-	xapp  *App           = NewApp()
+	xargs  *Args          = NewArgs()
+	xlog   common.ILogger = common.NewGLogger()
+	xnode  *Node          = NewNode()
+	xlogin *Login         = NewLogin()
+	xapp   *App           = NewApp()
 )
 
 type App struct {

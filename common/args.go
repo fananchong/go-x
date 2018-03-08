@@ -6,7 +6,6 @@ type ArgsBase struct {
 	Etcd      ArgsEtcd    // Etcd配置
 	DbAccount ArgsRedis   // 帐号数据库（Redis）
 	DbToken   ArgsRedis   // Token数据库（Redis）
-	Login     ArgsLogin   // 登录服务配置
 }
 
 type ArgsCommon struct {
@@ -32,11 +31,4 @@ type ArgsRedis struct {
 	Addrs    []string `default:""`
 	Password string   `default:""`
 	DBIndex  int      `default:0`
-}
-
-type ArgsLogin struct {
-	Listen string `default:":8000"`
-	Sign1  string `default:""`
-	Sign2  string `default:""`
-	Sign3  string `default:""`
 }

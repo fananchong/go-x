@@ -86,7 +86,7 @@ func (this *App) initNode() {
 		node.SetBaseInfoIP(args.Pending.ExternalIp, args.Pending.IntranetIp)
 		node.SetLogger(xlog)
 		node.Init(this.Node)
-		node.Open(args.Etcd.Hosts, args.Etcd.NodeType, args.Etcd.WatchNodeTypes, int64(args.Etcd.PutInterval))
+		node.Open(args.Etcd.Hosts, args.Pending.NodeType, args.Pending.WatchNodeTypes, int64(args.Etcd.PutInterval))
 		discovery.SetNode(node)
 	} else {
 	}

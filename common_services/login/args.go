@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/fananchong/go-x/common"
+	"github.com/fananchong/go-x/common/discovery"
 )
 
 type Args struct {
@@ -17,8 +18,10 @@ type ArgsLogin struct {
 }
 
 func (this *Args) OnInit() {
-	this.Etcd.NodeType = 0                                // 不需要同步信息到discovery
-	this.Etcd.WatchNodeTypes = []int{int(common.Gateway)} // 监视服务节点类型
+	this.Pending.NodeType = 0                                // 不需要同步信息到discovery
+	this.Pending.WatchNodeTypes = []int{int(common.Gateway)} // 监视服务节点类型
+	xnode.SetBaseInfoType(uint32(common.Login))              // 设置本节点类型
+	xnode.InitPolicy(discovery.Ordered)                      // 设置选取服务节点策略
 }
 
 func NewArgs() *Args {

@@ -2,13 +2,14 @@ package main
 
 import (
 	"github.com/fananchong/go-x/common"
+	"github.com/fananchong/go-x/common/discovery"
 )
 
 var (
-	xargs *Args          = NewArgs()
-	xlog  common.ILogger = common.NewGLogger()
-	xnode *Node          = NewNode()
-	xapp  *App           = NewApp()
+	xargs *Args           = NewArgs()
+	xlog  common.ILogger  = common.NewGLogger()
+	xnode *discovery.Node = &discovery.Node{}
+	xapp  *App            = NewApp()
 )
 
 type App struct {

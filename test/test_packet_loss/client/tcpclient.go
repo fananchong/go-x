@@ -6,7 +6,7 @@ import (
 	"net"
 	"time"
 
-	"github.com/fananchong/gonet"
+	"github.com/fananchong/gotcp"
 )
 
 func TcpClient() {
@@ -25,7 +25,7 @@ func TcpClient() {
 		conn.SetWriteBuffer(128 * 1024)
 		conn.SetReadBuffer(128 * 1024)
 
-		buf := gonet.NewByteBuffer()
+		buf := gotcp.NewByteBuffer()
 		msglen := len(MSG)
 		var tempbuf [1024]byte
 		for {

@@ -1,6 +1,9 @@
 package common
 
 import (
+	"fmt"
+	"net/http"
+	_ "net/http/pprof"
 	"os"
 	"os/signal"
 	"runtime"
@@ -37,6 +40,7 @@ func (this *App) Run() {
 	defer this.Logger.Flush()
 
 	this.initArgs()
+	this.initProf()
 	this.initNode()
 
 	this.Derived.OnAppReady()
@@ -54,10 +58,17 @@ func (this *App) Run() {
 	}
 
 	this.Derived.OnAppShutDown()
+	this.closeDetail()
 }
 
 func (this *App) Close() {
 	close(this.signal)
+}
+
+func (this *App) closeDetail() {
+	xlog.Infoln("app close ...")
+	node := this.Node.(godiscovery.INode).GetBase().(*discovery.Node)
+	node.Close()
 }
 
 func (this *App) initLog() {
@@ -89,5 +100,12 @@ func (this *App) initNode() {
 		node.Open(args.Etcd.Hosts, args.Pending.NodeType, args.Pending.WatchNodeTypes, int64(args.Etcd.PutInterval))
 		discovery.SetNode(node)
 	} else {
+	}
+}
+
+func (this *App) initProf() {
+	if this.Args.GetBase().Common.Debug {
+		port := 58000 + this.Args.GetBase().Pending.NodeType
+		go http.ListenAndServe(fmt.Sprintf(":%d", port), nil)
 	}
 }

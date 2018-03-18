@@ -12,6 +12,7 @@ type ArgsCommon struct {
 	Version  string `default:""` // 版本号
 	LogDir   string `default:""` // log路径
 	LogLevel int    `default:2`  // log等级
+	Debug    bool   `default:0`  // debug版本标志
 }
 
 type ArgsPending struct {

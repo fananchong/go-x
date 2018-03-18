@@ -41,6 +41,7 @@ func (this *App) OnAppShutDown() {
 }
 
 func (this *App) startUserServer() {
+	gotcp.SetLogger(xlog)
 	xsrv.RegisterSessType(UserSession{})
 	addrinfo := strings.Split(xargs.Gateway.ExternalIp, ":")
 	var port int

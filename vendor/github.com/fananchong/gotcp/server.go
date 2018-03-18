@@ -29,6 +29,7 @@ func (this *Server) Start(address string) bool {
 		xlog.Errorln(err)
 		return false
 	}
+	xlog.Infoln("start listen", address)
 	this.ctx, this.ctxCancel = context.WithCancel(context.Background())
 	go this.loop()
 	return true

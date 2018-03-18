@@ -67,17 +67,12 @@
 			"Rev": "64a48ce2749825d5cb5816f71424aa075c600d09"
 		},
 		{
-			"ImportPath": "github.com/fananchong/gonet",
-			"Comment": "17.09.09-11-gd255190",
-			"Rev": "d255190912e08be2e9d109491e486022f61e411c"
-		},
-		{
 			"ImportPath": "github.com/fananchong/goredis",
 			"Rev": "396b10f41c4db0ba5405120032d3a1b5c74054f0"
 		},
 		{
 			"ImportPath": "github.com/fananchong/gotcp",
-			"Rev": "a596b184f036ecc9d997fc3ae286ad93201fec23"
+			"Rev": "7874187e58fc5c9f0292d143f3636c829cad0079"
 		},
 		{
 			"ImportPath": "github.com/fananchong/multiconfig",

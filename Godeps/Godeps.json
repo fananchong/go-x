@@ -54,12 +54,8 @@
 			"Rev": "8c7e3222ed568d47fa46a6983b7a6fd1f7c1545f"
 		},
 		{
-			"ImportPath": "github.com/fananchong/go-proto-helper",
-			"Rev": "7882bd5b69dadd6ddca4955017b6e1e1ac9f8bf3"
-		},
-		{
 			"ImportPath": "github.com/fananchong/go-redis-orm.v2",
-			"Rev": "352c6d926ed77f68828289b1c66dc6a9d81b9221"
+			"Rev": "b88c92d69080611cacd9482ac6540866c23acda4"
 		},
 		{
 			"ImportPath": "github.com/fananchong/gochart",
@@ -78,6 +74,10 @@
 		{
 			"ImportPath": "github.com/fananchong/goredis",
 			"Rev": "396b10f41c4db0ba5405120032d3a1b5c74054f0"
+		},
+		{
+			"ImportPath": "github.com/fananchong/gotcp",
+			"Rev": "a596b184f036ecc9d997fc3ae286ad93201fec23"
 		},
 		{
 			"ImportPath": "github.com/fananchong/multiconfig",
@@ -104,27 +104,33 @@
 		},
 		{
 			"ImportPath": "github.com/golang/protobuf/proto",
-			"Rev": "1e59b77b52bf8e4b449a57e6f79f21226d571845"
+			"Comment": "v1.0.0-1-gbbd03ef",
+			"Rev": "bbd03ef6da3a115852eaf24c8a1c46aeb39aa175"
 		},
 		{
 			"ImportPath": "github.com/golang/protobuf/protoc-gen-go/descriptor",
-			"Rev": "1e59b77b52bf8e4b449a57e6f79f21226d571845"
+			"Comment": "v1.0.0-1-gbbd03ef",
+			"Rev": "bbd03ef6da3a115852eaf24c8a1c46aeb39aa175"
 		},
 		{
 			"ImportPath": "github.com/golang/protobuf/ptypes",
-			"Rev": "1e59b77b52bf8e4b449a57e6f79f21226d571845"
+			"Comment": "v1.0.0-1-gbbd03ef",
+			"Rev": "bbd03ef6da3a115852eaf24c8a1c46aeb39aa175"
 		},
 		{
 			"ImportPath": "github.com/golang/protobuf/ptypes/any",
-			"Rev": "1e59b77b52bf8e4b449a57e6f79f21226d571845"
+			"Comment": "v1.0.0-1-gbbd03ef",
+			"Rev": "bbd03ef6da3a115852eaf24c8a1c46aeb39aa175"
 		},
 		{
 			"ImportPath": "github.com/golang/protobuf/ptypes/duration",
-			"Rev": "1e59b77b52bf8e4b449a57e6f79f21226d571845"
+			"Comment": "v1.0.0-1-gbbd03ef",
+			"Rev": "bbd03ef6da3a115852eaf24c8a1c46aeb39aa175"
 		},
 		{
 			"ImportPath": "github.com/golang/protobuf/ptypes/timestamp",
-			"Rev": "1e59b77b52bf8e4b449a57e6f79f21226d571845"
+			"Comment": "v1.0.0-1-gbbd03ef",
+			"Rev": "bbd03ef6da3a115852eaf24c8a1c46aeb39aa175"
 		},
 		{
 			"ImportPath": "github.com/mna/redisc",

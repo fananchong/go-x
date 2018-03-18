@@ -1,4 +1,4 @@
-package pb
+package gotcp
 
 import (
 	"bytes"
@@ -36,11 +36,11 @@ func EncodeCmdEx(cmd uint64, msg proto.Message, maxCompressSize, maxCmdSize int)
 				datalen = mbufflen
 				flag = 1
 			} else {
-				xlog.Warningln("[协议] zlib压缩，大小更大! cmd = ", cmd)
+				xlog.Errorln("[协议] zlib压缩，大小更大! cmd = ", cmd)
 			}
 		}
 		if err != nil {
-			xlog.Warningln("[协议] zlib压缩，error = ", err)
+			xlog.Errorln("[协议] zlib压缩，error = ", err)
 		}
 	}
 

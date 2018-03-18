@@ -6,9 +6,9 @@ import (
 	"net/http"
 	"strconv"
 
-	pb "github.com/fananchong/go-proto-helper"
 	"github.com/fananchong/go-x/common"
 	"github.com/fananchong/go-x/common/proto"
+	"github.com/fananchong/gotcp"
 	proto1 "github.com/golang/protobuf/proto"
 )
 
@@ -55,5 +55,5 @@ func (this *Login) request(w http.ResponseWriter, req *http.Request) {
 }
 
 func (this *Login) decodeMsg(data string, msg proto1.Message) proto1.Message {
-	return pb.DecodeCmdEx([]byte(data), 0, &proto.MsgLogin{}, 0)
+	return gotcp.DecodeCmdEx([]byte(data), 0, &proto.MsgLogin{}, 0)
 }

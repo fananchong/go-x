@@ -3,11 +3,11 @@ package main
 import (
 	"net/http"
 
-	pb "github.com/fananchong/go-proto-helper"
 	go_redis_orm "github.com/fananchong/go-redis-orm.v2"
 	"github.com/fananchong/go-x/common"
 	"github.com/fananchong/go-x/common/db"
 	"github.com/fananchong/go-x/common/proto"
+	"github.com/fananchong/gotcp"
 )
 
 type LoginMsgHandlerType func(http.ResponseWriter, *http.Request, string, string)
@@ -52,7 +52,7 @@ func (this *Login) Start() bool {
 	this.suid = &db.SUID{Cli: go_redis_orm.GetDB(this.dbAccountName)}
 
 	// logger
-	pb.SetLogger(common.GetLogger())
+	gotcp.SetLogger(common.GetLogger())
 
 	// http service
 	this.HandleFunc("/msg", this.request)

@@ -36,7 +36,7 @@ func (this *Node) OnNodeUpdate(nodeType int, id string, data []byte) {
 	if err == nil {
 		this.Servers.Set(nodeType, id, info)
 	} else {
-		this.GetLogger().Errorln("[NODE] DATA ERROR!")
+		xlog.Errorln("[NODE] DATA ERROR!")
 	}
 }
 
@@ -46,7 +46,7 @@ func (this *Node) OnNodeJoin(nodeType int, id string, data []byte) {
 	if err == nil {
 		this.Servers.Set(nodeType, id, info)
 	} else {
-		this.GetLogger().Errorln("[NODE] DATA ERROR!")
+		xlog.Errorln("[NODE] DATA ERROR!")
 	}
 }
 
@@ -95,4 +95,11 @@ func SetNode(node *Node) {
 
 func GetNode() *Node {
 	return xnode
+}
+
+var xlog godiscovery.ILogger
+
+func SetLogger(log godiscovery.ILogger) {
+	xlog = log
+	godiscovery.SetLogger(log)
 }

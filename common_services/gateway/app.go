@@ -44,16 +44,6 @@ func (this *App) startUserServer() {
 	gotcp.SetLogger(xlog)
 	xsrv.RegisterSessType(UserSession{})
 	addrinfo := strings.Split(xargs.Gateway.ExternalIp, ":")
-	var port int
-	var err error
-	if len(addrinfo) < 2 {
-		port = gotcp.GetVaildPort()
-	} else {
-		port, err = strconv.Atoi(addrinfo[1])
-		if err != nil {
-			panic(err)
-			return
-		}
-	}
+	port, _ := strconv.Atoi(addrinfo[1])
 	xsrv.Start(fmt.Sprintf(":%d", port))
 }

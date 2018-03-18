@@ -1,6 +1,7 @@
 package godiscovery
 
 import (
+	"context"
 	"strconv"
 	"strings"
 	"sync"
@@ -14,11 +15,8 @@ type INode interface {
 	SetId(id string)
 	Init(inst interface{})
 	Open(hosts []string, nodeType int, watchNodeTypes []int, putInterval int64)
-	OpenByStr(hostsStr string, nodeType int, watchNodeTypesStr string, putInterval int64)
 	Close()
 	GetClient() *clientv3.Client
-	GetLogger() ILogger
-	SetLogger(log ILogger)
 	GetBase() interface{}
 }
 
@@ -30,12 +28,13 @@ type Node struct {
 	nodeType       int
 	watchNodeTypes []int
 	putInterval    int64
-	mutexClose     sync.Mutex
-	mutexVar       sync.RWMutex
-	log            ILogger
+	mutex          sync.RWMutex
+	ctx            context.Context
+	ctxCancel      context.CancelFunc
 }
 
 func (this *Node) Init(inst interface{}) {
+	this.ctx, this.ctxCancel = context.WithCancel(context.Background())
 	this.Watch.Derived = inst.(IWatch)
 	this.Put.Derived = inst.(IPut)
 }
@@ -51,15 +50,18 @@ func (this *Node) Open(hosts []string, nodeType int, watchNodeTypes []int, putIn
 	})
 	this.client = cli
 	if err != nil {
-		this.log.Errorln(err)
+		xlog.Errorln(err)
+		if cli != nil {
+			cli.Close()
+		}
 		go this.reopen()
 		return
 	}
 	if len(watchNodeTypes) != 0 {
-		this.Watch.Open(watchNodeTypes)
+		this.Watch.Open(this.ctx, watchNodeTypes)
 	}
 	if nodeType != 0 {
-		this.Put.Open(nodeType, putInterval)
+		this.Put.Open(this.ctx, nodeType, putInterval)
 	}
 }
 
@@ -79,18 +81,20 @@ func (this *Node) OpenByStr(hostsStr string, nodeType int, watchNodeTypesStr str
 }
 
 func (this *Node) Close() {
-	this.mutexClose.Lock()
-	defer this.mutexClose.Unlock()
+	this.mutex.Lock()
+	defer this.mutex.Unlock()
+	if this.ctxCancel != nil {
+		this.ctxCancel()
+		this.ctxCancel = nil
+	}
 	if this.client != nil {
 		this.client.Close()
 		this.client = nil
 	}
-	this.Put.Close()
-	this.Watch.Close()
 }
 
 func (this *Node) reopen() {
-	this.log.Infoln("reopen after 5 sec.")
+	xlog.Infoln("reopen after 5 sec.")
 	t := time.NewTimer(5 * time.Second)
 	select {
 	case <-t.C:
@@ -99,33 +103,21 @@ func (this *Node) reopen() {
 }
 
 func (this *Node) Id() string {
-	this.mutexVar.RLock()
-	defer this.mutexVar.RUnlock()
+	this.mutex.RLock()
+	defer this.mutex.RUnlock()
 	return this.Put.nodeId
 }
 
 func (this *Node) SetId(id string) {
-	this.mutexVar.Lock()
-	defer this.mutexVar.Unlock()
+	this.mutex.Lock()
+	defer this.mutex.Unlock()
 	this.Put.nodeId = id
 }
 
 func (this *Node) GetClient() *clientv3.Client {
-	this.mutexVar.RLock()
-	defer this.mutexVar.RUnlock()
+	this.mutex.RLock()
+	defer this.mutex.RUnlock()
 	return this.client
-}
-
-func (this *Node) GetLogger() ILogger {
-	this.mutexVar.RLock()
-	defer this.mutexVar.RUnlock()
-	return this.log
-}
-
-func (this *Node) SetLogger(log ILogger) {
-	this.mutexVar.Lock()
-	defer this.mutexVar.Unlock()
-	this.log = log
 }
 
 // 子类可以根据需要重载下面的方法

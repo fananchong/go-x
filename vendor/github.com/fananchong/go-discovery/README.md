@@ -4,7 +4,7 @@ discovery service for golang
 
 ### 例子
 
-```
+```go
 type MyNode struct {
 	godiscovery.Node
 }
@@ -16,15 +16,15 @@ func NewMyNode() *MyNode {
 }
 
 func (this *MyNode) OnNodeUpdate(nodeType int, id string, data []byte) {
-	xlog.Infoln("OnNodeUpdate: nodeType =", nodeType, "id =", id, "data =", data)
+	fmt.Println("OnNodeUpdate: nodeType =", nodeType, "id =", id, "data =", data)
 }
 
 func (this *MyNode) OnNodeJoin(nodeType int, id string, data []byte) {
-	xlog.Infoln("OnNodeJoin: nodeType =", nodeType, "id =", id, "data =", data)
+	fmt.Println("OnNodeJoin: nodeType =", nodeType, "id =", id, "data =", data)
 }
 
 func (this *MyNode) OnNodeLeave(nodeType int, id string) {
-	xlog.Infoln("OnNodeLeave: nodeType =", nodeType, "id =", id)
+	fmt.Println("OnNodeLeave: nodeType =", nodeType, "id =", id)
 }
 
 func (this *MyNode) GetPutData() (string, error) {
@@ -45,13 +45,13 @@ func main() {
 	flag.Parse()
 
 	node := NewMyNode()
-	node.SetLogger(xlog)
 	node.OpenByStr(hosts, nodeType, watchNodeTypes, putInterval)
 
 	for {
 		time.Sleep(time.Minute)
 	}
 }
+
 ```
 
 
@@ -64,10 +64,10 @@ func main() {
 
   - 提供2种Docker Swarm方式部署etcd
 
-启动脚本                                                                   | 说明
---------------------------------------------------------------------------|-----
-docker-swarm/install-etcd-static.sh                                       | 静态配置方式部署etcd
-docker-swarm/install-discovery.etcd.io.sh<br>docker-swarm/install-etcd.sh | etcd发现方式部署etcd
+	启动脚本                                                                   | 说明
+	--------------------------------------------------------------------------|-----
+	docker-swarm/install-etcd-static.sh                                       | 静态配置方式部署etcd
+	docker-swarm/install-discovery.etcd.io.sh<br>docker-swarm/install-etcd.sh | etcd发现方式部署etcd
 
 
   - 封装etcd client api (v3)，使用例子请参见example目录

@@ -95,7 +95,7 @@ func (this *App) initNode() {
 		args := this.Args.GetBase()
 		node := this.Node.(godiscovery.INode).GetBase().(*discovery.Node)
 		node.SetBaseInfoIP(args.Pending.ExternalIp, args.Pending.IntranetIp)
-		node.SetLogger(xlog)
+		discovery.SetLogger(xlog)
 		node.Init(this.Node)
 		node.Open(args.Etcd.Hosts, args.Pending.NodeType, args.Pending.WatchNodeTypes, int64(args.Etcd.PutInterval))
 		discovery.SetNode(node)

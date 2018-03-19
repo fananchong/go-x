@@ -1,0 +1,12 @@
+{
+  "name": "h5client",
+  "homepage": "https://github.com/fananchong/go-x",
+  "authors": [
+    "fananchong <fananchong@126.com>"
+  ],
+  "description": "h5client",
+  "license": "MIT",
+  "dependencies": {
+    "angular": "~1.6"
+  }
+}

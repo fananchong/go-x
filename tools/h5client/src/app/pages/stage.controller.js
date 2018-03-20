@@ -1,12 +1,25 @@
+var scopes = {};
+
 function initStage(app) {
   app.directive("runoobStage", function() {
     return {
       templateUrl: 'pages/stage.html'
     };
   });
-  initLogin(app);
-  initLobby(app);
-  initRoom(app);
+  initView(app, 'login');
+  initView(app, 'lobby');
+  initView(app, 'room');
+}
+
+
+
+function initView(app, view) {
+  app.directive('runoob' + toUpper(view), function() {
+    return {
+      templateUrl: 'pages/' + view + '.html'
+    };
+  });
+  window['init' + toUpper(view)](app);
 }
 
 function showView(view) {

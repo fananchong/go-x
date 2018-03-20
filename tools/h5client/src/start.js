@@ -1,4 +1,3 @@
-var scopes = {};
 var app;
 
 function startApp() {

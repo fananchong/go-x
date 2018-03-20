@@ -1,12 +1,15 @@
 {
   "name": "h5client",
-  "homepage": "https://github.com/fananchong/go-x",
-  "authors": [
-    "fananchong <fananchong@126.com>"
-  ],
   "description": "h5client",
   "license": "MIT",
   "dependencies": {
-    "angular": "~1.6"
+    "angular": "~1.6",
+    "bootstrap": "^4.0.0",
+    "angular-animate": "^1.6.9",
+    "angular-bootstrap": "^2.5.0",
+    "angular-ui-router": "^1.0.15",
+    "less": "^3.0.0",
+    "sweetalert": "^2.1.0",
+    "fontawesome": "~4.3.0"
   }
 }

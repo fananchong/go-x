@@ -26,17 +26,40 @@ var build_date = (new Date()).toISOString().replace(/T.*/, '');
 // FILES ======================================================================
 var vendor_js = [
   'bower_components/angular/angular.min.js',
+  'bower_components/angular-animate/angular-animate.min.js',
+  'bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js',
+  'bower_components/angular-ui-router/release/angular-ui-router.min.js',
+  'bower_components/sweetalert/dist/sweetalert.min.js',
 ];
-var vendor_css = [];
-var vendor_fonts = [];
+var vendor_css = [
+  'bower_components/bootstrap/dist/css/bootstrap.min.css',
+  'bower_components/sweetalert/dist/sweetalert.css',
+];
+var vendor_fonts = [
+  'bower_components/fontawesome/fonts/*',
+];
 
-var preload_js = [];
-var preload_css = [];
+var preload_js = [
+  'src/preload/*.js',
+];
+var preload_css = [
+  'bower_components/fontawesome/css/font-awesome.min.css',
+  'src/preload/*.css',
+];
 
-var app_js = [];
-var app_less = [];
-var app_imgs = [];
-var app_html = [];
+var app_js = [
+  'src/app/**/*.js',
+  'src/start.js',
+];
+var app_less = [
+  'src/app/**/*.less',
+];
+var app_imgs = [
+  'src/app/imgs/*.ico',
+];
+var app_html = [
+  'src/app/**/*.html',
+];
 var app_entry = [
   'src/index.html',
   'src/package.json',

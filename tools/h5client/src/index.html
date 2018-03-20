@@ -2,24 +2,71 @@
 <html>
 
 <head>
-  <meta charset="UTF-8">
-  <title>Hello World!</title>
+  <meta charset="utf-8" />
+  <link rel="shortcut icon" type="image/x-icon" href="imgs/favicon.ico" />
+  <title>H5Client - v[BUILD_VERSION]</title>
+
+  <link rel="stylesheet" href="css/preload.min.css">
+  <script type="text/javascript" src="js/preload.min.js"></script>
 </head>
 
-<body>
-  <h1>Hello World!</h1>
-  <!-- All of the Node.js APIs are available in this renderer process. -->
-  We are using Node.js
-  <script>
-    document.write(process.versions.node)
-  </script>, Chromium
-  <script>
-    document.write(process.versions.chrome)
-  </script>, and Electron
-  <script>
-    document.write(process.versions.electron)
-  </script>.
+<body ng-app="app">
 
+  <!-- PRELOAD PAGE -->
+  <div id="page-preload" class="preloading">
+    <div class="preloading-body">
+
+      <span class="preloading-body-title">
+        <i class="fa fa-gear fa-spin"></i>
+        <strong>H5Client</strong>
+      </span>
+      <span id="page-preload-progress" class="preloading-body-subtitle">
+        Loading...
+      </span>
+
+    </div>
+  </div>
+  <!-- END PRELOAD PAGE -->
+
+  <!-- APP PAGE -->
+  <div>
+    <runoob-stage></runoob-stage>
+  </div>
+  <!-- END APP PAGE -->
 </body>
 
 </html>
+
+
+
+<script>
+  PreloadProgress('Loading vendor styles...');
+</script>
+<link rel="stylesheet" href="css/vendor.min.css">
+
+<script>
+  PreloadProgress('Loading app styles...');
+</script>
+<link rel="stylesheet" href="css/app.min.css">
+
+<script>
+  PreloadProgress('Loading vendor libraries...');
+</script>
+<script type="text/javascript" src="js/vendor.min.js"></script>
+
+<script>
+  PreloadProgress('Loading app libraries...');
+</script>
+<script type="text/javascript" src="js/app.min.js"></script>
+
+<script>
+  PreloadProgress('Loading templates...');
+</script>
+<script type="text/javascript" src="js/templates.min.js"></script>
+
+<script>
+  PreloadProgress('Starting application... Have Fun!');
+</script>
+<script>
+  StartApp();
+</script>

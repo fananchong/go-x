@@ -1,5 +1,5 @@
-function initStage(app) {
-  initPage(app, 'login');
-  initPage(app, 'lobby');
-  initPage(app, 'room');
+function onLoadStage(app) {
+  loadPage(app, 'login');
+  loadPage(app, 'lobby');
+  loadPage(app, 'room');
 }

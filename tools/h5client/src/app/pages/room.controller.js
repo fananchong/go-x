@@ -1,12 +1,13 @@
-function initRoom(app) {
-  app.controller("room", roomCtrl);
+function onLoadRoom(app) {
+  app.controller('room', roomCtrl);
 
   roomCtrl.$inject = [
-    '$scope'
+    '$scope',
+    'pageEvent'
   ];
 
-  function roomCtrl($scope) {
-    scopes.room = $scope;
+  function roomCtrl($scope, pageEvent) {
+    bindEvent_showPage($scope, pageEvent, 'room');
     $scope.enable = false;
   }
 }

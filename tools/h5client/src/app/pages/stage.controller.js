@@ -11,8 +11,6 @@ function initStage(app) {
   initView(app, 'room');
 }
 
-
-
 function initView(app, view) {
   app.directive('runoob' + toUpper(view), function() {
     return {

@@ -6,7 +6,7 @@ function initRoom(app) {
   ];
 
   function roomCtrl($scope) {
-    scopes.room = $scope
+    scopes.room = $scope;
     $scope.enable = false;
   }
 }

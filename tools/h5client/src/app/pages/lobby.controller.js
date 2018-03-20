@@ -6,7 +6,7 @@ function initLobby(app) {
   ];
 
   function lobbyCtrl($scope) {
-    scopes.lobby = $scope
+    scopes.lobby = $scope;
     $scope.enable = false;
   }
 }

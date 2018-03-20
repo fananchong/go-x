@@ -6,10 +6,10 @@ function initLogin(app) {
   ];
 
   function loginCtrl($scope) {
-    scopes.login = $scope
+    scopes.login = $scope;
     $scope.enable = true;
     $scope.click = function() {
-      showView("lobby");
+      showPage("lobby");
     };
   }
 }

@@ -1,5 +1,5 @@
 function startApp() {
   var app = angular.module("app", ['templates']);
   closePreload(app);
-  initStage(app);
+  initPage(app, 'stage');
 }

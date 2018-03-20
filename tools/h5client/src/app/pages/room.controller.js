@@ -1,13 +1,5 @@
-function onLoadRoom(app) {
-  app.controller('room', roomCtrl);
-
-  roomCtrl.$inject = [
-    '$scope',
-    'pageEvent'
-  ];
-
-  function roomCtrl($scope, pageEvent) {
-    bindEvent_showPage($scope, pageEvent, 'room');
-    $scope.enable = false;
-  }
+function onControllerRoom($scope, pageEvent, pageName) {
+  $scope.click = function() {
+    showPage(pageEvent, 'login');
+  };
 }

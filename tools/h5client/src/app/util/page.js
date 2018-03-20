@@ -4,7 +4,27 @@ function loadPage(app, page) {
       templateUrl: 'pages/' + page + '.html'
     };
   });
-  window['onLoad' + toUpper(page)](app);
+
+  var onLoad = window['onLoad' + toUpper(page)];
+  if (onLoad != null) {
+    onLoad(app);
+  }
+
+  function ctrl($scope, pageEvent) {
+    pageEvent.on('showPage', function(event, data) {
+      $scope.enable = (data == page);
+    }, $scope);
+    $scope.enable = false;
+    onController($scope, pageEvent, page);
+  }
+  var onController = window['onController' + toUpper(page)];
+  if (onController != null) {
+    app.controller(page, ctrl);
+    ctrl.$inject = [
+      '$scope',
+      'pageEvent'
+    ];
+  }
 }
 
 function initPageEventGenerator(app) {
@@ -33,10 +53,4 @@ function initPageEventGenerator(app) {
 // event: showPage
 function showPage(pageEvent, page) {
   pageEvent.emit('showPage', page);
-}
-
-function bindEvent_showPage($scope, pageEvent, page) {
-  pageEvent.on('showPage', function(event, data) {
-    $scope.enable = (data == page);
-  }, $scope);
 }

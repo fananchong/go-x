@@ -1,15 +1,9 @@
 {
-  "name": "h5client",
-  "version": "[BUILD_VERSION]",
-  "main": "main.js",
+  "name": "H5Client",
+  "version": "0.1.0",
+  "main": "app.js",
   "window": {
-    "title": "h5client (v[BUILD_VERSION]) https://github.com/fananchong/go-x",
-    "position": "center",
-    "toolbar": false,
-    "frame": true,
-    "width": 1000,
-    "height": 800,
-    "min_width": 1000,
-    "min_height": 800
+    "title": "H5Client (v[0.1.0]) https://github.com/fananchong/go-x",
+    "position": "center"
   }
 }

@@ -20,10 +20,19 @@
     "gulp-replace": "^0.6.1",
     "gulp-uglify": "^3.0.0",
     "gulp-zip": "^4.1.0",
+    "http-server": "^0.11.1",
     "jshint": "^2.9.5",
     "jshint-stylish": "^2.2.1",
     "merge-stream": "^1.0.1",
     "rimraf": "^2.6.2"
   },
-  "dependencies": {}
+  "dependencies": {
+    "angular": "^1.6.9",
+    "electron": "^1.8.4",
+    "sprintf-js": "^1.1.1"
+  },
+  "scripts": {
+    "desktop": "electron .",
+    "web": "http-server -p 8000"
+  }
 }

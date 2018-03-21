@@ -1,11 +1,22 @@
-function loadPage(app, page) {
-  app.directive('runoob' + toUpper(page), function() {
+"use strict"
+
+var Util = require('../util/util.js')
+
+module.exports = Page
+
+function Page() {}
+
+Page.loadPage = function(app, page) {
+
+  app.directive('runoob' + Util.toUpper(page), function() {
     return {
-      templateUrl: 'pages/' + page + '.html'
+      templateUrl: 'app/pages/' + page + '.html'
     };
   });
 
-  var onLoad = window['onLoad' + toUpper(page)];
+  var pageX = require('./' + page + '.controller.js');
+
+  var onLoad = pageX.onLoad;
   if (onLoad != null) {
     onLoad(app);
   }
@@ -17,7 +28,7 @@ function loadPage(app, page) {
     $scope.enable = false;
     onController($scope, pageEvent, page);
   }
-  var onController = window['onController' + toUpper(page)];
+  var onController = pageX.onController;
   if (onController != null) {
     app.controller(page, ctrl);
     ctrl.$inject = [
@@ -27,7 +38,7 @@ function loadPage(app, page) {
   }
 }
 
-function initPageEventGenerator(app) {
+Page.initPageEventGenerator = function(app) {
   app.factory('pageEvent', pageEvent);
 
   pageEvent.$inject = [
@@ -50,7 +61,6 @@ function initPageEventGenerator(app) {
   }
 }
 
-// event: showPage
-function showPage(pageEvent, page) {
+Page.showPage = function(pageEvent, page) {
   pageEvent.emit('showPage', page);
 }

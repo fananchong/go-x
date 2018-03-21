@@ -1,6 +1,14 @@
-function onControllerLogin($scope, pageEvent, pageName) {
+"use strict"
+
+var Page = require('./page.js')
+
+module.exports = PageLogin
+
+function PageLogin() {}
+
+PageLogin.onController = function($scope, pageEvent, pageName) {
   $scope.enable = true;
   $scope.click = function() {
-    showPage(pageEvent, 'lobby');
+    Page.showPage(pageEvent, 'lobby');
   };
 }

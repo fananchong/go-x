@@ -1,5 +1,13 @@
-function onControllerLobby($scope, pageEvent, pageName) {
+"use strict"
+
+var Page = require('./page.js')
+
+module.exports = PageLobby
+
+function PageLobby() {}
+
+PageLobby.onController = function($scope, pageEvent, pageName) {
   $scope.click = function() {
-    showPage(pageEvent, 'room');
+    Page.showPage(pageEvent, 'room');
   };
 }

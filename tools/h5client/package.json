@@ -32,7 +32,7 @@
     "sprintf-js": "^1.1.1"
   },
   "scripts": {
-    "desktop": "electron .",
-    "web": "http-server -p 8000"
+    "desktop": "webpack --mode=development && cd src && electron .",
+    "web": "webpack --mode=development && cd src && http-server -p 8000"
   }
 }

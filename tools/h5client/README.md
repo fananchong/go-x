@@ -45,7 +45,7 @@ npm install
 - NodeJS服务器版
 
   ```
-  npm run web
+  npm start web
   ```
 
   浏览器键入`http://127.0.0.1:12345`，来访问。
@@ -53,7 +53,7 @@ npm install
 - 桌面版
 
   ```
-  npm run app
+  npm start app
   ```
 
 ## 打包发布

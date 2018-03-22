@@ -6,7 +6,7 @@ module.exports = PageRoom
 
 function PageRoom() {}
 
-PageRoom.onController = function($scope, pageEvent, pageName) {
+PageRoom.onController = function($scope, $http, user, pageEvent) {
   $scope.click = function() {
     Page.showPage(pageEvent, 'login');
   };

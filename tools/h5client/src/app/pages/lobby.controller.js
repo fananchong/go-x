@@ -6,7 +6,7 @@ module.exports = PageLobby
 
 function PageLobby() {}
 
-PageLobby.onController = function($scope, pageEvent, pageName) {
+PageLobby.onController = function($scope, $http, user, pageEvent) {
   $scope.click = function() {
     Page.showPage(pageEvent, 'room');
   };

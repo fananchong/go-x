@@ -21,31 +21,33 @@ Page.loadPage = function(app, page) {
     onLoad(app);
   }
 
-  function ctrl($scope, pageEvent) {
+  function ctrl($scope, $http, user, pageEvent) {
     pageEvent.on('showPage', function(event, data) {
       $scope.enable = (data == page);
     }, $scope);
     $scope.enable = false;
-    onController($scope, pageEvent, page);
+    onController($scope, $http, user, pageEvent);
   }
   var onController = pageX.onController;
   if (onController != null) {
     app.controller(page, ctrl);
     ctrl.$inject = [
       '$scope',
+      '$http',
+      'user',
       'pageEvent'
     ];
   }
 }
 
 Page.initPageEventGenerator = function(app) {
-  app.factory('pageEvent', pageEvent);
+  app.factory('pageEvent', obj);
 
-  pageEvent.$inject = [
+  obj.$inject = [
     '$rootScope'
   ];
 
-  function pageEvent($rootScope) {
+  function obj($rootScope) {
     var msgBus = {};
     msgBus.emit = function(msg, data) {
       data = data || {};

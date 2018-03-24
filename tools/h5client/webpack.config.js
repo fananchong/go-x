@@ -15,8 +15,11 @@ module.exports = {
   ],
   output: {
     path: __dirname,
-    publicPath: '/',
+    publicPath: './src',
     filename: "./src/bundle.js"
+  },
+  devServer: {
+    "open": true
   },
   node: {
     fs: 'empty'

@@ -1,9 +1,7 @@
-"use strict"
+module.exports = Util;
 
-module.exports = Util
+function Util() { }
 
-function Util() {}
-
-Util.toUpper = function(s) {
+Util.toUpper = function (s) {
   return s.substring(0, 1).toUpperCase() + s.substring(1);
-}
+};

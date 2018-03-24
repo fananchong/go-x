@@ -5,9 +5,9 @@ function preloadProgress(message) {
 
 function closePreload(app) {
   app.run(['$animate', '$timeout', function Execute($animate, $timeout) {
-    $timeout(function() {
+    $timeout(function () {
       var element = angular.element(document.getElementById('page-preload'));
-      $animate.addClass(element, 'preload-fade').then(function() {
+      $animate.addClass(element, 'preload-fade').then(function () {
         element.remove();
       });
     }, 500);

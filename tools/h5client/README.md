@@ -45,15 +45,15 @@ npm install
 - NodeJS服务器版
 
   ```
-  npm start web
+  npm run web
   ```
 
-  浏览器键入`http://127.0.0.1:12345`，来访问。
+  浏览器键入`http://127.0.0.1:8000`，来访问。
 
 - 桌面版
 
   ```
-  npm start app
+  npm run app
   ```
 
 ## 打包发布

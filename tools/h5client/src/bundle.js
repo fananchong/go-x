@@ -62,7 +62,7 @@
 /******/ 	}
 /******/
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "ae1d7b0a498b52a0f667"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "583df3a78a462a30ed72"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -752,7 +752,7 @@
 /******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "/";
+/******/ 	__webpack_require__.p = "./src";
 /******/
 /******/ 	// __webpack_hash__
 /******/ 	__webpack_require__.h = function() { return hotCurrentHash; };
@@ -37033,20 +37033,17 @@ webpackContext.id = "./src/app/pages sync recursive ^\\.\\/.*\\.controller\\.js$
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+var Page = __webpack_require__(/*! ./page.js */ "./src/app/pages/page.js");
 
+module.exports = PageLobby;
 
-var Page = __webpack_require__(/*! ./page.js */ "./src/app/pages/page.js")
+function PageLobby() { }
 
-module.exports = PageLobby
-
-function PageLobby() {}
-
-PageLobby.onController = function($scope, $http, user, pageEvent) {
-  $scope.click = function() {
+PageLobby.onController = function ($scope, $http, user, pageEvent) {
+  $scope.click = function () {
     Page.showPage(pageEvent, 'room');
   };
-}
+};
 
 /***/ }),
 
@@ -37057,23 +37054,20 @@ PageLobby.onController = function($scope, $http, user, pageEvent) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+var Page = __webpack_require__(/*! ./page.js */ "./src/app/pages/page.js");
+__webpack_require__(/*! sprintf-js */ "./node_modules/_sprintf-js@1.1.1@sprintf-js/src/sprintf.js");
 
+module.exports = PageLogin;
 
-var Page = __webpack_require__(/*! ./page.js */ "./src/app/pages/page.js")
-__webpack_require__(/*! sprintf-js */ "./node_modules/_sprintf-js@1.1.1@sprintf-js/src/sprintf.js")
+function PageLogin() { }
 
-module.exports = PageLogin
-
-function PageLogin() {}
-
-PageLogin.onController = function($scope, $http, user, pageEvent) {
+PageLogin.onController = function ($scope, $http, user, pageEvent) {
   $scope.enable = true;
   $scope.txtaccount = 'test1';
   $scope.txtpassword = '123456';
   $scope.txtip = '127.0.0.1';
   $scope.txtport = 8080;
-  $scope.click = function() {
+  $scope.click = function () {
     onClick($scope, $http);
   };
 
@@ -37091,35 +37085,9 @@ PageLogin.onController = function($scope, $http, user, pageEvent) {
       alert("密码不能为空！");
       return;
     }
-
-    var UserLoginReq = {
-      "User": $scope.txtaccount,
-      "Password": $scope.txtpassword
-    };
-    var data = JSON.stringify(UserLoginReq);
-    var url = sprintf("http://%s:%s/login", $scope.txtip, $scope.txtport);
-
-    $http({
-      url: url,
-      method: 'POST',
-      data: data,
-      async: false,
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        'Access-Control-Allow-Methods': 'POST',
-        'Access-Control-Allow-Headers': 'Accept,X-Custom-Header,X-Requested-With,Content-Type,Origin'
-      }
-    }).then(function success(response) {
-      console.log("login to Login success!");
-      console.log('response:', response);
-      user.Login(response.data)
-    }, function fail(response) {
-      console.log("login to Login fail!");
-      console.log('response:', response);
-      alert("login fail.\nresponse:" + JSON.stringify(response));
-    });
   }
-}
+
+};
 
 /***/ }),
 
@@ -37130,18 +37098,15 @@ PageLogin.onController = function($scope, $http, user, pageEvent) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+var Util = __webpack_require__(/*! ../util/util.js */ "./src/app/util/util.js");
 
+module.exports = Page;
 
-var Util = __webpack_require__(/*! ../util/util.js */ "./src/app/util/util.js")
+function Page() { }
 
-module.exports = Page
+Page.loadPage = function (app, page) {
 
-function Page() {}
-
-Page.loadPage = function(app, page) {
-
-  app.directive('runoob' + Util.toUpper(page), function() {
+  app.directive('runoob' + Util.toUpper(page), function () {
     return {
       templateUrl: 'app/pages/' + page + '.html'
     };
@@ -37155,7 +37120,7 @@ Page.loadPage = function(app, page) {
   }
 
   function ctrl($scope, $http, user, pageEvent) {
-    pageEvent.on('showPage', function(event, data) {
+    pageEvent.on('showPage', function (event, data) {
       $scope.enable = (data == page);
     }, $scope);
     $scope.enable = false;
@@ -37171,9 +37136,9 @@ Page.loadPage = function(app, page) {
       'pageEvent'
     ];
   }
-}
+};
 
-Page.initPageEventGenerator = function(app) {
+Page.initPageEventGenerator = function (app) {
   app.factory('pageEvent', obj);
 
   obj.$inject = [
@@ -37182,11 +37147,11 @@ Page.initPageEventGenerator = function(app) {
 
   function obj($rootScope) {
     var msgBus = {};
-    msgBus.emit = function(msg, data) {
+    msgBus.emit = function (msg, data) {
       data = data || {};
       $rootScope.$emit(msg, data);
     };
-    msgBus.on = function(msg, func, scope) {
+    msgBus.on = function (msg, func, scope) {
       var unbind = $rootScope.$on(msg, func);
       if (scope) {
         scope.$on('$destroy', unbind);
@@ -37194,11 +37159,11 @@ Page.initPageEventGenerator = function(app) {
     };
     return msgBus;
   }
-}
+};
 
-Page.showPage = function(pageEvent, page) {
+Page.showPage = function (pageEvent, page) {
   pageEvent.emit('showPage', page);
-}
+};
 
 /***/ }),
 
@@ -37209,20 +37174,17 @@ Page.showPage = function(pageEvent, page) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+var Page = __webpack_require__(/*! ./page.js */ "./src/app/pages/page.js");
 
+module.exports = PageRoom;
 
-var Page = __webpack_require__(/*! ./page.js */ "./src/app/pages/page.js")
+function PageRoom() { }
 
-module.exports = PageRoom
-
-function PageRoom() {}
-
-PageRoom.onController = function($scope, $http, user, pageEvent) {
-  $scope.click = function() {
+PageRoom.onController = function ($scope, $http, user, pageEvent) {
+  $scope.click = function () {
     Page.showPage(pageEvent, 'login');
   };
-}
+};
 
 /***/ }),
 
@@ -37233,20 +37195,17 @@ PageRoom.onController = function($scope, $http, user, pageEvent) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+var Page = __webpack_require__(/*! ./page.js */ "./src/app/pages/page.js");
 
+module.exports = PageStage;
 
-var Page = __webpack_require__(/*! ./page.js */ "./src/app/pages/page.js")
+function PageStage() { }
 
-module.exports = PageStage
-
-function PageStage() {}
-
-PageStage.onLoad = function(app) {
+PageStage.onLoad = function (app) {
   Page.loadPage(app, 'login');
   Page.loadPage(app, 'lobby');
   Page.loadPage(app, 'room');
-}
+};
 
 
 /***/ }),
@@ -37256,18 +37215,15 @@ PageStage.onLoad = function(app) {
   !*** ./src/app/util/util.js ***!
   \******************************/
 /*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
+module.exports = Util;
 
+function Util() { }
 
-module.exports = Util
-
-function Util() {}
-
-Util.toUpper = function(s) {
+Util.toUpper = function (s) {
   return s.substring(0, 1).toUpperCase() + s.substring(1);
-}
+};
 
 
 /***/ }),

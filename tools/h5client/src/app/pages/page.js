@@ -1,14 +1,12 @@
-"use strict"
+var Util = require('../util/util.js');
 
-var Util = require('../util/util.js')
+module.exports = Page;
 
-module.exports = Page
+function Page() { }
 
-function Page() {}
+Page.loadPage = function (app, page) {
 
-Page.loadPage = function(app, page) {
-
-  app.directive('runoob' + Util.toUpper(page), function() {
+  app.directive('runoob' + Util.toUpper(page), function () {
     return {
       templateUrl: 'app/pages/' + page + '.html'
     };
@@ -22,7 +20,7 @@ Page.loadPage = function(app, page) {
   }
 
   function ctrl($scope, $http, user, pageEvent) {
-    pageEvent.on('showPage', function(event, data) {
+    pageEvent.on('showPage', function (event, data) {
       $scope.enable = (data == page);
     }, $scope);
     $scope.enable = false;
@@ -38,9 +36,9 @@ Page.loadPage = function(app, page) {
       'pageEvent'
     ];
   }
-}
+};
 
-Page.initPageEventGenerator = function(app) {
+Page.initPageEventGenerator = function (app) {
   app.factory('pageEvent', obj);
 
   obj.$inject = [
@@ -49,11 +47,11 @@ Page.initPageEventGenerator = function(app) {
 
   function obj($rootScope) {
     var msgBus = {};
-    msgBus.emit = function(msg, data) {
+    msgBus.emit = function (msg, data) {
       data = data || {};
       $rootScope.$emit(msg, data);
     };
-    msgBus.on = function(msg, func, scope) {
+    msgBus.on = function (msg, func, scope) {
       var unbind = $rootScope.$on(msg, func);
       if (scope) {
         scope.$on('$destroy', unbind);
@@ -61,8 +59,8 @@ Page.initPageEventGenerator = function(app) {
     };
     return msgBus;
   }
-}
+};
 
-Page.showPage = function(pageEvent, page) {
+Page.showPage = function (pageEvent, page) {
   pageEvent.emit('showPage', page);
-}
+};

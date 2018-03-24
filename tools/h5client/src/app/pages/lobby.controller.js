@@ -1,11 +1,15 @@
-var Page = require('./page.js');
+(function () {
+  'use strict';
 
-module.exports = PageLobby;
+  var Page = require('./page.js');
 
-function PageLobby() { }
+  module.exports = PageLobby;
 
-PageLobby.onController = function ($scope, $http, user, pageEvent) {
-  $scope.click = function () {
-    Page.showPage(pageEvent, 'room');
+  function PageLobby() { }
+
+  PageLobby.onController = function ($scope, $http, user, pageEvent) {
+    $scope.click = function () {
+      Page.showPage(pageEvent, 'room');
+    };
   };
-};
+})();

@@ -1,66 +1,71 @@
-var Util = require('../util/util.js');
+(function () {
+  'use strict';
 
-module.exports = Page;
+  var Util = require('../util/util.js');
 
-function Page() { }
+  module.exports = Page;
 
-Page.loadPage = function (app, page) {
+  function Page() { }
 
-  app.directive('runoob' + Util.toUpper(page), function () {
-    return {
-      templateUrl: 'app/pages/' + page + '.html'
-    };
-  });
+  Page.loadPage = function (app, page) {
 
-  var pageX = require('./' + page + '.controller.js');
+    app.directive('runoob' + Util.toUpper(page), function () {
+      return {
+        templateUrl: 'app/pages/' + page + '.html'
+      };
+    });
 
-  var onLoad = pageX.onLoad;
-  if (onLoad != null) {
-    onLoad(app);
-  }
+    var pageX = require('./' + page + '.controller.js');
 
-  function ctrl($scope, $http, user, pageEvent) {
-    pageEvent.on('showPage', function (event, data) {
-      $scope.enable = (data == page);
-    }, $scope);
-    $scope.enable = false;
-    onController($scope, $http, user, pageEvent);
-  }
-  var onController = pageX.onController;
-  if (onController != null) {
-    app.controller(page, ctrl);
-    ctrl.$inject = [
-      '$scope',
-      '$http',
-      'user',
-      'pageEvent'
+    var onLoad = pageX.onLoad;
+    if (onLoad != null) {
+      onLoad(app);
+    }
+
+    function ctrl($scope, $http, user, pageEvent) {
+      pageEvent.on('showPage', function (event, data) {
+        $scope.enable = (data == page);
+      }, $scope);
+      $scope.enable = false;
+      onController($scope, $http, user, pageEvent);
+    }
+    var onController = pageX.onController;
+    if (onController != null) {
+      app.controller(page, ctrl);
+      ctrl.$inject = [
+        '$scope',
+        '$http',
+        'user',
+        'pageEvent'
+      ];
+    }
+  };
+
+  Page.initPageEventGenerator = function (app) {
+    app.factory('pageEvent', obj);
+
+    obj.$inject = [
+      '$rootScope'
     ];
-  }
-};
 
-Page.initPageEventGenerator = function (app) {
-  app.factory('pageEvent', obj);
+    function obj($rootScope) {
+      var msgBus = {};
+      msgBus.emit = function (msg, data) {
+        data = data || {};
+        $rootScope.$emit(msg, data);
+      };
+      msgBus.on = function (msg, func, scope) {
+        var unbind = $rootScope.$on(msg, func);
+        if (scope) {
+          scope.$on('$destroy', unbind);
+        }
+      };
+      return msgBus;
+    }
+  };
 
-  obj.$inject = [
-    '$rootScope'
-  ];
+  Page.showPage = function (pageEvent, page) {
+    pageEvent.emit('showPage', page);
+  };
 
-  function obj($rootScope) {
-    var msgBus = {};
-    msgBus.emit = function (msg, data) {
-      data = data || {};
-      $rootScope.$emit(msg, data);
-    };
-    msgBus.on = function (msg, func, scope) {
-      var unbind = $rootScope.$on(msg, func);
-      if (scope) {
-        scope.$on('$destroy', unbind);
-      }
-    };
-    return msgBus;
-  }
-};
-
-Page.showPage = function (pageEvent, page) {
-  pageEvent.emit('showPage', page);
-};
+})();

@@ -1,13 +1,18 @@
-require('angular');
-var Page = require('./app/pages/page.js');
-var User = require('./app/models/user.js');
+(function () {
+  'use strict';
 
-function startApp() {
-  var app = angular.module("app", []);
-  closePreload(app);
-  User.initUser(app);
-  Page.initPageEventGenerator(app);
-  Page.loadPage(app, 'stage');
-}
+  require('angular');
+  var Page = require('./app/pages/page.js');
+  var User = require('./app/models/user.js');
 
-startApp();
+  function startApp() {
+    var app = angular.module("app", []);
+    closePreload(app);
+    User.initUser(app);
+    Page.initPageEventGenerator(app);
+    Page.loadPage(app, 'stage');
+  }
+
+  startApp();
+
+})();

@@ -5,3 +5,4 @@ RemoteSystemsTempFiles
 bin
 .idea
 *.toml
+.vscode

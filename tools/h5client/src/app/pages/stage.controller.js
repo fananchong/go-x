@@ -1,11 +1,16 @@
-var Page = require('./page.js');
+(function () {
+  'use strict';
 
-module.exports = PageStage;
+  var Page = require('./page.js');
 
-function PageStage() { }
+  module.exports = PageStage;
 
-PageStage.onLoad = function (app) {
-  Page.loadPage(app, 'login');
-  Page.loadPage(app, 'lobby');
-  Page.loadPage(app, 'room');
-};
+  function PageStage() { }
+
+  PageStage.onLoad = function (app) {
+    Page.loadPage(app, 'login');
+    Page.loadPage(app, 'lobby');
+    Page.loadPage(app, 'room');
+  };
+
+})();

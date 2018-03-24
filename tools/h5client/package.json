@@ -6,10 +6,9 @@
   "license": "MIT",
   "repository": "github:fananchong/go-x",
   "devDependencies": {
-    "express": "^4.16.3",
+    "webdevjs": "^1.0.4",
     "webpack": "^4.2.0",
-    "webpack-cli": "^2.0.12",
-    "webpack-dev-server": "^3.1.1"
+    "webpack-cli": "^2.0.12"
   },
   "dependencies": {
     "angular": "^1.6.9",
@@ -17,8 +16,7 @@
     "sprintf-js": "^1.1.1"
   },
   "scripts": {
-    "dev": "webpack --mode=development && webpack-dev-server --mode=development --host localhost --port 12345 --inline --hot --content-base ./src",
     "app": "webpack --mode=development && cd src && electron .",
-    "web": "webpack --mode=development && cd src && node web.js"
+    "web": "webpack --mode=development && webdevjs --port 8000"
   }
 }

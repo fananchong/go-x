@@ -1,5 +1,6 @@
 var Page = require('./page.js');
-require('sprintf-js');
+require('../proto/login_pb.js');
+var Message = require('../proto/message.js');
 
 module.exports = PageLogin;
 
@@ -29,7 +30,20 @@ PageLogin.onController = function ($scope, $http, user, pageEvent) {
       alert("密码不能为空！");
       return;
     }
+    var msg = new proto.proto.MsgLogin();
+    msg.setAccount($scope.txtaccount);
+    msg.setPassword($scope.txtpassword);
+    var urldata = Message.msgurl($scope.txtip, $scope.txtport, '0.0.1', proto.proto.MsgTypeCmd.LOGIN, msg);
+    var url = urldata[0];
+    var data = urldata[1];
+    Message.posturl($http, url, data, function success(response) {
+      console.log("login to Login success!");
+      console.log('response:', response);
+      user.Login(response.data);
+    }, function fail(response) {
+      console.log("login to Login fail!");
+      console.log('response:', response);
+      alert("login fail.\nresponse:" + JSON.stringify(response));
+    });
   }
-
-  // TODO:
 };

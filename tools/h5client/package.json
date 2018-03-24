@@ -12,7 +12,9 @@
   },
   "dependencies": {
     "angular": "^1.6.9",
+    "blueimp-md5": "^2.10.0",
     "electron": "^1.8.4",
+    "google-protobuf": "^3.5.0",
     "sprintf-js": "^1.1.1"
   },
   "scripts": {

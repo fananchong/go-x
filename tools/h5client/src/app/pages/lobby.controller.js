@@ -1,15 +1,15 @@
 (function () {
-  'use strict';
+    'use strict';
 
-  var Page = require('./page.js');
+    var Page = require('./page.js');
 
-  module.exports = PageLobby;
+    module.exports = PageLobby;
 
-  function PageLobby() { }
+    function PageLobby() { }
 
-  PageLobby.onController = function ($scope, $http, user, pageEvent) {
-    $scope.click = function () {
-      Page.showPage(pageEvent, 'room');
+    PageLobby.onController = function ($scope, $http, user, pageEvent) {
+        $scope.click = function () {
+            Page.showPage(pageEvent, 'room');
+        };
     };
-  };
 })();

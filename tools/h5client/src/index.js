@@ -1,22 +1,22 @@
 (function () {
-  'use strict';
+    'use strict';
 
-  require('angular');
-  var Page = require('./app/pages/page.js');
-  var User = require('./app/models/user.js');
+    require('angular');
+    var Page = require('./app/pages/page.js');
+    var User = require('./app/models/user.js');
 
-  function startApp() {
-    var app = angular.module("app", []);
-    closePreload(app);
-    User.initUser(app);
-    Page.initPageEventGenerator(app);
-    Page.loadPage(app, 'stage');
-  }
+    function startApp() {
+        var app = angular.module("app", []);
+        closePreload(app);
+        User.initUser(app);
+        Page.initPageEventGenerator(app);
+        Page.loadPage(app, 'stage');
+    }
 
-  startApp();
+    startApp();
 
-  if (module.hot) {
-    module.hot.accept();
-  }
+    if (module.hot) {
+        module.hot.accept();
+    }
 
 })();

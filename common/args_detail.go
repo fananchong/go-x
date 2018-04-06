@@ -35,6 +35,13 @@ func (this *ArgsBase) Init(derived IArgs) {
 		cfg = os.Args[index]
 		fmt.Println("cfg file:", cfg)
 	}
+	if cfg == "" {
+		defaultCfg := "./config.toml"
+		_, err := os.Stat(defaultCfg)
+		if err == nil || os.IsExist(err) {
+			cfg = defaultCfg
+		}
+	}
 	m := multiconfig.NewWithPath(cfg)
 	m.MustLoad(derived)
 }

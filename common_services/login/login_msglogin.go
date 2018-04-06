@@ -10,9 +10,9 @@ import (
 	"github.com/fananchong/go-x/common"
 	"github.com/fananchong/go-x/common/db"
 	"github.com/fananchong/go-x/common/discovery"
-	"github.com/fananchong/go-x/common/proto"
+	"github.com/fananchong/go-x/common_services/proto"
 	proto1 "github.com/golang/protobuf/proto"
-	"github.com/satori/go.uuid"
+	uuid "github.com/satori/go.uuid"
 )
 
 func (this *Login) MsgLogin(w http.ResponseWriter, req *http.Request, data string, sign string) {

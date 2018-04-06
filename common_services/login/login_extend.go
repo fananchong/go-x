@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/fananchong/go-x/common/proto"
+	"github.com/fananchong/go-x/common_services/proto"
 )
 
 // 第3方平台，获取帐号密码

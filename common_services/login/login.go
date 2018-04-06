@@ -6,7 +6,7 @@ import (
 	go_redis_orm "github.com/fananchong/go-redis-orm.v2"
 	"github.com/fananchong/go-x/common"
 	"github.com/fananchong/go-x/common/db"
-	"github.com/fananchong/go-x/common/proto"
+	"github.com/fananchong/go-x/common_services/proto"
 	"github.com/fananchong/gotcp"
 )
 

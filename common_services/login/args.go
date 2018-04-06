@@ -20,11 +20,3 @@ func (this *Args) OnInit() {
 	this.Pending.NodeType = 0                                                              // 不需要同步信息到discovery
 	this.Pending.WatchNodeTypes = append(this.Pending.WatchNodeTypes, int(common.Gateway)) // 监视服务节点类型
 }
-
-func NewArgs() *Args {
-	return &Args{}
-}
-
-func (this *Args) GetDerived() common.IArgs {
-	return this
-}

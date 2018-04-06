@@ -6,7 +6,7 @@ import (
 )
 
 var (
-	xargs *Args           = NewArgs()
+	xargs *Args           = &Args{}
 	xlog  common.ILogger  = common.NewGLogger()
 	xnode *discovery.Node = &discovery.Node{}
 	xapp  *App            = NewApp()

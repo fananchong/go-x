@@ -11,7 +11,6 @@ import (
 type IArgs interface {
 	IArgsBase
 	OnInit()
-	GetDerived() IArgs
 }
 
 type IArgsBase interface {

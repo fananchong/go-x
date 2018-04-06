@@ -18,11 +18,3 @@ type ArgsGateway struct {
 func (this *Args) OnInit() {
 
 }
-
-func NewArgs() *Args {
-	return &Args{}
-}
-
-func (this *Args) GetDerived() common.IArgs {
-	return this
-}

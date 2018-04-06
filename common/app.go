@@ -90,12 +90,18 @@ func (this *App) initArgs() {
 	if this.Args == nil {
 		return
 	}
-	this.Args.Init(this.Args.GetDerived())
+	this.Args.Init(this.Args)
 	this.initLog()
 
 	fields := structs.Fields(this.Args)
 	this.initArgsDetail(fields)
-	this.Args.GetDerived().OnInit()
+
+	// OnInit
+	f := reflect.ValueOf(this.Args).MethodByName("OnInit")
+	if f.IsValid() {
+		f.Call([]reflect.Value{})
+	}
+
 	SetArgs(this.Args.GetBase())
 }
 

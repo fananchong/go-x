@@ -27,7 +27,7 @@
     };
 
     proto.gateway = function () {
-        alert('aaaa');
+        //alert('aaaa');
     };
 
     var u = new User();

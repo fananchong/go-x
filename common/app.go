@@ -142,8 +142,16 @@ func (this *App) initArgsDetail(fields []*structs.Field) {
 }
 
 func (this *App) initNode() {
-	if this.Node != nil && this.Args != nil {
+	if this.Args != nil {
 		args := this.Args.GetBase()
+		if args.Pending.NodeType == 0 &&
+			len(args.Pending.WatchNodeTypes) == 0 &&
+			len(args.Etcd.Hosts) == 0 {
+			return
+		}
+		if this.Node == nil {
+			this.Node = &discovery.Node{}
+		}
 		node := this.Node.(godiscovery.INode).GetBase().(*discovery.Node)
 		node.SetBaseInfoType(uint32(this.Type))
 		node.InitPolicy(discovery.Ordered)
@@ -152,7 +160,6 @@ func (this *App) initNode() {
 		node.Init(this.Node)
 		node.Open(args.Etcd.Hosts, args.Pending.NodeType, args.Pending.WatchNodeTypes, int64(args.Etcd.PutInterval))
 		discovery.SetNode(node)
-	} else {
 	}
 }
 

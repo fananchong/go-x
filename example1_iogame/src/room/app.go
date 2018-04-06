@@ -7,7 +7,6 @@ import (
 var (
 	xargs *Args          = &Args{}
 	xlog  common.ILogger = common.NewGLogger()
-	xapp  *App           = NewApp()
 )
 
 type App struct {

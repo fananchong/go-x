@@ -23,7 +23,9 @@ func (this *WebService) ListenAndServe(addr string) {
 		err := this.server.ListenAndServe()
 		if err != nil {
 			xlog.Errorln("[web]", err)
-			this.server.Close()
+			if this.server != nil {
+				this.server.Close()
+			}
 			time.Sleep(5 * time.Second)
 		}
 	}

@@ -67,3 +67,7 @@ func (this *Login) Register(cmd proto.MsgTypeCmd, f LoginMsgHandlerType) {
 		panic("Register fail.")
 	}
 }
+
+func (this *Login) Close() {
+	this.WebService.Close()
+}

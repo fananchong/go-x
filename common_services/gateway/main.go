@@ -1,5 +1,6 @@
 package main
 
 func main() {
-	xapp.Run()
+	app := NewApp()
+	app.Run()
 }

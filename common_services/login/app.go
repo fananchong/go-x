@@ -5,10 +5,8 @@ import (
 )
 
 var (
-	xargs  *Args          = &Args{}
-	xlog   common.ILogger = common.NewGLogger()
-	xlogin *Login         = NewLogin()
-	xapp   *App           = NewApp()
+	xargs *Args          = &Args{}
+	xlog  common.ILogger = common.NewGLogger()
 )
 
 type App struct {
@@ -24,13 +22,16 @@ func NewApp() *App {
 	return this
 }
 
+var runner = NewLogin()
+
 func (this *App) OnAppReady() {
 	go func() {
-		if xlogin.Start() == false {
+		if runner.Start() == false {
 			this.Close()
 		}
 	}()
 }
 
 func (this *App) OnAppShutDown() {
+	runner.Close()
 }

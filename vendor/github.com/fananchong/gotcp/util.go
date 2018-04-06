@@ -5,19 +5,23 @@ import (
 	"net"
 )
 
-func GetVaildPort() int {
+func GetVaildPort(showmsg bool) int {
 	port := 10000
 	for {
 		port = port + 1
 		address := fmt.Sprintf(":%d", port)
 		tcpAddr, err := net.ResolveTCPAddr("tcp4", address)
 		if err != nil {
-			xlog.Errorln(err)
+			if showmsg {
+				xlog.Errorln(err)
+			}
 			continue
 		}
 		listener, err := net.ListenTCP("tcp", tcpAddr)
 		if err != nil {
-			xlog.Errorln(err)
+			if showmsg {
+				xlog.Errorln(err)
+			}
 			if listener != nil {
 				listener.Close()
 			}

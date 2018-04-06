@@ -6,6 +6,11 @@ import (
 
 type Args struct {
 	common.ArgsBase
+	Base ArgsBase
+}
+
+type ArgsBase struct {
+	ExternalIp string
 }
 
 func (this *Args) OnInit() {

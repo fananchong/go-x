@@ -22,8 +22,16 @@ func NewApp() *App {
 	return this
 }
 
+var runner = NewBase()
+
 func (this *App) OnAppReady() {
+	go func() {
+		if runner.Start() == false {
+			this.Close()
+		}
+	}()
 }
 
 func (this *App) OnAppShutDown() {
+	runner.Close()
 }

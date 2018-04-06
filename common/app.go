@@ -122,7 +122,7 @@ func (this *App) initArgsDetail(fields []*structs.Field) {
 				var port int
 				var err error
 				if len(addrinfo) < 2 {
-					port = gotcp.GetVaildPort()
+					port = gotcp.GetVaildPort(false)
 				} else {
 					port, err = strconv.Atoi(addrinfo[1])
 					if err != nil {
@@ -131,8 +131,6 @@ func (this *App) initArgsDetail(fields []*structs.Field) {
 					}
 				}
 				this.Args.GetBase().Pending.ExternalIp = fmt.Sprintf("%s:%d", addrinfo[0], port)
-			case "IntranetIp":
-				this.Args.GetBase().Pending.IntranetIp = field.Value().(string)
 			case "Connect":
 				this.Args.GetBase().Pending.WatchNodeTypes = append(this.Args.GetBase().Pending.WatchNodeTypes, field.Value().([]int)...)
 			}
@@ -155,7 +153,7 @@ func (this *App) initNode() {
 		node := this.Node.(godiscovery.INode).GetBase().(*discovery.Node)
 		node.SetBaseInfoType(uint32(this.Type))
 		node.InitPolicy(discovery.Ordered)
-		node.SetBaseInfoIP(args.Pending.ExternalIp, args.Pending.IntranetIp)
+		node.SetBaseInfoIP(args.Pending.ExternalIp)
 		discovery.SetLogger(xlog)
 		node.Init(this.Node)
 		node.Open(args.Etcd.Hosts, args.Pending.NodeType, args.Pending.WatchNodeTypes, int64(args.Etcd.PutInterval))

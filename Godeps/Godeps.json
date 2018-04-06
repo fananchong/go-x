@@ -72,7 +72,7 @@
 		},
 		{
 			"ImportPath": "github.com/fananchong/gotcp",
-			"Rev": "7874187e58fc5c9f0292d143f3636c829cad0079"
+			"Rev": "ebfe0905ee8233b69c0fd1183320f636781f4960"
 		},
 		{
 			"ImportPath": "github.com/fananchong/multiconfig",

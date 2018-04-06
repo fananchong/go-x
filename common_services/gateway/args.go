@@ -11,7 +11,6 @@ type Args struct {
 
 type ArgsGateway struct {
 	ExternalIp string
-	IntranetIp string
 	Connect    []int
 }
 

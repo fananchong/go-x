@@ -68,11 +68,10 @@ func (this *Node) GetBaseInfo() ServerInfo {
 	return this.info
 }
 
-func (this *Node) SetBaseInfoIP(externalIp, intranetIp string) {
+func (this *Node) SetBaseInfoIP(externalIp string) {
 	this.mutex.Lock()
 	defer this.mutex.Unlock()
 	this.info.ExternalIp = externalIp
-	this.info.IntranetIp = intranetIp
 }
 
 func (this *Node) SetBaseInfoType(t uint32) {

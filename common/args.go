@@ -19,7 +19,6 @@ type ArgsPending struct {
 	NodeType       int    `default:"0"` // 本节点类型。填0，则本节点不会上报自身信息给etcd。
 	WatchNodeTypes []int  `default:""`  // 本节点要watch其他节点的节点类型
 	ExternalIp     string `default:""`  // 本节点对外地址
-	IntranetIp     string `default:""`  // 本借点对内地址
 }
 
 type ArgsEtcd struct {

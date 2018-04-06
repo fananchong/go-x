@@ -17,6 +17,7 @@
         var c = String(cmd);
         var s = md5(SIGN1 + c + SIGN2 + t + SIGN3 + version);
         var d = msg.serializeBinary();
+        console.log("d1=", d);
         var url = sprintf("http://%s:%s/msg", addr, port);
         var params = { 'c': c, 't': t, 'd': d, 's': s };
         return [url, params];
@@ -38,6 +39,9 @@
                 var str = [];
                 for (var s in obj) {
                     str.push(encodeURIComponent(s) + "=" + encodeURIComponent(obj[s]));
+                    if (s == 'd') {
+                        console.log("d2=", encodeURIComponent(obj[s]));
+                    }
                 }
                 return str.join("&");
             }

@@ -6,11 +6,16 @@ import (
 	_ "net/http/pprof"
 	"os"
 	"os/signal"
+	"reflect"
 	"runtime"
+	"strconv"
+	"strings"
 	"syscall"
 
 	godiscovery "github.com/fananchong/go-discovery"
 	"github.com/fananchong/go-x/common/discovery"
+	"github.com/fananchong/gotcp"
+	"github.com/fatih/structs"
 )
 
 type AppInterface interface {
@@ -21,6 +26,7 @@ type AppInterface interface {
 type App struct {
 	signal  chan os.Signal
 	Derived AppInterface
+	Type    int
 	Args    IArgs
 	Logger  ILogger
 	Node    interface{}
@@ -86,14 +92,55 @@ func (this *App) initArgs() {
 	}
 	this.Args.Init(this.Args.GetDerived())
 	this.initLog()
+
+	fields := structs.Fields(this.Args)
+	this.initArgsDetail(fields)
 	this.Args.GetDerived().OnInit()
 	SetArgs(this.Args.GetBase())
+}
+
+func (this *App) initArgsDetail(fields []*structs.Field) {
+	for _, field := range fields {
+		if field.Name() == "ArgsBase" {
+			continue
+		}
+		switch field.Kind() {
+		case reflect.Struct:
+			fields2 := structs.Fields(field.Value())
+			this.initArgsDetail(fields2)
+		default:
+			switch field.Name() {
+			case "ExternalIp":
+				externalIp := field.Value().(string)
+				addrinfo := strings.Split(externalIp, ":")
+				var port int
+				var err error
+				if len(addrinfo) < 2 {
+					port = gotcp.GetVaildPort()
+				} else {
+					port, err = strconv.Atoi(addrinfo[1])
+					if err != nil {
+						panic(err)
+						return
+					}
+				}
+				this.Args.GetBase().Pending.ExternalIp = fmt.Sprintf("%s:%d", addrinfo[0], port)
+			case "IntranetIp":
+				this.Args.GetBase().Pending.IntranetIp = field.Value().(string)
+			case "Connect":
+				this.Args.GetBase().Pending.WatchNodeTypes = append(this.Args.GetBase().Pending.WatchNodeTypes, field.Value().([]int)...)
+			}
+		}
+	}
+	this.Args.GetBase().Pending.NodeType = this.Type
 }
 
 func (this *App) initNode() {
 	if this.Node != nil && this.Args != nil {
 		args := this.Args.GetBase()
 		node := this.Node.(godiscovery.INode).GetBase().(*discovery.Node)
+		node.SetBaseInfoType(uint32(this.Type))
+		node.InitPolicy(discovery.Ordered)
 		node.SetBaseInfoIP(args.Pending.ExternalIp, args.Pending.IntranetIp)
 		discovery.SetLogger(xlog)
 		node.Init(this.Node)
@@ -104,7 +151,7 @@ func (this *App) initNode() {
 }
 
 func (this *App) initProf() {
-	if this.Args.GetBase().Common.Debug {
+	if this.Args != nil && this.Args.GetBase().Common.Debug {
 		port := 58000 + this.Args.GetBase().Pending.NodeType
 		go http.ListenAndServe(fmt.Sprintf(":%d", port), nil)
 	}

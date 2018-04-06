@@ -25,6 +25,7 @@ type App struct {
 
 func NewApp() *App {
 	this := &App{}
+	this.Type = int(common.Gateway)
 	this.Derived = this
 	this.Args = xargs
 	this.Logger = xlog
@@ -43,7 +44,7 @@ func (this *App) OnAppShutDown() {
 func (this *App) startUserServer() {
 	gotcp.SetLogger(xlog)
 	xsrv.RegisterSessType(UserSession{})
-	addrinfo := strings.Split(xargs.Gateway.ExternalIp, ":")
+	addrinfo := strings.Split(xargs.ArgsBase.Pending.ExternalIp, ":")
 	port, _ := strconv.Atoi(addrinfo[1])
 	xsrv.Start(fmt.Sprintf(":%d", port))
 }

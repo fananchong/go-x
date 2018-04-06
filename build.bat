@@ -12,4 +12,6 @@ cd %MYROOT%
 cd test\test_packet_loss
 call build.bat
 
+cd %MYROOT%
+
 pause

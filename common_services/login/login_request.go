@@ -55,5 +55,5 @@ func (this *Login) request(w http.ResponseWriter, req *http.Request) {
 }
 
 func (this *Login) decodeMsg(data string, msg proto1.Message) proto1.Message {
-	return gotcp.DecodeCmdEx([]byte(data), 0, &proto.MsgLogin{}, 0)
+	return gotcp.DecodeCmdEx([]byte(data), 0, msg, 0)
 }

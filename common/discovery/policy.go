@@ -19,10 +19,7 @@ type ServersPolicyOrdered struct {
 func NewServersPolicyOrdered() IServers {
 	m := &ServersPolicyOrdered{}
 	m.OrderedMap = *gomap.NewOrderedMap(less)
-	return &Servers{
-		ss:      make(map[int]IMap),
-		creator: func() IMap { return m },
-	}
+	return NewServers(m)
 }
 
 func less(v1, v2 interface{}) bool {
@@ -41,10 +38,7 @@ type ServersPolicyRandom struct {
 func NewServersPolicyRandom() IServers {
 	m := &ServersPolicyRandom{}
 	m.RandomMap = *gomap.NewRandomMap()
-	return &Servers{
-		ss:      make(map[int]IMap),
-		creator: func() IMap { return m },
-	}
+	return NewServers(m)
 }
 
 func (this *ServersPolicyRandom) GetOne() (key, val interface{}, ok bool) {
@@ -59,10 +53,7 @@ type ServersPolicyRoundRobin struct {
 func NewServersPolicyRoundRobin() IServers {
 	m := &ServersPolicyRoundRobin{}
 	m.RoundRobinMap = *gomap.NewRoundRobinMap()
-	return &Servers{
-		ss:      make(map[int]IMap),
-		creator: func() IMap { return m },
-	}
+	return NewServers(m)
 }
 
 func (this *ServersPolicyRoundRobin) GetOne() (key, val interface{}, ok bool) {

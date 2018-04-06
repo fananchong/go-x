@@ -16,9 +16,9 @@ type App struct {
 func NewApp() *App {
 	this := &App{}
 	this.Type = int(common.Room)
-	this.Derived = this
 	this.Args = xargs
 	this.Logger = xlog
+	this.Derived = this
 	return this
 }
 

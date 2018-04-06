@@ -9,25 +9,29 @@ import (
 )
 
 type Gateway struct {
-	srv  *gotcp.Server             // 面向客户端的TCP服务器
-	sess map[string]*gotcp.Session // 做为客户端连接服务器组内服务的网络会话
+	srv *gotcp.Server
 }
 
 func NewGateway() *Gateway {
 	this := &Gateway{
-		srv:  &gotcp.Server{},
-		sess: make(map[string]*gotcp.Session),
+		srv: &gotcp.Server{},
 	}
 	return this
 }
 
 func (this *Gateway) Start() bool {
 	gotcp.SetLogger(xlog)
-	this.srv.RegisterSessType(UserSession{})
+	if this.startServer() == false {
+		return false
+	}
+	return true
+}
+
+func (this *Gateway) startServer() bool {
+	this.srv.RegisterSessType(SessionAccount{})
 	addrinfo := strings.Split(xargs.ArgsBase.Pending.ExternalIp, ":")
 	port, _ := strconv.Atoi(addrinfo[1])
-	this.srv.Start(fmt.Sprintf(":%d", port))
-	return true
+	return this.srv.Start(fmt.Sprintf(":%d", port))
 }
 
 func (this *Gateway) Close() {

@@ -1,11 +1,18 @@
 set MYDIR=%~dp0
+set COMMONSRVDIR=%~dp0\..\..\common_services
+set ASSETSDIR=%~dp0\..\..\assets
 
 call stop.bat
 
-cd ..
+cd %COMMONSRVDIR%
+call build.bat
+
+cd %MYDIR%\..
 call build.bat
 
 cd %MYDIR%
 
-start base.exe -cfg ..\..\assets\config.toml
-start room.exe -cfg ..\..\assets\config.toml
+start %COMMONSRVDIR%\bin\login.exe -cfg %ASSETSDIR%\config.toml
+start %COMMONSRVDIR%\bin\gateway.exe -cfg %ASSETSDIR%\config.toml
+start base.exe -cfg %ASSETSDIR%\config.toml
+start room.exe -cfg %ASSETSDIR%\config.toml

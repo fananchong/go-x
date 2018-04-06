@@ -11,6 +11,7 @@ type IServers interface {
 	GetAll(nodeType int) ([]*ServerInfo, bool)
 	Set(nodeType int, id string, val *ServerInfo)
 	Delete(nodeType int, id string)
+	GetByID(id string) (*ServerInfo, bool)
 }
 
 type IMap interface {
@@ -25,6 +26,15 @@ type Servers struct {
 	ss      map[int]IMap
 	creator func() IMap
 	mutex   sync.RWMutex
+	ssByID  map[string]*ServerInfo
+}
+
+func NewServers(m IMap) *Servers {
+	return &Servers{
+		ss:      make(map[int]IMap),
+		creator: func() IMap { return m },
+		ssByID:  make(map[string]*ServerInfo),
+	}
 }
 
 func (this *Servers) GetOne(nodeType int) (*ServerInfo, bool) {
@@ -61,6 +71,7 @@ func (this *Servers) Set(nodeType int, id string, val *ServerInfo) {
 		m.Set(id, val)
 		this.ss[nodeType] = m
 	}
+	this.ssByID[id] = val
 }
 
 func (this *Servers) Delete(nodeType int, id string) {
@@ -69,4 +80,13 @@ func (this *Servers) Delete(nodeType int, id string) {
 	if m, ok := this.ss[nodeType]; ok {
 		m.Delete(id)
 	}
+	if _, ok := this.ssByID[id]; ok {
+		delete(this.ssByID, id)
+	}
+}
+func (this *Servers) GetByID(id string) (m *ServerInfo, ok bool) {
+	this.mutex.RLock()
+	defer this.mutex.RUnlock()
+	m, ok = this.ssByID[id]
+	return
 }

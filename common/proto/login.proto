@@ -21,6 +21,7 @@ enum LoginError {
     ErrMode = 4;            // Mode错误
     ErrDB = 5;              // 数据库错误
     ErrGateway = 6;         // 找不到Gateway
+    ErrParams = 7;          // 参数错误
 }
 
 message MsgLogin

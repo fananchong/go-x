@@ -7,9 +7,9 @@
 
     function PageRoom() { }
 
-    PageRoom.onController = function ($scope, $http, user, pageEvent) {
+    PageRoom.onController = function ($scope, $http, user) {
         $scope.click = function () {
-            Page.showPage(pageEvent, 'login');
+            Page.showPage('login');
         };
     };
 

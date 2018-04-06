@@ -6,7 +6,7 @@
     "license": "MIT",
     "repository": "github:fananchong/go-x",
     "devDependencies": {
-        "webdevjs": "^1.2.0",
+        "webdevjs": "^1.2.2",
         "webpack": "^4.2.0",
         "webpack-cli": "^2.0.12"
     },

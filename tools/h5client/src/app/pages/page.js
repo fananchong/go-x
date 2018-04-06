@@ -7,6 +7,8 @@
 
     function Page() { }
 
+    Page.scopes = {};
+
     Page.loadPage = function (app, page) {
 
         app.directive('runoob' + Util.toUpper(page), function () {
@@ -22,12 +24,12 @@
             onLoad(app);
         }
 
-        function ctrl($scope, $http, user, pageEvent) {
-            pageEvent.on('showPage', function (event, data) {
-                $scope.enable = (data == page);
-            }, $scope);
+        function ctrl($scope, $http, user) {
+            pageX.scope = $scope;
+            pageX.user = user;
+            Page.scopes[page] = $scope;
             $scope.enable = false;
-            onController($scope, $http, user, pageEvent);
+            onController($scope, $http, user);
         }
         var onController = pageX.onController;
         if (onController != null) {
@@ -35,37 +37,29 @@
             ctrl.$inject = [
                 '$scope',
                 '$http',
-                'user',
-                'pageEvent'
+                'user'
             ];
         }
     };
 
-    Page.initPageEventGenerator = function (app) {
-        app.factory('pageEvent', obj);
-
-        obj.$inject = [
-            '$rootScope'
-        ];
-
-        function obj($rootScope) {
-            var msgBus = {};
-            msgBus.emit = function (msg, data) {
-                data = data || {};
-                $rootScope.$emit(msg, data);
-            };
-            msgBus.on = function (msg, func, scope) {
-                var unbind = $rootScope.$on(msg, func);
-                if (scope) {
-                    scope.$on('$destroy', unbind);
+    Page.showPage = function (page) {
+        var pageX = require('./' + page + '.controller.js');
+        for (var key in Page.scopes) {
+            Page.scopes[key].enable = false;
+            Page.scopes[key].$apply();
+            if (key != page) {
+                var onHide = pageX.onHide;
+                if (onHide) {
+                    onHide();
                 }
-            };
-            return msgBus;
+            }
         }
-    };
-
-    Page.showPage = function (pageEvent, page) {
-        pageEvent.emit('showPage', page);
+        Page.scopes[page].enable = true;
+        var onShow = pageX.onShow;
+        if (onShow) {
+            onShow();
+        }
+        Page.scopes[page].$apply();
     };
 
 })();

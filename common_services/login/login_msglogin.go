@@ -6,18 +6,21 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/satori/go.uuid"
-
 	go_redis_orm "github.com/fananchong/go-redis-orm.v2"
 	"github.com/fananchong/go-x/common"
 	"github.com/fananchong/go-x/common/db"
 	"github.com/fananchong/go-x/common/discovery"
 	"github.com/fananchong/go-x/common/proto"
 	proto1 "github.com/golang/protobuf/proto"
+	"github.com/satori/go.uuid"
 )
 
 func (this *Login) MsgLogin(w http.ResponseWriter, req *http.Request, data string, sign string) {
-	msg := this.decodeMsg(data, &proto.MsgLogin{}).(*proto.MsgLogin)
+	msg := &proto.MsgLogin{}
+	if this.decodeMsg(data, msg) == nil {
+		w.Write(getErrRepString(proto.LoginError_ErrParams))
+		return
+	}
 	common.GetLogger().Debugln("account =", msg.GetAccount())
 	common.GetLogger().Debugln("password =", msg.GetPassword())
 	common.GetLogger().Debugln("mode =", msg.GetMode())
@@ -60,6 +63,9 @@ func (this *Login) MsgLogin(w http.ResponseWriter, req *http.Request, data strin
 	}
 
 	if accountId == 0 {
+
+		// TODO: 帐号名合法性检查
+
 		uid, err := this.suid.New(db.SUID_TYPE_ACCOUNT)
 		if err != nil {
 			w.Write(getErrRepString(proto.LoginError_ErrDB))

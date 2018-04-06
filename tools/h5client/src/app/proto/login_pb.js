@@ -485,7 +485,8 @@ proto.proto.LoginError = {
   ERRPLATFORMSIDE: 3,
   ERRMODE: 4,
   ERRDB: 5,
-  ERRGATEWAY: 6
+  ERRGATEWAY: 6,
+  ERRPARAMS: 7
 };
 
 goog.object.extend(exports, proto.proto);

@@ -1,9 +1,12 @@
 (function () {
     'use strict';
 
+    var Login = require('./login.js');
+
     module.exports = User;
 
     function User() {
+        this.login = new Login(this);
         this.uid = 0;
         this.token = "";
         this.gatewayIP = "";

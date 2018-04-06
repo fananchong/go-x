@@ -7,9 +7,9 @@
 
     function PageLobby() { }
 
-    PageLobby.onController = function ($scope, $http, user, pageEvent) {
+    PageLobby.onController = function ($scope, $http, user) {
         $scope.click = function () {
-            Page.showPage(pageEvent, 'room');
+            Page.showPage('room');
         };
     };
 })();

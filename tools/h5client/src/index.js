@@ -9,7 +9,6 @@
         var app = angular.module("app", []);
         closePreload(app);
         User.initUser(app);
-        Page.initPageEventGenerator(app);
         Page.loadPage(app, 'stage');
     }
 

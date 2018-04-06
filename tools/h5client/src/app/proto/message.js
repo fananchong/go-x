@@ -29,9 +29,17 @@
             data: data,
             async: false,
             headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
                 "Access-Control-Allow-Origin": "*",
                 'Access-Control-Allow-Methods': 'POST',
                 'Access-Control-Allow-Headers': 'Accept,X-Custom-Header,X-Requested-With,Content-Type, Origin'
+            },
+            transformRequest: function (obj) {
+                var str = [];
+                for (var s in obj) {
+                    str.push(encodeURIComponent(s) + "=" + encodeURIComponent(obj[s]));
+                }
+                return str.join("&");
             }
         }).then(cb_success, cb_fail);
     };
@@ -42,6 +50,13 @@
             method: 'GET',
             params: params,
             async: false,
+            transformRequest: function (obj) {
+                var str = [];
+                for (var s in obj) {
+                    str.push(encodeURIComponent(s) + "=" + encodeURIComponent(obj[s]));
+                }
+                return str.join("&");
+            }
         }).then(cb_success, cb_fail);
     };
 })();

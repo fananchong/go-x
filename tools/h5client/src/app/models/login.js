@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    require('../proto/login_pb.js');
+    require('../proto/common_pb.js');
     var Message = require('../proto/message.js');
 
     module.exports = Login;

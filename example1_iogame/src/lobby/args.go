@@ -6,10 +6,10 @@ import (
 
 type Args struct {
 	common.ArgsBase
-	Base ArgsBase
+	Lobby ArgsLobby
 }
 
-type ArgsBase struct {
+type ArgsLobby struct {
 	ExternalIp string
 }
 

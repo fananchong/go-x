@@ -8,18 +8,18 @@ import (
 	"github.com/fananchong/gotcp"
 )
 
-type Base struct {
+type Lobby struct {
 	srv *gotcp.Server
 }
 
-func NewBase() *Base {
-	this := &Base{
+func NewLobby() *Lobby {
+	this := &Lobby{
 		srv: &gotcp.Server{},
 	}
 	return this
 }
 
-func (this *Base) Start() bool {
+func (this *Lobby) Start() bool {
 	gotcp.SetLogger(xlog)
 	if this.startServer() == false {
 		return false
@@ -27,13 +27,13 @@ func (this *Base) Start() bool {
 	return true
 }
 
-func (this *Base) startServer() bool {
+func (this *Lobby) startServer() bool {
 	this.srv.RegisterSessType(SessionNode{})
 	addrinfo := strings.Split(xargs.ArgsBase.Pending.ExternalIp, ":")
 	port, _ := strconv.Atoi(addrinfo[1])
 	return this.srv.Start(fmt.Sprintf(":%d", port))
 }
 
-func (this *Base) Close() {
+func (this *Lobby) Close() {
 	this.srv.Close()
 }

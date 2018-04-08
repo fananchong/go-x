@@ -15,14 +15,14 @@ type App struct {
 
 func NewApp() *App {
 	this := &App{}
-	this.Type = int(common.Base)
+	this.Type = int(common.Lobby)
 	this.Args = xargs
 	this.Logger = xlog
 	this.Derived = this
 	return this
 }
 
-var runner = NewBase()
+var runner = NewLobby()
 
 func (this *App) OnAppReady() {
 	go func() {

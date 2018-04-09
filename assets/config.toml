@@ -27,8 +27,11 @@ Sign3 = "%2Fi9TRf"
 
 [gateway]
 ExternalIp = "127.0.0.1"    #完整格式为IP:PORT。不填PORT，则自动生产。
-Connect = [3]               #1: login; 2: gateway; 3: base; 4: room
+Connect = [3, 5]            #1: login; 2: gateway; 3: base; 4: room; 5: hub
 
 
 [lobby]
+ExternalIp = "127.0.0.1"    #完整格式为IP:PORT。不填PORT，则自动生产。
+
+[hub]
 ExternalIp = "127.0.0.1"    #完整格式为IP:PORT。不填PORT，则自动生产。

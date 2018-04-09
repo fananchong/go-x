@@ -23,10 +23,11 @@ func NewApp() *App {
 	return this
 }
 
-var runner = NewGateway()
+var runner = common.NewTcpServer()
 
 func (this *App) OnAppReady() {
 	go func() {
+		runner.RegisterSessType(SessionAccount{})
 		if runner.Start() == false {
 			this.Close()
 		}

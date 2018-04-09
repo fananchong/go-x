@@ -8,4 +8,8 @@ call build.bat
 cd %MYDIR%
 
 start login.exe -cfg ..\..\assets\config.toml
+ping -n 3 127.0.0.1>nul
 start gateway.exe -cfg ..\..\assets\config.toml
+ping -n 3 127.0.0.1>nul
+start hub.exe -cfg ..\..\assets\config.toml
+ping -n 3 127.0.0.1>nul

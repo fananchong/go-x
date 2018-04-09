@@ -8,4 +8,5 @@ const (
 	Gateway                   // 2
 	Lobby                     // 3
 	Room                      // 4
+	Hub                       // 5
 )

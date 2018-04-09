@@ -5,6 +5,6 @@ import (
 )
 
 // 第3方平台，获取帐号密码
-func (this *Login) GetPassword(account string, mode proto.LoginMode, userdata []byte) (string, proto.LoginError) {
-	return "", proto.LoginError_ErrPlatformSide
+func (this *Login) GetPassword(account string, mode proto.LoginMode, userdata []byte) (string, proto.EnumLogin_Error) {
+	return "", proto.EnumLogin_ErrPlatformSide
 }

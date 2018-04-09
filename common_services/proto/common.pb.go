@@ -8,8 +8,14 @@
 		common.proto
 
 	It has these top-level messages:
+		EnumLogin
 		MsgLogin
 		MsgLoginResult
+		EnumVerify
+		MsgVerify
+		MsgVerifyResult
+		MsgForward
+		MsgKick
 */
 package proto
 
@@ -35,15 +41,24 @@ type MsgTypeCmd int32
 const (
 	MsgTypeCmd_UNSPECIFIED MsgTypeCmd = 0
 	MsgTypeCmd_Login       MsgTypeCmd = 1
+	MsgTypeCmd_Verify      MsgTypeCmd = 2
+	MsgTypeCmd_Forward     MsgTypeCmd = 3
+	MsgTypeCmd_Kick        MsgTypeCmd = 4
 )
 
 var MsgTypeCmd_name = map[int32]string{
 	0: "UNSPECIFIED",
 	1: "Login",
+	2: "Verify",
+	3: "Forward",
+	4: "Kick",
 }
 var MsgTypeCmd_value = map[string]int32{
 	"UNSPECIFIED": 0,
 	"Login":       1,
+	"Verify":      2,
+	"Forward":     3,
+	"Kick":        4,
 }
 
 func (x MsgTypeCmd) String() string {
@@ -51,6 +66,7 @@ func (x MsgTypeCmd) String() string {
 }
 func (MsgTypeCmd) EnumDescriptor() ([]byte, []int) { return fileDescriptorCommon, []int{0} }
 
+// / Login (C->S)
 type LoginMode int32
 
 const (
@@ -72,20 +88,20 @@ func (x LoginMode) String() string {
 }
 func (LoginMode) EnumDescriptor() ([]byte, []int) { return fileDescriptorCommon, []int{1} }
 
-type LoginError int32
+type EnumLogin_Error int32
 
 const (
-	LoginError_NoErr           LoginError = 0
-	LoginError_ErrPassword     LoginError = 1
-	LoginError_ErrAccount      LoginError = 2
-	LoginError_ErrPlatformSide LoginError = 3
-	LoginError_ErrMode         LoginError = 4
-	LoginError_ErrDB           LoginError = 5
-	LoginError_ErrGateway      LoginError = 6
-	LoginError_ErrParams       LoginError = 7
+	EnumLogin_NoErr           EnumLogin_Error = 0
+	EnumLogin_ErrPassword     EnumLogin_Error = 1
+	EnumLogin_ErrAccount      EnumLogin_Error = 2
+	EnumLogin_ErrPlatformSide EnumLogin_Error = 3
+	EnumLogin_ErrMode         EnumLogin_Error = 4
+	EnumLogin_ErrDB           EnumLogin_Error = 5
+	EnumLogin_ErrGateway      EnumLogin_Error = 6
+	EnumLogin_ErrParams       EnumLogin_Error = 7
 )
 
-var LoginError_name = map[int32]string{
+var EnumLogin_Error_name = map[int32]string{
 	0: "NoErr",
 	1: "ErrPassword",
 	2: "ErrAccount",
@@ -95,7 +111,7 @@ var LoginError_name = map[int32]string{
 	6: "ErrGateway",
 	7: "ErrParams",
 }
-var LoginError_value = map[string]int32{
+var EnumLogin_Error_value = map[string]int32{
 	"NoErr":           0,
 	"ErrPassword":     1,
 	"ErrAccount":      2,
@@ -106,10 +122,42 @@ var LoginError_value = map[string]int32{
 	"ErrParams":       7,
 }
 
-func (x LoginError) String() string {
-	return proto1.EnumName(LoginError_name, int32(x))
+func (x EnumLogin_Error) String() string {
+	return proto1.EnumName(EnumLogin_Error_name, int32(x))
 }
-func (LoginError) EnumDescriptor() ([]byte, []int) { return fileDescriptorCommon, []int{2} }
+func (EnumLogin_Error) EnumDescriptor() ([]byte, []int) { return fileDescriptorCommon, []int{0, 0} }
+
+type EnumVerify_Error int32
+
+const (
+	EnumVerify_NoErr      EnumVerify_Error = 0
+	EnumVerify_ErrAccount EnumVerify_Error = 1
+	EnumVerify_ErrToken   EnumVerify_Error = 2
+)
+
+var EnumVerify_Error_name = map[int32]string{
+	0: "NoErr",
+	1: "ErrAccount",
+	2: "ErrToken",
+}
+var EnumVerify_Error_value = map[string]int32{
+	"NoErr":      0,
+	"ErrAccount": 1,
+	"ErrToken":   2,
+}
+
+func (x EnumVerify_Error) String() string {
+	return proto1.EnumName(EnumVerify_Error_name, int32(x))
+}
+func (EnumVerify_Error) EnumDescriptor() ([]byte, []int) { return fileDescriptorCommon, []int{3, 0} }
+
+type EnumLogin struct {
+}
+
+func (m *EnumLogin) Reset()                    { *m = EnumLogin{} }
+func (m *EnumLogin) String() string            { return proto1.CompactTextString(m) }
+func (*EnumLogin) ProtoMessage()               {}
+func (*EnumLogin) Descriptor() ([]byte, []int) { return fileDescriptorCommon, []int{0} }
 
 type MsgLogin struct {
 	Account  string    `protobuf:"bytes,1,opt,name=Account,proto3" json:"Account,omitempty"`
@@ -121,7 +169,7 @@ type MsgLogin struct {
 func (m *MsgLogin) Reset()                    { *m = MsgLogin{} }
 func (m *MsgLogin) String() string            { return proto1.CompactTextString(m) }
 func (*MsgLogin) ProtoMessage()               {}
-func (*MsgLogin) Descriptor() ([]byte, []int) { return fileDescriptorCommon, []int{0} }
+func (*MsgLogin) Descriptor() ([]byte, []int) { return fileDescriptorCommon, []int{1} }
 
 func (m *MsgLogin) GetAccount() string {
 	if m != nil {
@@ -152,21 +200,21 @@ func (m *MsgLogin) GetUserdata() []byte {
 }
 
 type MsgLoginResult struct {
-	Err     LoginError `protobuf:"varint,1,opt,name=Err,proto3,enum=proto.LoginError" json:"Err,omitempty"`
-	Token   string     `protobuf:"bytes,2,opt,name=Token,proto3" json:"Token,omitempty"`
-	Address string     `protobuf:"bytes,3,opt,name=Address,proto3" json:"Address,omitempty"`
+	Err     EnumLogin_Error `protobuf:"varint,1,opt,name=Err,proto3,enum=proto.EnumLogin_Error" json:"Err,omitempty"`
+	Token   string          `protobuf:"bytes,2,opt,name=Token,proto3" json:"Token,omitempty"`
+	Address string          `protobuf:"bytes,3,opt,name=Address,proto3" json:"Address,omitempty"`
 }
 
 func (m *MsgLoginResult) Reset()                    { *m = MsgLoginResult{} }
 func (m *MsgLoginResult) String() string            { return proto1.CompactTextString(m) }
 func (*MsgLoginResult) ProtoMessage()               {}
-func (*MsgLoginResult) Descriptor() ([]byte, []int) { return fileDescriptorCommon, []int{1} }
+func (*MsgLoginResult) Descriptor() ([]byte, []int) { return fileDescriptorCommon, []int{2} }
 
-func (m *MsgLoginResult) GetErr() LoginError {
+func (m *MsgLoginResult) GetErr() EnumLogin_Error {
 	if m != nil {
 		return m.Err
 	}
-	return LoginError_NoErr
+	return EnumLogin_NoErr
 }
 
 func (m *MsgLoginResult) GetToken() string {
@@ -183,13 +231,137 @@ func (m *MsgLoginResult) GetAddress() string {
 	return ""
 }
 
+// / Verify (C->S; S->S)
+type EnumVerify struct {
+}
+
+func (m *EnumVerify) Reset()                    { *m = EnumVerify{} }
+func (m *EnumVerify) String() string            { return proto1.CompactTextString(m) }
+func (*EnumVerify) ProtoMessage()               {}
+func (*EnumVerify) Descriptor() ([]byte, []int) { return fileDescriptorCommon, []int{3} }
+
+type MsgVerify struct {
+	Account string `protobuf:"bytes,1,opt,name=Account,proto3" json:"Account,omitempty"`
+	Token   string `protobuf:"bytes,2,opt,name=Token,proto3" json:"Token,omitempty"`
+}
+
+func (m *MsgVerify) Reset()                    { *m = MsgVerify{} }
+func (m *MsgVerify) String() string            { return proto1.CompactTextString(m) }
+func (*MsgVerify) ProtoMessage()               {}
+func (*MsgVerify) Descriptor() ([]byte, []int) { return fileDescriptorCommon, []int{4} }
+
+func (m *MsgVerify) GetAccount() string {
+	if m != nil {
+		return m.Account
+	}
+	return ""
+}
+
+func (m *MsgVerify) GetToken() string {
+	if m != nil {
+		return m.Token
+	}
+	return ""
+}
+
+type MsgVerifyResult struct {
+	Err EnumVerify_Error `protobuf:"varint,1,opt,name=Err,proto3,enum=proto.EnumVerify_Error" json:"Err,omitempty"`
+}
+
+func (m *MsgVerifyResult) Reset()                    { *m = MsgVerifyResult{} }
+func (m *MsgVerifyResult) String() string            { return proto1.CompactTextString(m) }
+func (*MsgVerifyResult) ProtoMessage()               {}
+func (*MsgVerifyResult) Descriptor() ([]byte, []int) { return fileDescriptorCommon, []int{5} }
+
+func (m *MsgVerifyResult) GetErr() EnumVerify_Error {
+	if m != nil {
+		return m.Err
+	}
+	return EnumVerify_NoErr
+}
+
+// / Forward (C->S; S->S)
+type MsgForward struct {
+	Type uint32 `protobuf:"varint,1,opt,name=Type,proto3" json:"Type,omitempty"`
+	Data []byte `protobuf:"bytes,2,opt,name=Data,proto3" json:"Data,omitempty"`
+	ID   string `protobuf:"bytes,3,opt,name=ID,proto3" json:"ID,omitempty"`
+}
+
+func (m *MsgForward) Reset()                    { *m = MsgForward{} }
+func (m *MsgForward) String() string            { return proto1.CompactTextString(m) }
+func (*MsgForward) ProtoMessage()               {}
+func (*MsgForward) Descriptor() ([]byte, []int) { return fileDescriptorCommon, []int{6} }
+
+func (m *MsgForward) GetType() uint32 {
+	if m != nil {
+		return m.Type
+	}
+	return 0
+}
+
+func (m *MsgForward) GetData() []byte {
+	if m != nil {
+		return m.Data
+	}
+	return nil
+}
+
+func (m *MsgForward) GetID() string {
+	if m != nil {
+		return m.ID
+	}
+	return ""
+}
+
+// / KickPlayer (S->S)
+type MsgKick struct {
+	UID uint64 `protobuf:"varint,1,opt,name=UID,proto3" json:"UID,omitempty"`
+}
+
+func (m *MsgKick) Reset()                    { *m = MsgKick{} }
+func (m *MsgKick) String() string            { return proto1.CompactTextString(m) }
+func (*MsgKick) ProtoMessage()               {}
+func (*MsgKick) Descriptor() ([]byte, []int) { return fileDescriptorCommon, []int{7} }
+
+func (m *MsgKick) GetUID() uint64 {
+	if m != nil {
+		return m.UID
+	}
+	return 0
+}
+
 func init() {
+	proto1.RegisterType((*EnumLogin)(nil), "proto.EnumLogin")
 	proto1.RegisterType((*MsgLogin)(nil), "proto.MsgLogin")
 	proto1.RegisterType((*MsgLoginResult)(nil), "proto.MsgLoginResult")
+	proto1.RegisterType((*EnumVerify)(nil), "proto.EnumVerify")
+	proto1.RegisterType((*MsgVerify)(nil), "proto.MsgVerify")
+	proto1.RegisterType((*MsgVerifyResult)(nil), "proto.MsgVerifyResult")
+	proto1.RegisterType((*MsgForward)(nil), "proto.MsgForward")
+	proto1.RegisterType((*MsgKick)(nil), "proto.MsgKick")
 	proto1.RegisterEnum("proto.MsgTypeCmd", MsgTypeCmd_name, MsgTypeCmd_value)
 	proto1.RegisterEnum("proto.LoginMode", LoginMode_name, LoginMode_value)
-	proto1.RegisterEnum("proto.LoginError", LoginError_name, LoginError_value)
+	proto1.RegisterEnum("proto.EnumLogin_Error", EnumLogin_Error_name, EnumLogin_Error_value)
+	proto1.RegisterEnum("proto.EnumVerify_Error", EnumVerify_Error_name, EnumVerify_Error_value)
 }
+func (m *EnumLogin) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalTo(dAtA)
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *EnumLogin) MarshalTo(dAtA []byte) (int, error) {
+	var i int
+	_ = i
+	var l int
+	_ = l
+	return i, nil
+}
+
 func (m *MsgLogin) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
@@ -266,6 +438,135 @@ func (m *MsgLoginResult) MarshalTo(dAtA []byte) (int, error) {
 	return i, nil
 }
 
+func (m *EnumVerify) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalTo(dAtA)
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *EnumVerify) MarshalTo(dAtA []byte) (int, error) {
+	var i int
+	_ = i
+	var l int
+	_ = l
+	return i, nil
+}
+
+func (m *MsgVerify) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalTo(dAtA)
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgVerify) MarshalTo(dAtA []byte) (int, error) {
+	var i int
+	_ = i
+	var l int
+	_ = l
+	if len(m.Account) > 0 {
+		dAtA[i] = 0xa
+		i++
+		i = encodeVarintCommon(dAtA, i, uint64(len(m.Account)))
+		i += copy(dAtA[i:], m.Account)
+	}
+	if len(m.Token) > 0 {
+		dAtA[i] = 0x12
+		i++
+		i = encodeVarintCommon(dAtA, i, uint64(len(m.Token)))
+		i += copy(dAtA[i:], m.Token)
+	}
+	return i, nil
+}
+
+func (m *MsgVerifyResult) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalTo(dAtA)
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgVerifyResult) MarshalTo(dAtA []byte) (int, error) {
+	var i int
+	_ = i
+	var l int
+	_ = l
+	if m.Err != 0 {
+		dAtA[i] = 0x8
+		i++
+		i = encodeVarintCommon(dAtA, i, uint64(m.Err))
+	}
+	return i, nil
+}
+
+func (m *MsgForward) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalTo(dAtA)
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgForward) MarshalTo(dAtA []byte) (int, error) {
+	var i int
+	_ = i
+	var l int
+	_ = l
+	if m.Type != 0 {
+		dAtA[i] = 0x8
+		i++
+		i = encodeVarintCommon(dAtA, i, uint64(m.Type))
+	}
+	if len(m.Data) > 0 {
+		dAtA[i] = 0x12
+		i++
+		i = encodeVarintCommon(dAtA, i, uint64(len(m.Data)))
+		i += copy(dAtA[i:], m.Data)
+	}
+	if len(m.ID) > 0 {
+		dAtA[i] = 0x1a
+		i++
+		i = encodeVarintCommon(dAtA, i, uint64(len(m.ID)))
+		i += copy(dAtA[i:], m.ID)
+	}
+	return i, nil
+}
+
+func (m *MsgKick) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalTo(dAtA)
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgKick) MarshalTo(dAtA []byte) (int, error) {
+	var i int
+	_ = i
+	var l int
+	_ = l
+	if m.UID != 0 {
+		dAtA[i] = 0x8
+		i++
+		i = encodeVarintCommon(dAtA, i, uint64(m.UID))
+	}
+	return i, nil
+}
+
 func encodeVarintCommon(dAtA []byte, offset int, v uint64) int {
 	for v >= 1<<7 {
 		dAtA[offset] = uint8(v&0x7f | 0x80)
@@ -275,6 +576,12 @@ func encodeVarintCommon(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return offset + 1
 }
+func (m *EnumLogin) Size() (n int) {
+	var l int
+	_ = l
+	return n
+}
+
 func (m *MsgLogin) Size() (n int) {
 	var l int
 	_ = l
@@ -313,6 +620,61 @@ func (m *MsgLoginResult) Size() (n int) {
 	return n
 }
 
+func (m *EnumVerify) Size() (n int) {
+	var l int
+	_ = l
+	return n
+}
+
+func (m *MsgVerify) Size() (n int) {
+	var l int
+	_ = l
+	l = len(m.Account)
+	if l > 0 {
+		n += 1 + l + sovCommon(uint64(l))
+	}
+	l = len(m.Token)
+	if l > 0 {
+		n += 1 + l + sovCommon(uint64(l))
+	}
+	return n
+}
+
+func (m *MsgVerifyResult) Size() (n int) {
+	var l int
+	_ = l
+	if m.Err != 0 {
+		n += 1 + sovCommon(uint64(m.Err))
+	}
+	return n
+}
+
+func (m *MsgForward) Size() (n int) {
+	var l int
+	_ = l
+	if m.Type != 0 {
+		n += 1 + sovCommon(uint64(m.Type))
+	}
+	l = len(m.Data)
+	if l > 0 {
+		n += 1 + l + sovCommon(uint64(l))
+	}
+	l = len(m.ID)
+	if l > 0 {
+		n += 1 + l + sovCommon(uint64(l))
+	}
+	return n
+}
+
+func (m *MsgKick) Size() (n int) {
+	var l int
+	_ = l
+	if m.UID != 0 {
+		n += 1 + sovCommon(uint64(m.UID))
+	}
+	return n
+}
+
 func sovCommon(x uint64) (n int) {
 	for {
 		n++
@@ -325,6 +687,56 @@ func sovCommon(x uint64) (n int) {
 }
 func sozCommon(x uint64) (n int) {
 	return sovCommon(uint64((x << 1) ^ uint64((int64(x) >> 63))))
+}
+func (m *EnumLogin) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowCommon
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= (uint64(b) & 0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: EnumLogin: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: EnumLogin: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipCommon(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthCommon
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
 }
 func (m *MsgLogin) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
@@ -527,7 +939,7 @@ func (m *MsgLoginResult) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.Err |= (LoginError(b) & 0x7F) << shift
+				m.Err |= (EnumLogin_Error(b) & 0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -590,6 +1002,431 @@ func (m *MsgLoginResult) Unmarshal(dAtA []byte) error {
 			}
 			m.Address = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipCommon(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthCommon
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *EnumVerify) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowCommon
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= (uint64(b) & 0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: EnumVerify: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: EnumVerify: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipCommon(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthCommon
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgVerify) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowCommon
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= (uint64(b) & 0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgVerify: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgVerify: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Account", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowCommon
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= (uint64(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthCommon
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Account = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Token", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowCommon
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= (uint64(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthCommon
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Token = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipCommon(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthCommon
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgVerifyResult) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowCommon
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= (uint64(b) & 0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgVerifyResult: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgVerifyResult: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Err", wireType)
+			}
+			m.Err = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowCommon
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Err |= (EnumVerify_Error(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipCommon(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthCommon
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgForward) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowCommon
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= (uint64(b) & 0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgForward: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgForward: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Type", wireType)
+			}
+			m.Type = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowCommon
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Type |= (uint32(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Data", wireType)
+			}
+			var byteLen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowCommon
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				byteLen |= (int(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if byteLen < 0 {
+				return ErrInvalidLengthCommon
+			}
+			postIndex := iNdEx + byteLen
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Data = append(m.Data[:0], dAtA[iNdEx:postIndex]...)
+			if m.Data == nil {
+				m.Data = []byte{}
+			}
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ID", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowCommon
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= (uint64(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthCommon
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.ID = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipCommon(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthCommon
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgKick) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowCommon
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= (uint64(b) & 0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgKick: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgKick: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field UID", wireType)
+			}
+			m.UID = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowCommon
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.UID |= (uint64(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
 		default:
 			iNdEx = preIndex
 			skippy, err := skipCommon(dAtA[iNdEx:])
@@ -719,29 +1556,38 @@ var (
 func init() { proto1.RegisterFile("common.proto", fileDescriptorCommon) }
 
 var fileDescriptorCommon = []byte{
-	// 372 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x4c, 0x90, 0xcf, 0xae, 0x12, 0x31,
-	0x14, 0xc6, 0xa7, 0x17, 0xe6, 0x72, 0xe7, 0x80, 0x43, 0xad, 0x2e, 0x26, 0x2e, 0x26, 0x04, 0x5d,
-	0x4c, 0x66, 0xc1, 0x02, 0x9f, 0x40, 0xa0, 0x12, 0x12, 0x07, 0xc9, 0x00, 0x6b, 0x53, 0x69, 0x21,
-	0x44, 0x66, 0x4a, 0x4e, 0x87, 0x10, 0xb6, 0xc6, 0x07, 0xf0, 0xb1, 0x5c, 0xfa, 0x08, 0x06, 0x5f,
-	0xc4, 0xb4, 0xfc, 0xf1, 0xae, 0x9a, 0xaf, 0xa7, 0xfd, 0x7d, 0xdf, 0xf9, 0xa0, 0xb5, 0xd2, 0x45,
-	0xa1, 0xcb, 0xde, 0x1e, 0x75, 0xa5, 0x99, 0xef, 0x8e, 0xee, 0x77, 0x02, 0x4f, 0x99, 0xd9, 0x7c,
-	0xd2, 0x9b, 0x6d, 0xc9, 0x22, 0x68, 0x7c, 0x58, 0xad, 0xf4, 0xa1, 0xac, 0x22, 0xd2, 0x21, 0x49,
-	0x90, 0xdf, 0x24, 0x7b, 0x03, 0x4f, 0x33, 0x61, 0xcc, 0x51, 0xa3, 0x8c, 0x1e, 0xdc, 0xe8, 0xae,
-	0xd9, 0x3b, 0xa8, 0x67, 0x5a, 0xaa, 0xa8, 0xd6, 0x21, 0x49, 0xd8, 0xa7, 0x17, 0x7e, 0xcf, 0x11,
-	0xed, 0x7d, 0xee, 0xa6, 0x96, 0xb0, 0x34, 0x0a, 0xa5, 0xa8, 0x44, 0x54, 0xef, 0x90, 0xa4, 0x95,
-	0xdf, 0x75, 0x57, 0x41, 0x78, 0xcb, 0x90, 0x2b, 0x73, 0xd8, 0x55, 0xec, 0x2d, 0xd4, 0x38, 0xa2,
-	0x4b, 0x11, 0xf6, 0x5f, 0x3e, 0x47, 0x72, 0x44, 0x8d, 0xb9, 0x9d, 0xb2, 0xd7, 0xe0, 0x2f, 0xf4,
-	0x37, 0x55, 0x5e, 0x13, 0x5d, 0x84, 0x5b, 0x42, 0x4a, 0x54, 0xc6, 0xb8, 0x44, 0x76, 0x89, 0x8b,
-	0x4c, 0x13, 0x80, 0xcc, 0x6c, 0x16, 0xa7, 0xbd, 0x1a, 0x16, 0x92, 0xb5, 0xa1, 0xb9, 0x9c, 0xce,
-	0x67, 0x7c, 0x38, 0xf9, 0x38, 0xe1, 0x23, 0xea, 0xb1, 0x00, 0x7c, 0xe7, 0x40, 0x49, 0x9a, 0x42,
-	0x70, 0xcf, 0xcf, 0x9a, 0xd0, 0x18, 0xa9, 0xb5, 0x38, 0xec, 0x2a, 0xea, 0x31, 0x0a, 0xad, 0xe1,
-	0x72, 0xbe, 0xf8, 0x9c, 0x7d, 0x19, 0xf0, 0xf1, 0x64, 0x4a, 0x65, 0xfa, 0x83, 0x00, 0xfc, 0x4f,
-	0x66, 0x29, 0x53, 0xcd, 0x11, 0xa9, 0x67, 0x1d, 0x38, 0xe2, 0xad, 0x27, 0x4a, 0x58, 0x08, 0xc0,
-	0x11, 0xaf, 0x9d, 0xd2, 0x07, 0xf6, 0x0a, 0xda, 0xf6, 0xc1, 0x4e, 0x54, 0x6b, 0x8d, 0xc5, 0x7c,
-	0x2b, 0x15, 0xad, 0x59, 0x3b, 0x8e, 0x68, 0x9d, 0x69, 0xdd, 0xd2, 0x38, 0xe2, 0x68, 0x40, 0xfd,
-	0xeb, 0xe7, 0xb1, 0xa8, 0xd4, 0x51, 0x9c, 0xe8, 0x23, 0x7b, 0x01, 0x81, 0xa3, 0xa3, 0x28, 0x0c,
-	0x6d, 0x0c, 0xe8, 0xaf, 0x73, 0x4c, 0x7e, 0x9f, 0x63, 0xf2, 0xe7, 0x1c, 0x93, 0x9f, 0x7f, 0x63,
-	0xef, 0xeb, 0xa3, 0x6b, 0xed, 0xfd, 0xbf, 0x00, 0x00, 0x00, 0xff, 0xff, 0xba, 0x9f, 0x65, 0x0e,
-	0xf8, 0x01, 0x00, 0x00,
+	// 519 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x7c, 0x52, 0xcf, 0x8f, 0xd2, 0x40,
+	0x14, 0x66, 0x4a, 0xf9, 0xd1, 0xb7, 0x2c, 0x4c, 0x46, 0xa3, 0x44, 0x13, 0x42, 0x1a, 0x0f, 0xc8,
+	0x81, 0x98, 0xf5, 0xa8, 0x31, 0x11, 0x3a, 0xbb, 0x69, 0xd6, 0xe2, 0xa6, 0x80, 0x57, 0x53, 0xe9,
+	0x40, 0x70, 0x29, 0xb3, 0x79, 0x53, 0x42, 0x38, 0x99, 0x78, 0xf6, 0xe0, 0x9f, 0xe5, 0xd1, 0x3f,
+	0xc1, 0xe0, 0x3f, 0x62, 0x66, 0x5a, 0x1a, 0x4c, 0x36, 0x7b, 0xea, 0x7c, 0x33, 0xef, 0x7d, 0xef,
+	0xfb, 0xbe, 0x3e, 0x68, 0xcc, 0x65, 0x92, 0xc8, 0xcd, 0xe0, 0x0e, 0x65, 0x2a, 0x59, 0xc5, 0x7c,
+	0xdc, 0x1f, 0x04, 0x1c, 0xbe, 0xd9, 0x26, 0x1f, 0xe4, 0x72, 0xb5, 0x71, 0xbf, 0x41, 0x85, 0x23,
+	0x4a, 0x64, 0x0e, 0x54, 0xc6, 0x92, 0x23, 0xd2, 0x12, 0x6b, 0xc1, 0x19, 0x47, 0xbc, 0x89, 0x94,
+	0xda, 0x49, 0x8c, 0x29, 0x61, 0x4d, 0x00, 0x8e, 0xf8, 0x7e, 0x3e, 0x97, 0xdb, 0x4d, 0x4a, 0x2d,
+	0xf6, 0x08, 0x5a, 0xba, 0x60, 0x1d, 0xa5, 0x0b, 0x89, 0xc9, 0x64, 0x15, 0x0b, 0x5a, 0x66, 0x67,
+	0x50, 0xe3, 0x88, 0x81, 0x8c, 0x05, 0xb5, 0x35, 0x1b, 0x47, 0xf4, 0x86, 0xb4, 0x92, 0x37, 0x5f,
+	0x45, 0xa9, 0xd8, 0x45, 0x7b, 0x5a, 0x65, 0xe7, 0xe0, 0x18, 0x76, 0x8c, 0x12, 0x45, 0x6b, 0xee,
+	0x77, 0x02, 0xf5, 0x40, 0x2d, 0x8d, 0x1a, 0xd6, 0x86, 0x5a, 0x3e, 0xa5, 0x4d, 0xba, 0xa4, 0xe7,
+	0x84, 0x47, 0xc8, 0x9e, 0x41, 0xfd, 0x28, 0xa8, 0x6d, 0x99, 0xa7, 0x02, 0xb3, 0x17, 0x60, 0xeb,
+	0xb1, 0xed, 0x72, 0x97, 0xf4, 0x9a, 0x17, 0x34, 0xb3, 0x3b, 0x30, 0x8c, 0xfa, 0x3e, 0x34, 0xaf,
+	0x9a, 0x61, 0xa6, 0x04, 0xc6, 0x51, 0x1a, 0xb5, 0xed, 0x2e, 0xe9, 0x35, 0xc2, 0x02, 0xbb, 0x5f,
+	0xa1, 0x79, 0xd4, 0x10, 0x0a, 0xb5, 0x5d, 0xa7, 0xac, 0x07, 0x65, 0x8e, 0x68, 0x54, 0x34, 0x2f,
+	0x9e, 0xe4, 0x94, 0x45, 0x6c, 0x03, 0x93, 0x59, 0xa8, 0x4b, 0xd8, 0x63, 0xa8, 0x4c, 0xe5, 0xad,
+	0xd8, 0xe4, 0xb2, 0x32, 0x60, 0x9c, 0xc4, 0x31, 0x0a, 0xa5, 0x8c, 0x2c, 0xed, 0x24, 0x83, 0xee,
+	0x3b, 0x00, 0xcd, 0xf3, 0x49, 0xe0, 0x6a, 0xb1, 0x77, 0x5f, 0xdd, 0x93, 0xff, 0xff, 0x71, 0x13,
+	0xd6, 0x80, 0x3a, 0x47, 0x34, 0xbc, 0xd4, 0x72, 0xdf, 0x80, 0x13, 0xa8, 0x65, 0xd6, 0xfe, 0x40,
+	0x60, 0xf7, 0xca, 0x72, 0xdf, 0x42, 0xab, 0x68, 0xce, 0x9d, 0xbe, 0x3c, 0x75, 0xfa, 0xf4, 0xc4,
+	0x69, 0x56, 0x75, 0x62, 0xd5, 0xf5, 0x00, 0x02, 0xb5, 0xbc, 0x94, 0xb8, 0x8b, 0x30, 0x66, 0x0c,
+	0xec, 0xe9, 0xfe, 0x4e, 0x98, 0xce, 0xf3, 0xd0, 0x9c, 0xf5, 0x9d, 0xa7, 0x03, 0xb6, 0x4c, 0xc0,
+	0xe6, 0xcc, 0x9a, 0x60, 0xf9, 0x5e, 0x9e, 0x82, 0xe5, 0x7b, 0xee, 0x73, 0xa8, 0x05, 0x6a, 0x79,
+	0xbd, 0x9a, 0xdf, 0x32, 0x0a, 0xe5, 0x99, 0xef, 0x19, 0x06, 0x3b, 0xd4, 0xc7, 0xfe, 0xb5, 0x19,
+	0xa1, 0xb9, 0x46, 0x49, 0xac, 0x37, 0x71, 0x36, 0x9e, 0xdc, 0xf0, 0x91, 0x7f, 0xe9, 0x73, 0x8f,
+	0x96, 0x74, 0x4a, 0xe6, 0x07, 0x50, 0xc2, 0x00, 0xaa, 0x99, 0x42, 0x6a, 0xe9, 0xdd, 0xcb, 0x55,
+	0xd1, 0x32, 0xab, 0x83, 0xad, 0xc9, 0xa9, 0xdd, 0xef, 0x83, 0x53, 0x6c, 0x81, 0xae, 0xf1, 0xc4,
+	0x22, 0xda, 0xae, 0x53, 0x5a, 0x62, 0x14, 0x1a, 0xa3, 0xd9, 0x64, 0xfa, 0x31, 0xf8, 0x3c, 0xe4,
+	0x57, 0xfe, 0x98, 0xc6, 0x43, 0xfa, 0xeb, 0xd0, 0x21, 0xbf, 0x0f, 0x1d, 0xf2, 0xe7, 0xd0, 0x21,
+	0x3f, 0xff, 0x76, 0x4a, 0x5f, 0xaa, 0x26, 0x8a, 0xd7, 0xff, 0x02, 0x00, 0x00, 0xff, 0xff, 0xc5,
+	0x65, 0xa5, 0x92, 0x46, 0x03, 0x00, 0x00,
 }

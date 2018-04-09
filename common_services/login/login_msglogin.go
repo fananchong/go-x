@@ -18,7 +18,7 @@ import (
 func (this *Login) MsgLogin(w http.ResponseWriter, req *http.Request, data string, sign string) {
 	msg := &proto.MsgLogin{}
 	if this.decodeMsg(data, msg) == nil {
-		w.Write(getErrRepString(proto.LoginError_ErrParams))
+		w.Write(getErrRepString(proto.EnumLogin_ErrParams))
 		return
 	}
 	common.GetLogger().Debugln("account =", msg.GetAccount())
@@ -34,31 +34,31 @@ func (this *Login) MsgLogin(w http.ResponseWriter, req *http.Request, data strin
 		case proto.LoginMode_Default:
 			accountId, password, err = this.loginByDefault(msg)
 			if err != nil {
-				w.Write(getErrRepString(proto.LoginError_ErrDB))
+				w.Write(getErrRepString(proto.EnumLogin_ErrDB))
 				return
 			}
 			// 密码可以为空，因此不需要做否为空的判断
 		default:
 			common.GetLogger().Debugln("unknow mode, mode =", msg.GetMode())
-			w.Write(getErrRepString(proto.LoginError_ErrMode))
+			w.Write(getErrRepString(proto.EnumLogin_ErrMode))
 			return
 		}
 	} else {
 		// 应用层的登录模式
 		passwd, err := this.GetPassword(msg.GetAccount(), msg.GetMode(), msg.GetUserdata())
-		if err != proto.LoginError_NoErr {
+		if err != proto.EnumLogin_NoErr {
 			w.Write(getErrRepString(err))
 			return
 		}
 		if passwd == "" {
-			w.Write(getErrRepString(proto.LoginError_ErrPlatformSide))
+			w.Write(getErrRepString(proto.EnumLogin_ErrPlatformSide))
 			return
 		}
 		password = passwd
 	}
 
 	if password != "" && !this.checkPassword(msg.GetPassword(), password, checkSalt(msg.GetMode())) {
-		w.Write(getErrRepString(proto.LoginError_ErrPassword))
+		w.Write(getErrRepString(proto.EnumLogin_ErrPassword))
 		return
 	}
 
@@ -68,7 +68,7 @@ func (this *Login) MsgLogin(w http.ResponseWriter, req *http.Request, data strin
 
 		uid, err := this.suid.New(db.SUID_TYPE_ACCOUNT)
 		if err != nil {
-			w.Write(getErrRepString(proto.LoginError_ErrDB))
+			w.Write(getErrRepString(proto.EnumLogin_ErrDB))
 			return
 		}
 		account := db.NewAccount(this.dbAccountName, msg.GetAccount())
@@ -76,7 +76,7 @@ func (this *Login) MsgLogin(w http.ResponseWriter, req *http.Request, data strin
 		account.SetPswd(msg.GetPassword())
 		err = account.Save()
 		if err != nil {
-			w.Write(getErrRepString(proto.LoginError_ErrDB))
+			w.Write(getErrRepString(proto.EnumLogin_ErrDB))
 			return
 		}
 		accountId = uid
@@ -85,7 +85,7 @@ func (this *Login) MsgLogin(w http.ResponseWriter, req *http.Request, data strin
 	// 获取一个Gateway
 	gw, _ := discovery.GetNode().Servers.GetOne(int(common.Gateway))
 	if gw == nil {
-		w.Write(getErrRepString(proto.LoginError_ErrGateway))
+		w.Write(getErrRepString(proto.EnumLogin_ErrGateway))
 		return
 	}
 
@@ -104,7 +104,7 @@ func (this *Login) MsgLogin(w http.ResponseWriter, req *http.Request, data strin
 	token.SetToken(temptkn)
 	err = token.Save()
 	if err != nil {
-		w.Write(getErrRepString(proto.LoginError_ErrDB))
+		w.Write(getErrRepString(proto.EnumLogin_ErrDB))
 		return
 	}
 
@@ -112,7 +112,7 @@ func (this *Login) MsgLogin(w http.ResponseWriter, req *http.Request, data strin
 	common.GetLogger().Debugln("accountId =", accountId)
 	common.GetLogger().Debugln("gateway =", gw.GetExternalIp())
 	rep := &proto.MsgLoginResult{}
-	rep.Err = proto.LoginError_NoErr
+	rep.Err = proto.EnumLogin_NoErr
 	rep.Token = temptkn
 	rep.Address = gw.GetExternalIp()
 	succmsg, _ := proto1.Marshal(rep)
@@ -127,7 +127,7 @@ func checkSalt(mode proto.LoginMode) bool {
 	return true
 }
 
-func getErrRepString(err proto.LoginError) []byte {
+func getErrRepString(err proto.EnumLogin_Error) []byte {
 	common.GetLogger().Debugln("err =", err)
 	rep := &proto.MsgLoginResult{}
 	rep.Err = err

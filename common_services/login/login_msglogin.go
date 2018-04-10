@@ -83,7 +83,7 @@ func (this *Login) MsgLogin(w http.ResponseWriter, req *http.Request, data strin
 	}
 
 	// 获取一个Gateway
-	gw, _ := discovery.GetNode().Servers.GetOne(int(common.Gateway))
+	_, gw, _ := discovery.GetNode().Servers.GetOne(int(common.Gateway))
 	if gw == nil {
 		w.Write(getErrRepString(proto.EnumLogin_ErrGateway))
 		return

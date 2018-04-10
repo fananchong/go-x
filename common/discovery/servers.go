@@ -7,7 +7,7 @@ import (
 )
 
 type IServers interface {
-	GetOne(nodeType int) (*ServerInfo, bool)
+	GetOne(nodeType int) (string, *ServerInfo, bool)
 	GetAll(nodeType int) ([]*ServerInfo, bool)
 	Set(nodeType int, id string, val *ServerInfo)
 	Delete(nodeType int, id string)
@@ -37,15 +37,15 @@ func NewServers(m IMap) *Servers {
 	}
 }
 
-func (this *Servers) GetOne(nodeType int) (*ServerInfo, bool) {
+func (this *Servers) GetOne(nodeType int) (string, *ServerInfo, bool) {
 	this.mutex.RLock()
 	defer this.mutex.RUnlock()
 	if m, ok := this.ss[nodeType]; ok {
-		if _, info, ok := m.GetOne(); ok {
-			return info.(*ServerInfo), true
+		if key, info, ok := m.GetOne(); ok {
+			return key.(string), info.(*ServerInfo), true
 		}
 	}
-	return nil, false
+	return "", nil, false
 }
 
 func (this *Servers) GetAll(nodeType int) ([]*ServerInfo, bool) {

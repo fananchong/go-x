@@ -51,6 +51,8 @@ func (this *Node) tryConnect(id string, info *discovery.ServerInfo) {
 	go func() {
 		if session.Connect(info.ExternalIp, session) == true {
 			this.nodes.Store(id, session)
+			session.id = id
+			session.t = info.GetType()
 		}
 		this.pending.Delete(id)
 	}()

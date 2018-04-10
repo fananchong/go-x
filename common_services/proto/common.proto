@@ -48,24 +48,10 @@ message MsgLoginResult
 
 
 /// Verify (C->S; S->S)
-message EnumVerify
-{
-    enum Error {
-        NoErr = 0;    
-        ErrAccount = 1;
-        ErrToken = 2;
-    }
-}
-   
 message MsgVerify
 {
     string Account = 1;     // 帐号
     string Token = 2;       // 令牌
-}
-
-message MsgVerifyResult
-{
-    EnumVerify.Error Err = 1;    // 0:验证成功；非0:错误号
 }
 
 /// Forward (C->S; S->S)
@@ -79,7 +65,7 @@ message MsgForward
 /// KickPlayer (S->S)
 message MsgKick
 {
-    uint64 UID = 1;         // 帐号ID 
+    uint64 UID = 1;         // 帐号ID
 }
 
 

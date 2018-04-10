@@ -6,6 +6,7 @@ type ArgsBase struct {
 	Etcd      ArgsEtcd    // Etcd配置
 	DbAccount ArgsRedis   // 帐号数据库（Redis）
 	DbToken   ArgsRedis   // Token数据库（Redis）
+	DbServer  ArgsRedis   // Server数据库（Redis）
 }
 
 type ArgsCommon struct {

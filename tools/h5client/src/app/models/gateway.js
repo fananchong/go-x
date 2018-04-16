@@ -24,8 +24,8 @@
 
     proto1.onConnect = function () {
         var msg = new proto.proto.MsgVerify();
-        msg.setAccount(this.account);
-        msg.setToken(this.token);
+        msg.setAccount(this.user.account);
+        msg.setToken(this.user.token);
         this.ws.Send(proto.proto.MsgTypeCmd.Verify, msg);
     };
 

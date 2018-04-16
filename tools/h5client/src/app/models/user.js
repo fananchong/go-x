@@ -1,33 +1,38 @@
 (function () {
     'use strict';
 
+    require('../proto/common_pb.js');
     var Login = require('./login.js');
+    var Gateway = require('./gateway.js');
 
     module.exports = User;
 
     function User() {
         this.login = new Login(this);
-        this.uid = 0;
+        this.gateway = new Gateway(this);
+        this.account = "";
         this.token = "";
         this.gatewayIP = "";
         this.gatewayPort = 0;
     }
 
-    var proto = User.prototype;
+    var proto1 = User.prototype;
 
-    proto.Login = function (data) {
-        console.log("user data = ", JSON.stringify(data));
-        // this.uid = data.UID;
-        // this.token = data.Token;
-        // this.gatewayIP = data.LobbyAddr.split(":")[0];
-        // this.gatewayPort = parseInt(data.LobbyAddr.split(":")[1]);
+    proto1.Login = function (data) {
+        var bytes = Array.prototype.slice.call(Buffer.from(data), 0);
+        var msg = proto.proto.MsgLoginResult.deserializeBinary(bytes);
+        console.log('MsgLoginResult.Err:', msg.getErr());
+        console.log('MsgLoginResult.Token:', msg.getToken());
+        console.log('MsgLoginResult.Address:', msg.getAddress());
 
-        // 登录Gateway
-        this.gateway();
-    };
-
-    proto.gateway = function () {
-        //alert('aaaa');
+        if (msg.getErr() == 0) {
+            this.token = msg.getToken();
+            this.gatewayIP = msg.getAddress().split(":")[0];
+            this.gatewayPort = parseInt(msg.getAddress().split(":")[1]);
+            this.gateway.Login();
+        } else {
+            alert('帐号验证失败。错误码：', msg.getErr());
+        }
     };
 
     var u = new User();

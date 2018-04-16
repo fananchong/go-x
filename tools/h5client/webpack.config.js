@@ -8,6 +8,7 @@ module.exports = {
         filename: './src/bundle.js'
     },
     devServer: {
+        "addr": "localhost",
         "port": 8000,
         "open": true,
         "browser": ["chrome", '--allow-file-access-from-files', '--disable-web-security', '--user-data-dir=./userdata'],

@@ -33,7 +33,7 @@ func (this *SessionAccount) OnRecv(data []byte, flag byte) {
 			}
 		}
 	default:
-		xlog.Debug("unkown msg")
+		xlog.Debugln("unkown msg")
 		this.Close()
 	}
 
@@ -48,20 +48,20 @@ func (this *SessionAccount) OnClose() {
 func (this *SessionAccount) doVerify(data []byte, flag byte) {
 	msg := &proto.MsgVerify{}
 	if gotcp.DecodeCmd(data, flag, msg) == nil {
-		xlog.Debug("decodeMsg fail.")
+		xlog.Debugln("decodeMsg fail.")
 		this.Close()
 		return
 	}
 
 	token := db.NewToken(common.GetArgs().DbToken.Name, msg.GetAccount())
 	if err := token.Load(); err != nil {
-		xlog.Debug(err)
+		xlog.Debugln(err)
 		this.Close()
 		return
 	}
 
 	if token.GetToken() != msg.GetToken() {
-		xlog.Debug("token error.")
+		xlog.Debugln("token error.")
 		this.Close()
 		return
 	}
@@ -69,7 +69,7 @@ func (this *SessionAccount) doVerify(data []byte, flag byte) {
 	uidserver := db.NewUIDServer(common.GetArgs().DbServer.Name, token.GetUid())
 	uidserver.SetGateway(xnode.Id())
 	if err := uidserver.Save(); err != nil {
-		xlog.Debug(err)
+		xlog.Debugln(err)
 		this.Close()
 		return
 	}
@@ -86,6 +86,8 @@ func (this *SessionAccount) doVerify(data []byte, flag byte) {
 	this.ForwardAll(common.Hub, proto.MsgTypeCmd_Kick, kickmsg)
 
 	this.Verify()
+
+	xlog.Debugln("account:", msg.GetAccount(), "verify success.");
 }
 
 func (this *SessionAccount) ForwardOne(serverType common.ServerType, cmd proto.MsgTypeCmd, msg proto1.Message) {

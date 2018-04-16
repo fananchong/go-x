@@ -14,6 +14,7 @@
 
     proto1.Login = function ($http, account, password, ip, port) {
         var self = this;
+        self.user.account = account;
         var msg = new proto.proto.MsgLogin();
         msg.setAccount(account);
         msg.setPassword(password);

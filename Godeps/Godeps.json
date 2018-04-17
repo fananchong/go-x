@@ -72,7 +72,7 @@
 		},
 		{
 			"ImportPath": "github.com/fananchong/gotcp",
-			"Rev": "ebfe0905ee8233b69c0fd1183320f636781f4960"
+			"Rev": "4dbcf7491dcdff2e0fede1ba7755ead5f558050d"
 		},
 		{
 			"ImportPath": "github.com/fananchong/multiconfig",
@@ -143,31 +143,31 @@
 		},
 		{
 			"ImportPath": "golang.org/x/net/context",
-			"Rev": "24dd3780ca4f75fed9f321890729414a4b5d3f13"
+			"Rev": "61147c48b25b599e5b561d2e9c4f3e1ef489ca41"
 		},
 		{
 			"ImportPath": "golang.org/x/net/http2",
-			"Rev": "24dd3780ca4f75fed9f321890729414a4b5d3f13"
+			"Rev": "61147c48b25b599e5b561d2e9c4f3e1ef489ca41"
 		},
 		{
 			"ImportPath": "golang.org/x/net/http2/hpack",
-			"Rev": "24dd3780ca4f75fed9f321890729414a4b5d3f13"
+			"Rev": "61147c48b25b599e5b561d2e9c4f3e1ef489ca41"
 		},
 		{
 			"ImportPath": "golang.org/x/net/idna",
-			"Rev": "24dd3780ca4f75fed9f321890729414a4b5d3f13"
+			"Rev": "61147c48b25b599e5b561d2e9c4f3e1ef489ca41"
 		},
 		{
 			"ImportPath": "golang.org/x/net/internal/timeseries",
-			"Rev": "24dd3780ca4f75fed9f321890729414a4b5d3f13"
+			"Rev": "61147c48b25b599e5b561d2e9c4f3e1ef489ca41"
 		},
 		{
 			"ImportPath": "golang.org/x/net/lex/httplex",
-			"Rev": "24dd3780ca4f75fed9f321890729414a4b5d3f13"
+			"Rev": "61147c48b25b599e5b561d2e9c4f3e1ef489ca41"
 		},
 		{
 			"ImportPath": "golang.org/x/net/trace",
-			"Rev": "24dd3780ca4f75fed9f321890729414a4b5d3f13"
+			"Rev": "61147c48b25b599e5b561d2e9c4f3e1ef489ca41"
 		},
 		{
 			"ImportPath": "golang.org/x/text/secure/bidirule",

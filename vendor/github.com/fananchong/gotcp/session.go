@@ -116,19 +116,12 @@ func (this *Session) recvloop(job *sync.WaitGroup) {
 		datasize  int
 		msgbuff   []byte
 		recvBuff  *ByteBuffer = NewByteBuffer()
-		timeout               = time.NewTimer(time.Second * cmd_verify_time)
 	)
-	defer timeout.Stop()
 
 	job.Done()
 
 	for {
 		select {
-		case <-timeout.C:
-			if !this.IsVerified() {
-				xlog.Infoln("verify timeout, remote address =", this.RemoteAddr())
-				return
-			}
 		case <-this.ctx.Done():
 			return
 		default:
@@ -176,6 +169,7 @@ func (this *Session) sendloop(job *sync.WaitGroup) {
 		tmpByte  = NewByteBuffer()
 		writenum int
 		err      error
+		timeout  = time.NewTimer(time.Second * cmd_verify_time)
 	)
 
 	defer func() {
@@ -184,6 +178,7 @@ func (this *Session) sendloop(job *sync.WaitGroup) {
 		}
 		this.Close()
 	}()
+	defer timeout.Stop()
 
 	job.Done()
 
@@ -207,6 +202,11 @@ func (this *Session) sendloop(job *sync.WaitGroup) {
 			}
 		case <-this.ctx.Done():
 			return
+		case <-timeout.C:
+			if !this.IsVerified() {
+				xlog.Infoln("verify timeout, remote address =", this.RemoteAddr())
+				return
+			}
 		}
 	}
 }

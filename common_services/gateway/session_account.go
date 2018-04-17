@@ -27,9 +27,9 @@ func (this *SessionAccount) OnRecv(data []byte, flag byte) {
 	case proto.MsgTypeCmd_Kick:
 		msg := &proto.MsgKick{}
 		if gotcp.DecodeCmd(data, flag, msg) != nil {
-			if s, loaded := accounts.Load(msg.GetUID()); loaded {
+			if s, loaded := xaccounts.Load(msg.GetUID()); loaded {
 				s.(*SessionAccount).Close()
-				accounts.Delete(msg.GetUID())
+				xaccounts.Delete(msg.GetUID())
 			}
 		}
 	default:
@@ -40,8 +40,8 @@ func (this *SessionAccount) OnRecv(data []byte, flag byte) {
 }
 
 func (this *SessionAccount) OnClose() {
-	if _, loaded := accounts.Load(this.uid); loaded {
-		accounts.Delete(this.uid)
+	if _, loaded := xaccounts.Load(this.uid); loaded {
+		xaccounts.Delete(this.uid)
 	}
 }
 
@@ -74,20 +74,20 @@ func (this *SessionAccount) doVerify(data []byte, flag byte) {
 		return
 	}
 
-	if s, loaded := accounts.Load(token.GetUid()); loaded {
+	if s, loaded := xaccounts.Load(token.GetUid()); loaded {
 		s.(*SessionAccount).uid = 0
 		s.(*SessionAccount).Close()
 	}
-	accounts.Store(token.GetUid(), this)
+	xaccounts.Store(token.GetUid(), this)
 	this.uid = token.GetUid()
 
 	kickmsg := &proto.MsgKick{}
 	kickmsg.UID = this.uid
-	this.ForwardAll(common.Hub, proto.MsgTypeCmd_Kick, kickmsg)
+	this.ForwardOne(common.Hub, proto.MsgTypeCmd_Kick, kickmsg)
 
 	this.Verify()
 
-	xlog.Debugln("account:", msg.GetAccount(), "verify success.");
+	xlog.Debugln("account:", msg.GetAccount(), "verify success.")
 }
 
 func (this *SessionAccount) ForwardOne(serverType common.ServerType, cmd proto.MsgTypeCmd, msg proto1.Message) {
@@ -96,7 +96,7 @@ func (this *SessionAccount) ForwardOne(serverType common.ServerType, cmd proto.M
 		xlog.Errorln("no find server. #1")
 		return
 	}
-	if node, loaded := nodes.Load(id); loaded {
+	if node, loaded := xnodes.Load(id); loaded {
 		node.(*SessionNode).SendMsg(uint64(cmd), msg)
 	} else {
 		xlog.Errorln("no find server. #2")
@@ -105,9 +105,9 @@ func (this *SessionAccount) ForwardOne(serverType common.ServerType, cmd proto.M
 }
 
 func (this *SessionAccount) ForwardAll(serverType common.ServerType, cmd proto.MsgTypeCmd, msg proto1.Message) {
-	mutex.RLock()
-	defer mutex.RUnlock()
-	if items, ok := nodesByType[uint32(serverType)]; ok {
+	xnodesMutex.RLock()
+	defer xnodesMutex.RUnlock()
+	if items, ok := xnodesByType[uint32(serverType)]; ok {
 		for id, node := range items {
 			if id != xnode.Id() {
 				node.SendMsg(uint64(cmd), msg)
@@ -116,7 +116,7 @@ func (this *SessionAccount) ForwardAll(serverType common.ServerType, cmd proto.M
 	}
 }
 
-var accounts sync.Map
+var xaccounts sync.Map
 
 func initRedis() bool {
 	go_redis_orm.SetNewRedisHandler(go_redis_orm.NewDefaultRedisClient)

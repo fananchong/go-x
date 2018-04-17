@@ -14,37 +14,33 @@ type SessionNode struct {
 
 func (this *SessionNode) OnRecv(data []byte, flag byte) {
 	if this.IsVerified() == false {
-
-		// TODO: verify
-
-		nodes.Store(this.id, this)
-
-		mutex.Lock()
-		defer mutex.Unlock()
-		if _, ok := nodesByType[this.t]; !ok {
-			nodesByType[this.t] = make(map[string]*SessionNode)
+		xnodes.Store(this.id, this)
+		xnodesMutex.Lock()
+		defer xnodesMutex.Unlock()
+		if _, ok := xnodesByType[this.t]; !ok {
+			xnodesByType[this.t] = make(map[string]*SessionNode)
 		}
-		nodesByType[this.t][this.id] = this
+		xnodesByType[this.t][this.id] = this
 		this.Verify()
 	}
 }
 
 func (this *SessionNode) OnClose() {
-	if _, loaded := nodes.Load(this.id); loaded {
-		nodes.Delete(this.id)
+	if _, loaded := xnodes.Load(this.id); loaded {
+		xnodes.Delete(this.id)
 	}
-	mutex.Lock()
-	defer mutex.Unlock()
-	if items, ok := nodesByType[this.t]; ok {
+	xnodesMutex.Lock()
+	defer xnodesMutex.Unlock()
+	if items, ok := xnodesByType[this.t]; ok {
 		if _, ok2 := items[this.id]; ok2 {
 			delete(items, this.id)
 		}
 		if len(items) == 0 {
-			delete(nodesByType, this.t)
+			delete(xnodesByType, this.t)
 		}
 	}
 }
 
-var nodes sync.Map
-var nodesByType map[uint32]map[string]*SessionNode
-var mutex sync.RWMutex
+var xnodes sync.Map
+var xnodesByType map[uint32]map[string]*SessionNode
+var xnodesMutex sync.RWMutex

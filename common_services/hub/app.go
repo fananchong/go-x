@@ -15,7 +15,7 @@ type App struct {
 
 func NewApp() *App {
 	this := &App{}
-	this.Type = int(common.Lobby)
+	this.Type = int(common.Hub)
 	this.Args = xargs
 	this.Logger = xlog
 	this.Derived = this

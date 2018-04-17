@@ -4,6 +4,7 @@ import (
 	"sync"
 
 	"github.com/fananchong/go-x/common/discovery"
+	"github.com/fananchong/go-x/common_services/proto"
 )
 
 type Node struct {
@@ -53,6 +54,11 @@ func (this *Node) tryConnect(id string, info *discovery.ServerInfo) {
 			this.nodes.Store(id, session)
 			session.id = id
 			session.t = info.GetType()
+
+			msg := &proto.MsgVerify{}
+			msg.Account = this.Node.Id()
+			msg.Token = xargs.Common.IntranetToken
+			session.SendMsg(uint64(proto.MsgTypeCmd_Verify), msg)
 		}
 		this.pending.Delete(id)
 	}()

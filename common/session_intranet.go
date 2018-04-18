@@ -27,9 +27,6 @@ func (this *SessionIntranet) OnRecv(data []byte, flag byte) {
 	} else {
 		if this.DefaultCmd != nil {
 			this.DefaultCmd(data, flag)
-		} else {
-			xlog.Errorln("unknow msg. cmd =", cmd)
-			this.Close()
 		}
 	}
 }

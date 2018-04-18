@@ -152,7 +152,7 @@ func (this *App) initNode() {
 		}
 		node := this.Node.(godiscovery.INode).GetBase().(*discovery.Node)
 		node.SetBaseInfoType(uint32(this.Type))
-		node.InitPolicy(discovery.Ordered)
+		node.InitPolicy(discovery.RoundRobin)
 		node.SetBaseInfoIP(args.Pending.ExternalIp)
 		discovery.SetLogger(xlog)
 		node.Init(this.Node)

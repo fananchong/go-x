@@ -24,19 +24,10 @@ func (this *SessionAccount) OnRecv(data []byte, flag byte) {
 
 	cmd := proto.MsgTypeCmd(gotcp.GetCmd(data))
 	switch cmd {
-	case proto.MsgTypeCmd_Kick:
-		msg := &proto.MsgKick{}
-		if gotcp.DecodeCmd(data, flag, msg) != nil {
-			if s, loaded := xaccounts.Load(msg.GetUID()); loaded {
-				s.(*SessionAccount).Close()
-				xaccounts.Delete(msg.GetUID())
-			}
-		}
 	default:
 		xlog.Debugln("unkown msg")
 		this.Close()
 	}
-
 }
 
 func (this *SessionAccount) OnClose() {

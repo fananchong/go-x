@@ -1,37 +1,31 @@
 # go-x
+
 Go游戏服务器框架
 
-### 编译
+## 编译
 
 ```dos
 git submodule update --init -- "tools/build"
 build.bat
 ```
 
+## 完成的功能
 
-### 例子
+- Login服务器
+- Gateway服务器
+- Hub服务器
 
-  - [example1_iogame](example1_iogame)
+## TODO
 
+- base使用例子
 
-### 完成的功能
+- match匹配逻辑
 
-  - 登录服务器
+- room实现一个简单的场景
 
+- 其他
 
-### TODO
-
-  - gateway提供网关服务
-
-    - 可配置连接关系
-    - 客户端信息投递
-    - 服务器组内消息投递
-
-
-  - base使用例子
-  
-  - match匹配逻辑
-  
-  - room实现一个简单的场景
-    
-  - 其他待续
+  - 服务发现节点ID类型由string改为uint64
+  - 负载均衡选取服务器时做过载(overload)判断
+  - uid-gatewayId 键值对加过期时间，且gate且gateway定时刷新它
+  - 待续

@@ -8,7 +8,6 @@ import (
 	"github.com/fananchong/go-x/common_services/db"
 	"github.com/fananchong/go-x/common_services/proto"
 	"github.com/fananchong/gotcp"
-	proto1 "github.com/golang/protobuf/proto"
 )
 
 type SessionAccount struct {
@@ -24,6 +23,14 @@ func (this *SessionAccount) OnRecv(data []byte, flag byte) {
 
 	cmd := proto.MsgTypeCmd(gotcp.GetCmd(data))
 	switch cmd {
+	case proto.MsgTypeCmd_ForwardC:
+		msg := &proto.MsgForwardC{}
+		if gotcp.DecodeCmd(data, flag, msg) == nil {
+			xlog.Debugln("decodeMsg fail.")
+			this.Close()
+			return
+		}
+		Forward(common.ServerType(msg.GetType()), msg.GetData())
 	default:
 		xlog.Debugln("unkown msg")
 		this.Close()
@@ -74,39 +81,15 @@ func (this *SessionAccount) doVerify(data []byte, flag byte) {
 
 	kickmsg := &proto.MsgKick{}
 	kickmsg.UID = this.uid
-	this.ForwardOne(common.Hub, proto.MsgTypeCmd_Kick, kickmsg)
+	ForwardMsg(common.Hub, proto.MsgTypeCmd_Kick, kickmsg)
 
 	this.Verify()
 
 	xlog.Debugln("account:", msg.GetAccount(), "verify success.")
 }
 
-func (this *SessionAccount) ForwardOne(serverType common.ServerType, cmd proto.MsgTypeCmd, msg proto1.Message) {
-	id, _, _ := xnode.Servers.GetOne(int(serverType))
-	if id == "" {
-		xlog.Errorln("no find server. #1")
-		return
-	}
-	if node, loaded := xnodes.Load(id); loaded {
-		node.(*SessionNode).SendMsg(uint64(cmd), msg)
-	} else {
-		xlog.Errorln("no find server. #2")
-		return
-	}
-}
-
-func (this *SessionAccount) ForwardAll(serverType common.ServerType, cmd proto.MsgTypeCmd, msg proto1.Message) {
-	xnodesMutex.RLock()
-	defer xnodesMutex.RUnlock()
-	if items, ok := xnodesByType[uint32(serverType)]; ok {
-		for id, node := range items {
-			if id != xnode.Id() {
-				node.SendMsg(uint64(cmd), msg)
-			}
-		}
-	}
-}
-
+// 由于Gateway功能相当简单，这里session管理，没有做成单例管理类。
+// 请不要模仿这种不好的习惯:)
 var xaccounts sync.Map
 
 func initRedis() bool {

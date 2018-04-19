@@ -4,10 +4,11 @@ package proto;
 
 enum MsgTypeCmd {
     UNSPECIFIED = 0;
-    Login = 1;              // 登录
-    Verify = 2;             // 验证令牌
-    Forward = 3;            // 转发
-    Kick = 4;               // 踢人
+    Login = 1;              // 登录(C->S)
+    Verify = 2;             // 验证令牌(C->S; S->S)
+    Kick = 3;               // 踢人(S->S)
+    ForwardC = 4;           // 转发(C->S)
+    ForwardS = 5;           // 转发(S->S)
 };
 
 
@@ -54,20 +55,29 @@ message MsgVerify
     string Token = 2;       // 令牌
 }
 
-/// Forward (C->S; S->S)
-message MsgForward
-{
-    uint32 Type = 1;         // 类型
-    bytes Data = 2;          // 数据
-    string ID = 3;           // 服务ID。用于S->S。如果该字段不为空，Type字段忽略。
-}
-
 /// KickPlayer (S->S)
 message MsgKick
 {
     uint64 UID = 1;         // 帐号ID
 }
 
+/// ForwardC (C->S)
+message MsgForwardC
+{
+    uint32 Type = 1;         // 类型
+    bytes Data = 2;          // 数据
+}
+
+/// ForwardS (S->S)
+///    若Type为0且Id不为空:投递给该Id服务器
+///    若Type为1且Id不为空:投递给某Type所有服务器（除了该Id服务器外）
+///    若Type为1且Id为空，则投递给某Type的一个服务器
+message MsgForwardS
+{
+    uint32 Type = 1;         // 类型
+	string Id = 2;           // 服务器ID
+    bytes Data = 3;          // 数据
+}
 
 
 

@@ -103,4 +103,6 @@ func (this *SessionIntranet) BroadcastMsgExcludeMe(cmd uint64, msg proto1.Messag
 	})
 }
 
+// 这里内网session管理，没有做成单例管理类。
+// 请不要模仿这种不好的习惯:)
 var xnodes sync.Map

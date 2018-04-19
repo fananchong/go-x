@@ -17,7 +17,7 @@ build.bat
 
 ## TODO
 
-- base使用例子
+- lobby使用例子
 
 - match匹配逻辑
 

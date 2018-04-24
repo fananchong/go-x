@@ -34,4 +34,8 @@
         pos += uint16.size();
     };
 
+    proto.msgSize = function () {
+        return this.size + 4;
+    };
+
 })();

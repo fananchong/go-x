@@ -9,6 +9,7 @@ enum MsgTypeCmd {
     Kick = 3;               // 踢人(S->S)
     ForwardC = 4;           // 转发(C->S)
     ForwardS = 5;           // 转发(S->S)
+    VerifySuccess = 6;      // 验证结果(S->C)
 };
 
 
@@ -79,5 +80,8 @@ message MsgForwardS
     bytes Data = 3;          // 数据
 }
 
-
+/// VerifySuccess (S->C)
+message MsgVerifySuccess
+{
+}
 

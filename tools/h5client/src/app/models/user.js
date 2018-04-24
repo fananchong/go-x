@@ -4,12 +4,14 @@
     require('../proto/common_pb.js');
     var Login = require('./login.js');
     var Gateway = require('./gateway.js');
+    var Lobby = require('./lobby.js');
 
     module.exports = User;
 
     function User() {
         this.login = new Login(this);
         this.gateway = new Gateway(this);
+        this.lobby = new Lobby(this);
         this.account = "";
         this.token = "";
         this.gatewayIP = "";

@@ -85,6 +85,9 @@ func (this *SessionAccount) doVerify(data []byte, flag byte) {
 
 	this.Verify()
 
+	rep := &proto.MsgVerifySuccess{}
+	this.SendMsg(uint64(proto.MsgTypeCmd_VerifySuccess), rep)
+
 	xlog.Debugln("account:", msg.GetAccount(), "verify success.")
 }
 

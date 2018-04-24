@@ -4,6 +4,7 @@
     var WS = require('../proto/ws.js');
     var NetMsgHead = require('../proto/netmsg_head.js');
     require('../proto/common_pb.js');
+    var Page = require('../pages/page.js');
 
     module.exports = Gateway;
 
@@ -18,6 +19,7 @@
         var self = this;
         if (self.ws == null) {
             this.ws = new WS('gateway', self.onConnect.bind(self));
+            this.ws.cmds[proto.proto.MsgTypeCmd.VERIFYSUCCESS] = self.onVerifySuccess.bind(self);
         }
         this.ws.Connect(self.user.gatewayIP, self.user.gatewayPort);
     };
@@ -26,9 +28,13 @@
         var msg = new proto.proto.MsgVerify();
         msg.setAccount(this.user.account);
         msg.setToken(this.user.token);
-        this.ws.Send(proto.proto.MsgTypeCmd.Verify, msg);
+        this.ws.Send(proto.proto.MsgTypeCmd.VERIFY, msg);
     };
 
-
+    proto1.onVerifySuccess = function () {
+        console.log('[gateway] verify success!');
+        this.user.lobby.Login();
+        Page.showPage('lobby');
+    };
 
 })();

@@ -1,1 +1,33 @@
-<button ng-click="click()">我是Lobby页面的按钮</button>
+<table align="center">
+    <tr>
+        <td>
+            <label for="txtaccount">帐号: </label>
+        </td>
+        <td>
+            <input ng-model="txtaccount" disabled="true" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="txtname">角色: </label>
+        </td>
+        <td>
+            <input ng-model="txtname" disabled="true" />
+        </td>
+    </tr>
+</table>
+<br />
+<button ng-click="click()">开始游戏</button>
+<br />
+<br />
+<br />
+<table align="center">
+    <tr>
+        <td>
+            当前状态：
+        </td>
+        <td>
+            {{txttips}}
+        </td>
+    </tr>
+</table>

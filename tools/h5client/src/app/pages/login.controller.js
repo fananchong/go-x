@@ -1,8 +1,6 @@
 (function () {
     'use strict';
 
-    var Page = require('./page.js');
-
     module.exports = PageLogin;
 
     function PageLogin() { }

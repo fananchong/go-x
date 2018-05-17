@@ -12,6 +12,8 @@ call build.bat
 
 cd %MYDIR%
 
+start %COMMONSRVDIR%\bin\WhatsMyIP.exe
+ping -n 3 127.0.0.1>nul
 start %COMMONSRVDIR%\bin\login.exe -cfg %ASSETSDIR%\config.toml
 ping -n 3 127.0.0.1>nul
 start %COMMONSRVDIR%\bin\gateway.exe -cfg %ASSETSDIR%\config.toml

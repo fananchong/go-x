@@ -7,7 +7,7 @@ IntranetToken = "6d8f1f3a-739f-47fe-9ed1-ea39276cd10d"
 
 [etcd]
 Hosts = ["101.132.47.70:12379", "101.132.47.70:22379", "101.132.47.70:32379"]
-WhatsMyIP = "101.132.47.70:3000"
+WhatsMyIP = "127.0.0.1:3000"
 
 [dbaccount]
 Name = "account"

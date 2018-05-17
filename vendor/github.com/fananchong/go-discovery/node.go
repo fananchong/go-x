@@ -2,19 +2,23 @@ package godiscovery
 
 import (
 	"context"
+	"fmt"
+	"io/ioutil"
+	"net/http"
 	"strconv"
 	"strings"
 	"sync"
 	"time"
 
 	"github.com/coreos/etcd/clientv3"
+	uuid "github.com/satori/go.uuid"
 )
 
 type INode interface {
 	Id() string
 	SetId(id string)
 	Init(inst interface{})
-	Open(hosts []string, nodeType int, watchNodeTypes []int, putInterval int64)
+	Open(hosts []string, whatsmyip string, nodeType int, watchNodeTypes []int, putInterval int64)
 	Close()
 	GetClient() *clientv3.Client
 	GetBase() interface{}
@@ -23,8 +27,10 @@ type INode interface {
 type Node struct {
 	Watch
 	Put
+	Port
 	client         *clientv3.Client
 	hosts          []string
+	whatsmyipHost  string
 	nodeType       int
 	watchNodeTypes []int
 	putInterval    int64
@@ -39,8 +45,9 @@ func (this *Node) Init(inst interface{}) {
 	this.Put.Derived = inst.(IPut)
 }
 
-func (this *Node) Open(hosts []string, nodeType int, watchNodeTypes []int, putInterval int64) {
+func (this *Node) Open(hosts []string, whatsmyipHost string, nodeType int, watchNodeTypes []int, putInterval int64) {
 	this.hosts = hosts
+	this.whatsmyipHost = whatsmyipHost
 	this.nodeType = nodeType
 	this.watchNodeTypes = watchNodeTypes
 	this.putInterval = putInterval
@@ -57,15 +64,54 @@ func (this *Node) Open(hosts []string, nodeType int, watchNodeTypes []int, putIn
 		go this.reopen()
 		return
 	}
+
+	if err := this.Port.Init(this.ctx, this.client); err != nil {
+		xlog.Errorln(err)
+		if cli != nil {
+			cli.Close()
+		}
+		go this.reopen()
+		return
+	}
+
+	if nodeType != 0 {
+		if whatsmyipHost != "" {
+			resp, err := http.Get("http://" + whatsmyipHost)
+			if err != nil {
+				xlog.Errorln(err)
+				if cli != nil {
+					cli.Close()
+				}
+				go this.reopen()
+				return
+			}
+			defer resp.Body.Close()
+			body, err := ioutil.ReadAll(resp.Body)
+			if err != nil {
+				xlog.Errorln(err)
+				if cli != nil {
+					cli.Close()
+				}
+				go this.reopen()
+				return
+			}
+			this.Put.nodeIP = fmt.Sprintf("%s:%d", string(body), this.GetPort())
+		}
+		if err := this.Put.Open(this.ctx, nodeType, putInterval); err != nil {
+			xlog.Errorln(err)
+			if cli != nil {
+				cli.Close()
+			}
+			go this.reopen()
+			return
+		}
+	}
 	if len(watchNodeTypes) != 0 {
 		this.Watch.Open(this.ctx, watchNodeTypes)
 	}
-	if nodeType != 0 {
-		this.Put.Open(this.ctx, nodeType, putInterval)
-	}
 }
 
-func (this *Node) OpenByStr(hostsStr string, nodeType int, watchNodeTypesStr string, putInterval int64) {
+func (this *Node) OpenByStr(hostsStr string, whatsmyipHost string, nodeType int, watchNodeTypesStr string, putInterval int64) {
 	hosts := strings.Split(hostsStr, ",")
 	var watchNodeTypes []int = make([]int, 0)
 	if watchNodeTypesStr != "" {
@@ -77,7 +123,7 @@ func (this *Node) OpenByStr(hostsStr string, nodeType int, watchNodeTypesStr str
 			watchNodeTypes = append(watchNodeTypes, v)
 		}
 	}
-	this.Open(hosts, nodeType, watchNodeTypes, putInterval)
+	this.Open(hosts, whatsmyipHost, nodeType, watchNodeTypes, putInterval)
 }
 
 func (this *Node) Close() {
@@ -98,7 +144,7 @@ func (this *Node) reopen() {
 	t := time.NewTimer(5 * time.Second)
 	select {
 	case <-t.C:
-		this.Open(this.hosts, this.nodeType, this.watchNodeTypes, this.putInterval)
+		this.Open(this.hosts, this.whatsmyipHost, this.nodeType, this.watchNodeTypes, this.putInterval)
 	}
 }
 
@@ -106,6 +152,12 @@ func (this *Node) Id() string {
 	this.mutex.RLock()
 	defer this.mutex.RUnlock()
 	return this.Put.nodeId
+}
+
+func (this *Node) Ip() string {
+	this.mutex.RLock()
+	defer this.mutex.RUnlock()
+	return this.Put.nodeIP
 }
 
 func (this *Node) SetId(id string) {
@@ -122,11 +174,11 @@ func (this *Node) GetClient() *clientv3.Client {
 
 // 子类可以根据需要重载下面的方法
 //     注意 OnNodeUpdate、OnNodeJoin、OnNodeLeave、GetPutData 在内部协程被调用，请注意多协程安全！！！
-func (this *Node) OnNodeUpdate(nodeType int, id string, data []byte) {
+func (this *Node) OnNodeUpdate(nodeIP string, nodeType int, id string, data []byte) {
 
 }
 
-func (this *Node) OnNodeJoin(nodeType int, id string, data []byte) {
+func (this *Node) OnNodeJoin(nodeIP string, nodeType int, id string, data []byte) {
 
 }
 
@@ -136,6 +188,14 @@ func (this *Node) OnNodeLeave(nodeType int, id string) {
 
 func (this *Node) GetPutData() (string, error) {
 	return "", nil
+}
+
+func (this *Node) NewNodeId() (string, error) {
+	id, err := uuid.NewV1()
+	if err != nil {
+		return "", err
+	}
+	return id.String(), nil
 }
 
 func (this *Node) GetBase() interface{} {

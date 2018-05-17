@@ -4,6 +4,7 @@ import (
 	"context"
 	"runtime/debug"
 	"strconv"
+	"strings"
 	"sync"
 
 	"github.com/coreos/etcd/clientv3"
@@ -12,8 +13,8 @@ import (
 
 type IWatch interface {
 	INode
-	OnNodeUpdate(nodeType int, id string, data []byte)
-	OnNodeJoin(nodeType int, id string, data []byte)
+	OnNodeUpdate(nodeIP string, nodeType int, id string, data []byte)
+	OnNodeJoin(nodeIP string, nodeType int, id string, data []byte)
 	OnNodeLeave(nodeType int, id string)
 }
 
@@ -59,14 +60,17 @@ func (this *Watch) watch(nodeType int) {
 				continue
 			}
 			if ev.Type == mvccpb.PUT {
+				temp := string(ev.Kv.Value)
+				nodeIP := strings.Split(temp, "#")[0]
+				data := ev.Kv.Value[len(nodeIP)+1:]
 				this.mutex.Lock()
 				if _, ok := this.nodes[nodeType][key]; ok {
 					this.mutex.Unlock()
-					this.Derived.OnNodeUpdate(nodeType, key, ev.Kv.Value)
+					this.Derived.OnNodeUpdate(nodeIP, nodeType, key, data)
 				} else {
 					this.nodes[nodeType][key] = 1
 					this.mutex.Unlock()
-					this.Derived.OnNodeJoin(nodeType, key, ev.Kv.Value)
+					this.Derived.OnNodeJoin(nodeIP, nodeType, key, data)
 				}
 			} else if ev.Type == mvccpb.DELETE {
 				this.mutex.Lock()

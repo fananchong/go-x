@@ -14,4 +14,3 @@ if exist vendor ( rd /q /s vendor )
 .\tools\build\godep\godep.exe update
 .\tools\build\godep\godep.exe save ./...
 cd %CURDIR%
-pause

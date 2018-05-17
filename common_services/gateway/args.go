@@ -10,8 +10,7 @@ type Args struct {
 }
 
 type ArgsGateway struct {
-	ExternalIp string
-	Connect    []int
+	Connect []int
 }
 
 func (this *Args) OnInit() {

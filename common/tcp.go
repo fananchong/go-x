@@ -2,14 +2,13 @@ package common
 
 import (
 	"fmt"
-	"strconv"
-	"strings"
 
+	discovery "github.com/fananchong/go-discovery/serverlist"
 	"github.com/fananchong/gotcp"
 )
 
 type TcpServer struct {
-	 *gotcp.Server
+	*gotcp.Server
 }
 
 func NewTcpServer() *TcpServer {
@@ -28,8 +27,7 @@ func (this *TcpServer) Start() bool {
 }
 
 func (this *TcpServer) startServer() bool {
-	addrinfo := strings.Split(xargs.Pending.ExternalIp, ":")
-	port, _ := strconv.Atoi(addrinfo[1])
+	port := discovery.GetNode().GetPort()
 	return this.Server.Start(fmt.Sprintf(":%d", port))
 }
 

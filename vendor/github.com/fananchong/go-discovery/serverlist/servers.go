@@ -29,10 +29,10 @@ type Servers struct {
 	ssByID  map[string]*ServerInfo
 }
 
-func NewServers(m IMap) *Servers {
+func NewServers(creator func() IMap) *Servers {
 	return &Servers{
 		ss:      make(map[int]IMap),
-		creator: func() IMap { return m },
+		creator: creator,
 		ssByID:  make(map[string]*ServerInfo),
 	}
 }

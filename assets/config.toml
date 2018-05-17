@@ -7,6 +7,7 @@ IntranetToken = "6d8f1f3a-739f-47fe-9ed1-ea39276cd10d"
 
 [etcd]
 Hosts = ["101.132.47.70:12379", "101.132.47.70:22379", "101.132.47.70:32379"]
+WhatsMyIP = "101.132.47.70:3000"
 
 [dbaccount]
 Name = "account"
@@ -33,12 +34,9 @@ Sign2 = "3wokZB%q"
 Sign3 = "%2Fi9TRf"
 
 [gateway]
-ExternalIp = "127.0.0.1"    #完整格式为IP:PORT。不填PORT，则自动生产。
 Connect = [3, 5]            #1: login; 2: gateway; 3: base; 4: room; 5: hub
 
 
 [lobby]
-ExternalIp = "127.0.0.1"    #完整格式为IP:PORT。不填PORT，则自动生产。
 
 [hub]
-ExternalIp = "127.0.0.1"    #完整格式为IP:PORT。不填PORT，则自动生产。

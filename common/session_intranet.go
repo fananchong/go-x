@@ -3,7 +3,7 @@ package common
 import (
 	"sync"
 
-	"github.com/fananchong/go-x/common/discovery"
+	discovery "github.com/fananchong/go-discovery/serverlist"
 	"github.com/fananchong/go-x/common_services/proto"
 	"github.com/fananchong/gotcp"
 	proto1 "github.com/golang/protobuf/proto"

@@ -10,7 +10,6 @@ type Args struct {
 }
 
 type ArgsHub struct {
-	ExternalIp string
 }
 
 func (this *Args) OnInit() {

@@ -8,13 +8,10 @@ import (
 	"os/signal"
 	"reflect"
 	"runtime"
-	"strconv"
-	"strings"
 	"syscall"
 
 	godiscovery "github.com/fananchong/go-discovery"
-	"github.com/fananchong/go-x/common/discovery"
-	"github.com/fananchong/gotcp"
+	discovery "github.com/fananchong/go-discovery/serverlist"
 	"github.com/fatih/structs"
 )
 
@@ -116,21 +113,6 @@ func (this *App) initArgsDetail(fields []*structs.Field) {
 			this.initArgsDetail(fields2)
 		default:
 			switch field.Name() {
-			case "ExternalIp":
-				externalIp := field.Value().(string)
-				addrinfo := strings.Split(externalIp, ":")
-				var port int
-				var err error
-				if len(addrinfo) < 2 {
-					port = gotcp.GetVaildPort(false)
-				} else {
-					port, err = strconv.Atoi(addrinfo[1])
-					if err != nil {
-						panic(err)
-						return
-					}
-				}
-				this.Args.GetBase().Pending.ExternalIp = fmt.Sprintf("%s:%d", addrinfo[0], port)
 			case "Connect":
 				this.Args.GetBase().Pending.WatchNodeTypes = append(this.Args.GetBase().Pending.WatchNodeTypes, field.Value().([]int)...)
 			}
@@ -151,12 +133,10 @@ func (this *App) initNode() {
 			this.Node = &discovery.Node{}
 		}
 		node := this.Node.(godiscovery.INode).GetBase().(*discovery.Node)
-		node.SetBaseInfoType(uint32(this.Type))
 		node.InitPolicy(discovery.RoundRobin)
-		node.SetBaseInfoIP(args.Pending.ExternalIp)
 		discovery.SetLogger(xlog)
 		node.Init(this.Node)
-		node.Open(args.Etcd.Hosts, args.Pending.NodeType, args.Pending.WatchNodeTypes, int64(args.Etcd.PutInterval))
+		node.Open(args.Etcd.Hosts, args.Etcd.WhatsMyIP, args.Pending.NodeType, args.Pending.WatchNodeTypes, int64(args.Etcd.PutInterval))
 		discovery.SetNode(node)
 	}
 }

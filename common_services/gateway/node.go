@@ -3,7 +3,7 @@ package main
 import (
 	"sync"
 
-	"github.com/fananchong/go-x/common/discovery"
+	discovery "github.com/fananchong/go-discovery/serverlist"
 	"github.com/fananchong/go-x/common_services/proto"
 )
 
@@ -18,8 +18,8 @@ func NewNode() *Node {
 	return this
 }
 
-func (this *Node) OnNodeUpdate(nodeType int, id string, data []byte) {
-	this.Node.OnNodeUpdate(nodeType, id, data)
+func (this *Node) OnNodeUpdate(nodeIp string, nodeType int, id string, data []byte) {
+	this.Node.OnNodeUpdate(nodeIp, nodeType, id, data)
 	if this.has(id) == false {
 		info, ok := this.Servers.GetByID(id)
 		if !ok {
@@ -30,8 +30,8 @@ func (this *Node) OnNodeUpdate(nodeType int, id string, data []byte) {
 	}
 }
 
-func (this *Node) OnNodeJoin(nodeType int, id string, data []byte) {
-	this.Node.OnNodeJoin(nodeType, id, data)
+func (this *Node) OnNodeJoin(nodeIp string, nodeType int, id string, data []byte) {
+	this.Node.OnNodeJoin(nodeIp, nodeType, id, data)
 	info, ok := this.Servers.GetByID(id)
 	if !ok {
 		xlog.Errorln("can't find server info")

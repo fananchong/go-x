@@ -5,6 +5,7 @@ package discovery;
 message ServerInfo
 {
     uint32 type = 1;
-    string external_ip = 2;     // 对外ip（包括端口。格式 ip:port）
-    uint32 ordered = 3;         // 权重
+    uint32 id = 2;
+    string external_ip = 3;     // 对外ip（包括端口。格式 ip:port）
+    uint32 ordered = 4;         // 权重
 }

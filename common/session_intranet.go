@@ -11,7 +11,7 @@ import (
 
 type SessionIntranet struct {
 	gotcp.Session
-	Id         string
+	Id         uint32
 	Cmds       map[uint64]func(data []byte, flag byte)
 	DefaultCmd func(data []byte, flag byte)
 }
@@ -32,7 +32,7 @@ func (this *SessionIntranet) OnRecv(data []byte, flag byte) {
 }
 
 func (this *SessionIntranet) doVerify(data []byte, flag byte) {
-	msg := &proto.MsgVerify{}
+	msg := &proto.MsgVerifyS{}
 	if gotcp.DecodeCmd(data, flag, msg) == nil {
 		xlog.Errorln("decodeMsg fail.")
 		this.Close()
@@ -42,13 +42,13 @@ func (this *SessionIntranet) doVerify(data []byte, flag byte) {
 		xlog.Errorln("token error.")
 		this.Close()
 	}
-	this.Id = msg.GetAccount()
+	this.Id = msg.GetId()
 	xnodes.Store(this.Id, this)
 	this.Verify()
-	xlog.Debugln("Id:", msg.GetAccount(), "verify success.")
+	xlog.Debugln("Id:", msg.GetId(), "verify success.")
 
 	msg.Reset()
-	msg.Account = discovery.GetNode().Id()
+	msg.Id = discovery.GetNode().Id()
 	msg.Token = xargs.Common.IntranetToken
 	this.SendMsg(uint64(proto.MsgTypeCmd_Verify), msg)
 }
@@ -80,7 +80,7 @@ func (this *SessionIntranet) Broadcast(data []byte, flag byte) {
 
 func (this *SessionIntranet) BroadcastExcludeMe(data []byte, flag byte) {
 	xnodes.Range(func(key interface{}, val interface{}) bool {
-		if key.(string) != this.Id {
+		if key.(uint32) != this.Id {
 			val.(*SessionIntranet).Send(data, flag)
 		}
 		return true
@@ -96,7 +96,7 @@ func (this *SessionIntranet) BroadcastMsg(cmd uint64, msg proto1.Message) {
 
 func (this *SessionIntranet) BroadcastMsgExcludeMe(cmd uint64, msg proto1.Message) {
 	xnodes.Range(func(key interface{}, val interface{}) bool {
-		if key.(string) != this.Id {
+		if key.(uint32) != this.Id {
 			val.(*SessionIntranet).SendMsg(cmd, msg)
 		}
 		return true

@@ -18,7 +18,7 @@ func NewNode() *Node {
 	return this
 }
 
-func (this *Node) OnNodeUpdate(nodeIp string, nodeType int, id string, data []byte) {
+func (this *Node) OnNodeUpdate(nodeIp string, nodeType int, id uint32, data []byte) {
 	this.Node.OnNodeUpdate(nodeIp, nodeType, id, data)
 	if this.has(id) == false {
 		info, ok := this.Servers.GetByID(id)
@@ -30,7 +30,7 @@ func (this *Node) OnNodeUpdate(nodeIp string, nodeType int, id string, data []by
 	}
 }
 
-func (this *Node) OnNodeJoin(nodeIp string, nodeType int, id string, data []byte) {
+func (this *Node) OnNodeJoin(nodeIp string, nodeType int, id uint32, data []byte) {
 	this.Node.OnNodeJoin(nodeIp, nodeType, id, data)
 	info, ok := this.Servers.GetByID(id)
 	if !ok {
@@ -40,12 +40,12 @@ func (this *Node) OnNodeJoin(nodeIp string, nodeType int, id string, data []byte
 	this.tryConnect(id, info)
 }
 
-func (this *Node) OnNodeLeave(nodeType int, id string) {
+func (this *Node) OnNodeLeave(nodeType int, id uint32) {
 	this.Node.OnNodeLeave(nodeType, id)
 	this.tryDelete(id)
 }
 
-func (this *Node) tryConnect(id string, info *discovery.ServerInfo) {
+func (this *Node) tryConnect(id uint32, info *discovery.ServerInfo) {
 	this.tryDelete(id)
 	session := &SessionNode{}
 	this.pending.Store(id, session)
@@ -55,8 +55,8 @@ func (this *Node) tryConnect(id string, info *discovery.ServerInfo) {
 			session.id = id
 			session.t = info.GetType()
 
-			msg := &proto.MsgVerify{}
-			msg.Account = this.Node.Id()
+			msg := &proto.MsgVerifyS{}
+			msg.Id = this.Node.Id()
 			msg.Token = xargs.Common.IntranetToken
 			session.SendMsg(uint64(proto.MsgTypeCmd_Verify), msg)
 		}
@@ -64,7 +64,7 @@ func (this *Node) tryConnect(id string, info *discovery.ServerInfo) {
 	}()
 }
 
-func (this *Node) tryDelete(id string) {
+func (this *Node) tryDelete(id uint32) {
 	if session, loaded := this.nodes.Load(id); loaded {
 		session.(*SessionNode).Close()
 		this.nodes.Delete(id)
@@ -75,7 +75,7 @@ func (this *Node) tryDelete(id string) {
 	}
 }
 
-func (this *Node) has(id string) bool {
+func (this *Node) has(id uint32) bool {
 	if _, loaded := this.nodes.Load(id); loaded {
 		return true
 	}

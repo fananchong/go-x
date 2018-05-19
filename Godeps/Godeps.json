@@ -56,7 +56,11 @@
 		},
 		{
 			"ImportPath": "github.com/fananchong/go-discovery",
-			"Rev": "f32f5d02f31450162da312f3c830aadfd3954de7"
+			"Rev": "9819c9b59fc4299d983f3cfbe79c4c77866875d1"
+		},
+		{
+			"ImportPath": "github.com/fananchong/go-discovery/serverlist",
+			"Rev": "9819c9b59fc4299d983f3cfbe79c4c77866875d1"
 		},
 		{
 			"ImportPath": "github.com/fananchong/go-redis-orm.v2",

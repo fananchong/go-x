@@ -14,7 +14,7 @@ import (
 
 type UIDServer struct {
 	Key     uint64
-	gateway string
+	gateway uint32
 
 	__dirtyData map[string]interface{}
 	__isLoad    bool
@@ -55,7 +55,7 @@ func (this *UIDServer) Load() error {
 		return go_redis_orm.ERR_ISNOT_EXIST_KEY
 	}
 	var data struct {
-		Gateway string `redis:"gateway"`
+		Gateway uint32 `redis:"gateway"`
 	}
 	if err := redis.ScanStruct(val, &data); err != nil {
 		return err
@@ -100,11 +100,11 @@ func (this *UIDServer) Expire(v uint) {
 	this.__expire = v
 }
 
-func (this *UIDServer) GetGateway() string {
+func (this *UIDServer) GetGateway() uint32 {
 	return this.gateway
 }
 
-func (this *UIDServer) SetGateway(value string) {
+func (this *UIDServer) SetGateway(value uint32) {
 	this.gateway = value
 	this.__dirtyData["gateway"] = value
 }

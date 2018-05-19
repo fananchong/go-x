@@ -30,7 +30,6 @@ _（build.bat中GOPATH是特殊路径，所以你下载下来不一定编译通�
 - 其他
 
   - Gateway转发客户端消息时，附带上UID信息
-  - 服务发现节点ID类型由string改为uint64 （go-discovery优化）
   - 负载均衡选取服务器时做过载(overload)判断
   - uid-gatewayId 键值对加过期时间，且gate且gateway定时刷新它
   - session发送缓冲区[]byte不必频繁创建（gotcp优化）

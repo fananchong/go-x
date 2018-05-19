@@ -11,12 +11,11 @@ import (
 	"time"
 
 	"github.com/coreos/etcd/clientv3"
-	uuid "github.com/satori/go.uuid"
 )
 
 type INode interface {
-	Id() string
-	SetId(id string)
+	Id() uint32
+	SetId(id uint32)
 	Init(inst interface{})
 	Open(hosts []string, whatsmyip string, nodeType int, watchNodeTypes []int, putInterval int64)
 	Close()
@@ -148,10 +147,10 @@ func (this *Node) reopen() {
 	}
 }
 
-func (this *Node) Id() string {
+func (this *Node) Id() uint32 {
 	this.mutex.RLock()
 	defer this.mutex.RUnlock()
-	return this.Put.nodeId
+	return this.Put.Id
 }
 
 func (this *Node) Ip() string {
@@ -160,10 +159,10 @@ func (this *Node) Ip() string {
 	return this.Put.nodeIP
 }
 
-func (this *Node) SetId(id string) {
+func (this *Node) SetId(id uint32) {
 	this.mutex.Lock()
 	defer this.mutex.Unlock()
-	this.Put.nodeId = id
+	this.Put.Id = id
 }
 
 func (this *Node) GetClient() *clientv3.Client {
@@ -172,30 +171,28 @@ func (this *Node) GetClient() *clientv3.Client {
 	return this.client
 }
 
+func (this *Node) GetCtx() context.Context {
+	this.mutex.RLock()
+	defer this.mutex.RUnlock()
+	return this.ctx
+}
+
 // 子类可以根据需要重载下面的方法
 //     注意 OnNodeUpdate、OnNodeJoin、OnNodeLeave、GetPutData 在内部协程被调用，请注意多协程安全！！！
-func (this *Node) OnNodeUpdate(nodeIP string, nodeType int, id string, data []byte) {
+func (this *Node) OnNodeUpdate(nodeIP string, nodeType int, id uint32, data []byte) {
 
 }
 
-func (this *Node) OnNodeJoin(nodeIP string, nodeType int, id string, data []byte) {
+func (this *Node) OnNodeJoin(nodeIP string, nodeType int, id uint32, data []byte) {
 
 }
 
-func (this *Node) OnNodeLeave(nodeType int, id string) {
+func (this *Node) OnNodeLeave(nodeType int, id uint32) {
 
 }
 
 func (this *Node) GetPutData() (string, error) {
 	return "", nil
-}
-
-func (this *Node) NewNodeId() (string, error) {
-	id, err := uuid.NewV1()
-	if err != nil {
-		return "", err
-	}
-	return id.String(), nil
 }
 
 func (this *Node) GetBase() interface{} {

@@ -34,7 +34,7 @@ func (this *Node) InitPolicy(policy Policy) {
 	}
 }
 
-func (this *Node) OnNodeUpdate(nodeIP string, nodeType int, id string, data []byte) {
+func (this *Node) OnNodeUpdate(nodeIP string, nodeType int, id uint32, data []byte) {
 	info := &ServerInfo{}
 	err := proto.Unmarshal(data, info)
 	if err == nil {
@@ -44,7 +44,7 @@ func (this *Node) OnNodeUpdate(nodeIP string, nodeType int, id string, data []by
 	}
 }
 
-func (this *Node) OnNodeJoin(nodeIP string, nodeType int, id string, data []byte) {
+func (this *Node) OnNodeJoin(nodeIP string, nodeType int, id uint32, data []byte) {
 	info := &ServerInfo{}
 	err := proto.Unmarshal(data, info)
 	if err == nil {
@@ -54,7 +54,7 @@ func (this *Node) OnNodeJoin(nodeIP string, nodeType int, id string, data []byte
 	}
 }
 
-func (this *Node) OnNodeLeave(nodeType int, id string) {
+func (this *Node) OnNodeLeave(nodeType int, id uint32) {
 	this.Servers.Delete(nodeType, id)
 }
 
@@ -90,16 +90,24 @@ func (this *Node) SetBaseInfoOrdered(ordered uint32) {
 	this.info.Ordered = ordered
 }
 
+func (this *Node) SetBaseInfoId(id uint32) {
+	this.mutex.Lock()
+	defer this.mutex.Unlock()
+	this.info.Id = id
+}
+
 func (this *Node) Open(hosts []string, whatsmyipHost string, nodeType int, watchNodeTypes []int, putInterval int64) {
 	this.Node.Open(hosts, whatsmyipHost, nodeType, watchNodeTypes, putInterval)
 	this.SetBaseInfoType(uint32(nodeType))
 	this.SetBaseInfoIP(this.Node.Ip())
+	this.SetBaseInfoId(this.Id())
 }
 
 func (this *Node) OpenByStr(hostsStr string, whatsmyipHost string, nodeType int, watchNodeTypesStr string, putInterval int64) {
 	this.Node.OpenByStr(hostsStr, whatsmyipHost, nodeType, watchNodeTypesStr, putInterval)
 	this.SetBaseInfoType(uint32(nodeType))
 	this.SetBaseInfoIP(this.Node.Ip())
+	this.SetBaseInfoId(this.Id())
 }
 
 /// ==================================================

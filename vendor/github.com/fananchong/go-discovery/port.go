@@ -22,7 +22,7 @@ func (this *Port) GetPort() uint16 {
 }
 
 func (this *Port) Init(root context.Context, client *clientv3.Client) error {
-	key := "__#etcdport#__"
+	key := "__#ETCDPORT#__"
 	this.ctx, this.ctxCancel = context.WithCancel(root)
 	rep, err := client.Get(this.ctx, key)
 	if err != nil {
@@ -31,6 +31,7 @@ func (this *Port) Init(root context.Context, client *clientv3.Client) error {
 
 	var port uint16 = 1024
 	var pre uint = 0
+	var version int64
 	if rep.Count != 0 {
 		temp, err := strconv.Atoi(string(rep.Kvs[0].Value))
 		if err != nil {
@@ -39,13 +40,20 @@ func (this *Port) Init(root context.Context, client *clientv3.Client) error {
 
 		port = uint16(uint(temp) % math.MaxUint16)
 		pre = uint(temp) - uint(port)
+		version = rep.Kvs[0].Version
 	} else {
-		_, err := client.Txn(this.ctx).
+		txnRep, err := client.Txn(this.ctx).
 			If(clientv3.Compare(clientv3.CreateRevision(key), "=", 0)).
-			Then(clientv3.OpPut(key, strconv.Itoa(int(port)))).
+			Then(clientv3.OpPut(key, strconv.FormatInt(int64(port), 10))).
+			Else(clientv3.OpGet(key)).
 			Commit()
 		if err != nil {
 			return err
+		}
+		if txnRep.Succeeded {
+			version = 1
+		} else {
+			version = txnRep.Responses[0].GetResponseRange().Kvs[0].Version
 		}
 	}
 
@@ -54,10 +62,11 @@ func (this *Port) Init(root context.Context, client *clientv3.Client) error {
 		if port == 0 {
 			return errors.New("invild port!")
 		}
-		data := strconv.Itoa(int(pre) + int(port))
+		data := strconv.FormatInt(int64(pre)+int64(port), 10)
 		txnRep, err := client.Txn(this.ctx).
-			If(clientv3.Compare(clientv3.Value(key), "<", data)).
+			If(clientv3.Compare(clientv3.Version(key), "=", version)).
 			Then(clientv3.OpPut(key, data)).
+			Else(clientv3.OpGet(key)).
 			Commit()
 		if err != nil {
 			return err
@@ -66,6 +75,7 @@ func (this *Port) Init(root context.Context, client *clientv3.Client) error {
 			break
 		} else {
 			port++
+			version = txnRep.Responses[0].GetResponseRange().Kvs[0].Version
 		}
 	}
 	this.port = port

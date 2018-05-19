@@ -5,11 +5,12 @@ package proto;
 enum MsgTypeCmd {
     UNSPECIFIED = 0;
     Login = 1;              // 登录(C->S)
-    Verify = 2;             // 验证令牌(C->S; S->S)
-    Kick = 3;               // 踢人(S->S)
-    ForwardC = 4;           // 转发(C->S)
-    ForwardS = 5;           // 转发(S->S)
-    VerifySuccess = 6;      // 验证结果(S->C)
+    Verify = 2;             // 验证令牌(C->S)
+    VerifyS = 3;            // 验证令牌(S->S)
+    Kick = 4;               // 踢人(S->S)
+    ForwardC = 5;           // 转发(C->S)
+    ForwardS = 6;           // 转发(S->S)
+    VerifySuccess = 7;      // 验证结果(S->C)
 };
 
 
@@ -49,10 +50,17 @@ message MsgLoginResult
 }
 
 
-/// Verify (C->S; S->S)
+/// Verify (C->S)
 message MsgVerify
 {
     string Account = 1;     // 帐号
+    string Token = 2;       // 令牌
+}
+
+/// VerifyS (S->S)
+message MsgVerifyS
+{
+    uint32 Id = 1;          // 服务器ID
     string Token = 2;       // 令牌
 }
 
@@ -76,7 +84,7 @@ message MsgForwardC
 message MsgForwardS
 {
     uint32 Type = 1;         // 类型
-	string Id = 2;           // 服务器ID
+	uint32 Id = 2;           // 服务器ID
     bytes Data = 3;          // 数据
 }
 

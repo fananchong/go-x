@@ -28,7 +28,7 @@ _（build.bat中GOPATH是特殊路径，所以你下载下来不一定编译通�
 - room实现一个简单的场景
 
 - 其他
-
+  - 服务发现与负载均衡，将改用K8S来做
   - Gateway转发客户端消息时，附带上UID信息
   - 负载均衡选取服务器时做过载(overload)判断
   - uid-gatewayId 键值对加过期时间，且gate且gateway定时刷新它

@@ -1,7 +1,9 @@
 package godiscovery
 
 import (
+	"math/rand"
 	"strconv"
+	"time"
 
 	"github.com/coreos/etcd/clientv3"
 )
@@ -60,6 +62,7 @@ func (this *Node) NewNodeId() (uint32, error) {
 			version = txnRep.Responses[0].GetResponseRange().Kvs[0].Version
 			id++
 		}
+		time.Sleep(time.Duration(rand.Int31n(5)+1) * time.Second)
 	}
 	return id, nil
 }

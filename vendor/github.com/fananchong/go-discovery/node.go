@@ -36,6 +36,7 @@ type Node struct {
 	mutex          sync.RWMutex
 	ctx            context.Context
 	ctxCancel      context.CancelFunc
+	disablePort    bool
 }
 
 func (this *Node) Init(inst interface{}) {
@@ -64,13 +65,15 @@ func (this *Node) Open(hosts []string, whatsmyipHost string, nodeType int, watch
 		return
 	}
 
-	if err := this.Port.Init(this.ctx, this.client); err != nil {
-		xlog.Errorln(err)
-		if cli != nil {
-			cli.Close()
+	if this.disablePort == false {
+		if err := this.Port.Init(this.ctx, this.client); err != nil {
+			xlog.Errorln(err)
+			if cli != nil {
+				cli.Close()
+			}
+			go this.reopen()
+			return
 		}
-		go this.reopen()
-		return
 	}
 
 	if nodeType != 0 {
@@ -175,6 +178,10 @@ func (this *Node) GetCtx() context.Context {
 	this.mutex.RLock()
 	defer this.mutex.RUnlock()
 	return this.ctx
+}
+
+func (this *Node) DisablePort() {
+	this.disablePort = true
 }
 
 // 子类可以根据需要重载下面的方法

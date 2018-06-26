@@ -12,6 +12,7 @@ type IServers interface {
 	Set(nodeType int, id uint32, val *ServerInfo)
 	Delete(nodeType int, id uint32)
 	GetByID(id uint32) (*ServerInfo, bool)
+	Count(nodeType int) int
 }
 
 type IMap interface {
@@ -20,6 +21,7 @@ type IMap interface {
 	Set(key interface{}, val interface{}) bool
 	Delete(key interface{})
 	Iterator() *gomap.Iterator
+	Count() int
 }
 
 type Servers struct {
@@ -89,4 +91,13 @@ func (this *Servers) GetByID(id uint32) (m *ServerInfo, ok bool) {
 	defer this.mutex.RUnlock()
 	m, ok = this.ssByID[id]
 	return
+}
+
+func (this *Servers) Count(nodeType int) int {
+	this.mutex.RLock()
+	defer this.mutex.RUnlock()
+	if m, ok := this.ss[nodeType]; ok {
+		return m.Count()
+	}
+	return 0
 }

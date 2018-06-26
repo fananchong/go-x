@@ -7,7 +7,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/gomodule/redigo/redis"
+	"github.com/garyburd/redigo/redis"
 )
 
 const hashSlots = 16384
@@ -19,7 +19,8 @@ const hashSlots = 16384
 type Cluster struct {
 	// StartupNodes is the list of initial nodes that make up
 	// the cluster. The values are expected as "address:port"
-	// (e.g.: "127.0.0.1:6379").
+	// (e.g.: "127.0.0.1:6379"). Only master nodes should be
+	// specified.
 	StartupNodes []string
 
 	// DialOptions is the list of options to set on each new connection.

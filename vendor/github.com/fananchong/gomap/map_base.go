@@ -60,7 +60,3 @@ func (this *MapBase) Iterator() *Iterator {
 		index: 0,
 	}
 }
-
-func (this *MapBase) Count() int {
-	return len(this.s)
-}

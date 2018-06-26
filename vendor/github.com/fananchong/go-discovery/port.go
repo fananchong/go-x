@@ -5,10 +5,8 @@ import (
 	"errors"
 	"fmt"
 	"math"
-	"math/rand"
 	"net"
 	"strconv"
-	"time"
 
 	"github.com/coreos/etcd/clientv3"
 )
@@ -79,7 +77,6 @@ func (this *Port) Init(root context.Context, client *clientv3.Client) error {
 			port++
 			version = txnRep.Responses[0].GetResponseRange().Kvs[0].Version
 		}
-		time.Sleep(time.Duration(rand.Int31n(5)+1) * time.Second)
 	}
 	this.port = port
 	fmt.Printf("node's port:%d\n", port)

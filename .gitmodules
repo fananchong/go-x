@@ -1,0 +1,3 @@
+[submodule "tools/h5client"]
+	path = tools/h5client
+	url = https://github.com/fananchong/gox-h5client.git

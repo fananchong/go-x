@@ -51,6 +51,51 @@
 			"Rev": "8f6348a97d483316c5039d6bbc2f66ba2c00e1d0"
 		},
 		{
+			"ImportPath": "github.com/ericchiang/k8s",
+			"Comment": "v1.1.0-5-gc9d9831",
+			"Rev": "c9d9831128d3528f37157d7c96765033ed0a9b3b"
+		},
+		{
+			"ImportPath": "github.com/ericchiang/k8s/apis/apiextensions/v1beta1",
+			"Comment": "v1.1.0-5-gc9d9831",
+			"Rev": "c9d9831128d3528f37157d7c96765033ed0a9b3b"
+		},
+		{
+			"ImportPath": "github.com/ericchiang/k8s/apis/core/v1",
+			"Comment": "v1.1.0-5-gc9d9831",
+			"Rev": "c9d9831128d3528f37157d7c96765033ed0a9b3b"
+		},
+		{
+			"ImportPath": "github.com/ericchiang/k8s/apis/meta/v1",
+			"Comment": "v1.1.0-5-gc9d9831",
+			"Rev": "c9d9831128d3528f37157d7c96765033ed0a9b3b"
+		},
+		{
+			"ImportPath": "github.com/ericchiang/k8s/apis/resource",
+			"Comment": "v1.1.0-5-gc9d9831",
+			"Rev": "c9d9831128d3528f37157d7c96765033ed0a9b3b"
+		},
+		{
+			"ImportPath": "github.com/ericchiang/k8s/runtime",
+			"Comment": "v1.1.0-5-gc9d9831",
+			"Rev": "c9d9831128d3528f37157d7c96765033ed0a9b3b"
+		},
+		{
+			"ImportPath": "github.com/ericchiang/k8s/runtime/schema",
+			"Comment": "v1.1.0-5-gc9d9831",
+			"Rev": "c9d9831128d3528f37157d7c96765033ed0a9b3b"
+		},
+		{
+			"ImportPath": "github.com/ericchiang/k8s/util/intstr",
+			"Comment": "v1.1.0-5-gc9d9831",
+			"Rev": "c9d9831128d3528f37157d7c96765033ed0a9b3b"
+		},
+		{
+			"ImportPath": "github.com/ericchiang/k8s/watch/versioned",
+			"Comment": "v1.1.0-5-gc9d9831",
+			"Rev": "c9d9831128d3528f37157d7c96765033ed0a9b3b"
+		},
+		{
 			"ImportPath": "github.com/fananchong/glog",
 			"Rev": "8c2b0620ede5ee2b788e9328ded6e9f203a50b0b"
 		},

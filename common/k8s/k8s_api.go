@@ -4,6 +4,7 @@ package k8s
 
 import (
 	"context"
+	"errors"
 	"os"
 	"strconv"
 
@@ -26,7 +27,7 @@ func GetEndpoints(namespace, service string) ([]*Endpoint, error) {
 
 	for _, endpoint := range endpoints.Subsets {
 		for _, address := range endpoint.Addresses {
-			index := getIndex(*address.Hostname)
+			index := getIndex(service, *address.Hostname)
 			item := NewEndpoint()
 			item.IP = *address.Ip
 			item.Index = index
@@ -37,7 +38,7 @@ func GetEndpoints(namespace, service string) ([]*Endpoint, error) {
 		}
 	}
 
-	return ips
+	return ips, nil
 }
 
 func GetVaildPort(namespace, service string) (map[string]int, error) {
@@ -52,15 +53,17 @@ func GetVaildPort(namespace, service string) (map[string]int, error) {
 	}
 
 	ports := make(map[string]int)
-
 	for _, endpoint := range endpoints.Subsets {
 		for _, port := range endpoint.Ports {
-			ports[*port.Name] = int(*port.Port) + getIndex(os.Getenv("POD_NAME"))
+			podName := os.Getenv("POD_NAME")
+			if podName == "" {
+				return nil, errors.New("not set env POD_NAME")
+			}
+			ports[*port.Name] = int(*port.Port) + getIndex(service, podName)
 		}
 		break
 	}
-
-	return ports
+	return ports, nil
 }
 
 func getIndex(service string, name string) int {

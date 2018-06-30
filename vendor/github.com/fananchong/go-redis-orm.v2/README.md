@@ -156,16 +156,15 @@ func test1n() {
 
      格式参考：example/redis_def/*.json
 
-  1. 使用release/redis2go.exe生成go文件
+  1. 生成go文件，参考example/g.sh
 
 
 ## 编译
 
 执行下列语句：
 
-```dos
-git.exe submodule update --init -- "tools/build"
-build.bat
+```shell
+./build.sh
 ```
 
 ## SetNewRedisHandler接口

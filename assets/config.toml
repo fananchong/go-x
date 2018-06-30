@@ -5,10 +5,6 @@ LogLevel = 0
 Debug = true
 IntranetToken = "6d8f1f3a-739f-47fe-9ed1-ea39276cd10d"
 
-[etcd]
-Hosts = ["101.132.47.70:12379", "101.132.47.70:22379", "101.132.47.70:32379"]
-WhatsMyIP = "127.0.0.1:3000"
-
 [dbaccount]
 Name = "account"
 Addrs = ["101.132.47.70:39379", "101.132.47.70:39381", "101.132.47.70:39383"]
@@ -34,9 +30,36 @@ Sign2 = "3wokZB%q"
 Sign3 = "%2Fi9TRf"
 
 [gateway]
-Connect = [3, 5]            #1: login; 2: gateway; 3: base; 4: room; 5: hub
+Connect = [3, 5]            #1: login; 2: gateway; 3: lobby; 4: room; 5: hub
 
 
 [lobby]
 
 [hub]
+
+
+[k8s]
+	[k8s.login]
+	t = 1
+	ns = "go-x"
+	svc = "login"
+
+	[k8s.gateway]
+	t = 2
+	ns = "go-x"
+	svc = "gateway"
+
+	[k8s.Lobby]
+	t = 3
+	ns = "go-x"
+	svc = "Lobby"
+
+	[k8s.room]
+	t = 4
+	ns = "go-x"
+	svc = "room"
+
+	[k8s.hub]
+	t = 5
+	ns = "go-x"
+	svc = "hub"

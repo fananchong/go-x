@@ -9,9 +9,10 @@ import (
 	"reflect"
 	"runtime"
 	"syscall"
+	"time"
 
-	godiscovery "github.com/fananchong/go-discovery"
-	discovery "github.com/fananchong/go-discovery/serverlist"
+	godiscovery "github.com/fananchong/go-x/common/k8s"
+	discovery "github.com/fananchong/go-x/common/k8s/serverlist"
 	"github.com/fatih/structs"
 )
 
@@ -125,18 +126,14 @@ func (this *App) initNode() {
 	if this.Args != nil {
 		args := this.Args.GetBase()
 		if args.Pending.NodeType == 0 &&
-			len(args.Pending.WatchNodeTypes) == 0 &&
-			len(args.Etcd.Hosts) == 0 {
+			len(args.Pending.WatchNodeTypes) == 0 {
 			return
 		}
 		if this.Node == nil {
 			this.Node = &discovery.Node{}
 		}
 		node := this.Node.(godiscovery.INode).GetBase().(*discovery.Node)
-		node.InitPolicy(discovery.RoundRobin)
-		discovery.SetLogger(xlog)
-		node.Init(this.Node)
-		node.Open(args.Etcd.Hosts, args.Etcd.WhatsMyIP, args.Pending.NodeType, args.Pending.WatchNodeTypes, int64(args.Etcd.PutInterval))
+		node.Init(args.Pending.NodeType, args.Pending.WatchNodeTypes, 5*time.Second, node)
 		discovery.SetNode(node)
 	}
 }

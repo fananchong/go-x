@@ -3,7 +3,7 @@ package main
 import (
 	"sync"
 
-	discovery "github.com/fananchong/go-discovery/serverlist"
+	discovery "github.com/fananchong/go-x/common/k8s/serverlist"
 	"github.com/fananchong/go-x/common_services/proto"
 )
 

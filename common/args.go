@@ -1,12 +1,12 @@
 package common
 
 type ArgsBase struct {
-	Common    ArgsCommon  // 一些基础参数
-	Pending   ArgsPending // 悬而未决的配置，OnInit()函数内用户最终设置。不同的节点会有针对性的设置。
-	Etcd      ArgsEtcd    // Etcd配置
-	DbAccount ArgsRedis   // 帐号数据库（Redis）
-	DbToken   ArgsRedis   // Token数据库（Redis）
-	DbServer  ArgsRedis   // Server数据库（Redis）
+	Common    ArgsCommon          // 一些基础参数
+	Pending   ArgsPending         // 悬而未决的配置，OnInit()函数内用户最终设置。不同的节点会有针对性的设置。
+	DbAccount ArgsRedis           // 帐号数据库（Redis）
+	DbToken   ArgsRedis           // Token数据库（Redis）
+	DbServer  ArgsRedis           // Server数据库（Redis）
+	K8S       map[string]Endpoint // k8s服务名、命名空间
 }
 
 type ArgsCommon struct {
@@ -22,15 +22,15 @@ type ArgsPending struct {
 	WatchNodeTypes []int `default:""`  // 本节点要watch其他节点的节点类型
 }
 
-type ArgsEtcd struct {
-	Hosts       []string `default:""`  // etcd主机IP列表
-	PutInterval int      `default:"1"` // 本节点上报信息间隔，单位秒
-	WhatsMyIP   string   `default:""`  // whatsmyip主机IP
-}
-
 type ArgsRedis struct {
 	Name     string   `default:""`
 	Addrs    []string `default:""`
 	Password string   `default:""`
 	DBIndex  int      `default:0`
+}
+
+type Endpoint struct {
+	NodeType int
+	IP       string
+	Ports    map[string]int
 }

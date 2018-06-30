@@ -6,9 +6,9 @@ import (
 	"net/http"
 	"time"
 
-	discovery "github.com/fananchong/go-discovery/serverlist"
 	go_redis_orm "github.com/fananchong/go-redis-orm.v2"
 	"github.com/fananchong/go-x/common"
+	discovery "github.com/fananchong/go-x/common/k8s/serverlist"
 	"github.com/fananchong/go-x/common_services/db"
 	"github.com/fananchong/go-x/common_services/proto"
 	proto1 "github.com/golang/protobuf/proto"

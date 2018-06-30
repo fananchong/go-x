@@ -2,21 +2,21 @@ package k8s
 
 import (
 	"context"
+	"fmt"
 	"sync"
 	"time"
-
-	"github.com/fananchong/go-x/common"
 )
 
 type Watch struct {
-	nt        NodeType
+	nt        *NodeType
 	endpoints sync.Map
 	ctx       context.Context
 	ctxCancel context.CancelFunc
 	tick      *time.Ticker
+	Derived   INode
 }
 
-func NewWatch(nt NodeType, ctx context.Context, d time.Duration) *Watch {
+func NewWatch(nt *NodeType, ctx context.Context, d time.Duration) *Watch {
 	this := &Watch{
 		nt: nt,
 	}
@@ -46,11 +46,11 @@ func (this *Watch) checkEndpoints() {
 			if _, ok := this.endpoints.Load(ep.Index); !ok {
 				ep.NodeType = this.nt.t
 				this.endpoints.Store(ep.Index, ep)
-				// TODO: OnJoin
+				this.Derived.OnNodeJoin(ep)
 			}
 		}
 	} else {
-		common.GetLogger().Errorln(err)
+		fmt.Errorf("%v\n", err)
 	}
 }
 

@@ -1,16 +1,12 @@
 package k8s
 
-import (
-	"sync"
-)
-
 type NodeType struct {
 	t   int
 	ns  string
 	svc string
 }
 
-var gNodeTypes sync.Map
+var gNodeTypes map[int]*NodeType = make(map[int]*NodeType)
 
 func RegisterNodeType(t int, ns, svc string) {
 	nt := &NodeType{
@@ -18,5 +14,5 @@ func RegisterNodeType(t int, ns, svc string) {
 		ns:  ns,
 		svc: svc,
 	}
-	gNodeTypes.Store(t, nt)
+	gNodeTypes[t] = nt
 }

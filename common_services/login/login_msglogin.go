@@ -109,12 +109,13 @@ func (this *Login) MsgLogin(w http.ResponseWriter, req *http.Request, data strin
 	}
 
 	// 登录成功
+	addr := fmt.Sprintf("%s:%d", gw.IP, gw.Ports[""])
 	common.GetLogger().Debugln("accountId =", accountId)
-	common.GetLogger().Debugln("gateway =", gw.GetExternalIp())
+	common.GetLogger().Debugln("gateway address =", addr)
 	rep := &proto.MsgLoginResult{}
 	rep.Err = proto.EnumLogin_NoErr
 	rep.Token = temptkn
-	rep.Address = gw.GetExternalIp()
+	rep.Address = addr
 	succmsg, _ := proto1.Marshal(rep)
 	w.Write(succmsg)
 }

@@ -1,8 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"sync"
 
+	"github.com/fananchong/go-x/common/k8s"
 	discovery "github.com/fananchong/go-x/common/k8s/serverlist"
 	"github.com/fananchong/go-x/common_services/proto"
 )
@@ -18,42 +20,28 @@ func NewNode() *Node {
 	return this
 }
 
-func (this *Node) OnNodeUpdate(nodeIp string, nodeType int, id uint32, data []byte) {
-	this.Node.OnNodeUpdate(nodeIp, nodeType, id, data)
-	if this.has(id) == false {
-		info, ok := this.Servers.GetByID(id)
-		if !ok {
-			xlog.Errorln("can't find server info")
-			return
-		}
-		this.tryConnect(id, info)
-	}
+func (this *Node) OnNodeJoin(endpoint *k8s.Endpoint) {
+	this.Node.OnNodeJoin(endpoint)
+	id := endpoint.Id()
+	this.tryConnect(id, endpoint)
 }
 
-func (this *Node) OnNodeJoin(nodeIp string, nodeType int, id uint32, data []byte) {
-	this.Node.OnNodeJoin(nodeIp, nodeType, id, data)
-	info, ok := this.Servers.GetByID(id)
-	if !ok {
-		xlog.Errorln("can't find server info")
-		return
-	}
-	this.tryConnect(id, info)
-}
-
-func (this *Node) OnNodeLeave(nodeType int, id uint32) {
-	this.Node.OnNodeLeave(nodeType, id)
+func (this *Node) OnNodeLeave(endpoint *k8s.Endpoint) {
+	this.Node.OnNodeLeave(endpoint)
+	id := endpoint.Id()
 	this.tryDelete(id)
 }
 
-func (this *Node) tryConnect(id uint32, info *discovery.ServerInfo) {
+func (this *Node) tryConnect(id uint32, endpoint *k8s.Endpoint) {
 	this.tryDelete(id)
 	session := &SessionNode{}
 	this.pending.Store(id, session)
 	go func() {
-		if session.Connect(info.ExternalIp, session) == true {
+		addr := fmt.Sprintf("%s:%d", endpoint.IP, endpoint.Ports[""])
+		if session.Connect(addr, session) == true {
 			this.nodes.Store(id, session)
 			session.id = id
-			session.t = info.GetType()
+			session.t = uint32(endpoint.NodeType)
 
 			msg := &proto.MsgVerifyS{}
 			msg.Id = this.Node.Id()

@@ -4,12 +4,12 @@ import (
 	"context"
 	"net"
 
-	"github.com/fananchong/go-x/common"
+	service "github.com/fananchong/go-x/common_services"
 	"github.com/fananchong/gotcp"
 )
 
 type SessionNode struct {
-	common.SessionIntranet
+	service.SessionIntranet
 }
 
 func (this *SessionNode) Init(conn net.Conn, root context.Context, derived gotcp.ISession) {

@@ -1,8 +1,9 @@
-package common
+package service
 
 import (
 	"sync"
 
+	"github.com/fananchong/go-x/common"
 	discovery "github.com/fananchong/go-x/common/k8s/serverlist"
 	"github.com/fananchong/go-x/common_services/proto"
 	"github.com/fananchong/gotcp"
@@ -34,22 +35,22 @@ func (this *SessionIntranet) OnRecv(data []byte, flag byte) {
 func (this *SessionIntranet) doVerify(data []byte, flag byte) {
 	msg := &proto.MsgVerifyS{}
 	if gotcp.DecodeCmd(data, flag, msg) == nil {
-		xlog.Errorln("decodeMsg fail.")
+		common.GetLogger().Errorln("decodeMsg fail.")
 		this.Close()
 		return
 	}
-	if msg.GetToken() != xargs.Common.IntranetToken {
-		xlog.Errorln("token error.")
+	if msg.GetToken() != common.GetArgs().Common.IntranetToken {
+		common.GetLogger().Errorln("token error.")
 		this.Close()
 	}
 	this.Id = msg.GetId()
 	xnodes.Store(this.Id, this)
 	this.Verify()
-	xlog.Debugln("Id:", msg.GetId(), "verify success.")
+	common.GetLogger().Debugln("Id:", msg.GetId(), "verify success.")
 
 	msg.Reset()
 	msg.Id = discovery.GetNode().Id()
-	msg.Token = xargs.Common.IntranetToken
+	msg.Token = common.GetArgs().Common.IntranetToken
 	this.SendMsg(uint64(proto.MsgTypeCmd_Verify), msg)
 }
 

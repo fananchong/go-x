@@ -30,6 +30,7 @@ func (this *Node) OnNodeJoin(endpoint *k8s.Endpoint) {
 
 func (this *Node) OnNodeLeave(endpoint *k8s.Endpoint) {
 	this.Servers.Delete(endpoint.NodeType, endpoint.Id())
+	this.Node.OnNodeLeave(endpoint)
 }
 
 /// ==================================================

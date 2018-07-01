@@ -40,8 +40,7 @@ func (this *Node) tryConnect(id uint32, endpoint *k8s.Endpoint) {
 		addr := fmt.Sprintf("%s:%d", endpoint.IP, endpoint.Ports[""])
 		if session.Connect(addr, session) == true {
 			this.nodes.Store(id, session)
-			session.id = id
-			session.t = uint32(endpoint.NodeType)
+			session.endpoint = endpoint
 
 			msg := &proto.MsgVerifyS{}
 			msg.Id = this.Node.Id()

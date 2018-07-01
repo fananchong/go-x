@@ -8,12 +8,14 @@ import (
 
 	go_redis_orm "github.com/fananchong/go-redis-orm.v2"
 	"github.com/fananchong/go-x/common"
-	discovery "github.com/fananchong/go-x/common/k8s/serverlist"
+	"github.com/fananchong/go-x/common/k8s"
 	"github.com/fananchong/go-x/common_services/db"
 	"github.com/fananchong/go-x/common_services/proto"
 	proto1 "github.com/golang/protobuf/proto"
 	uuid "github.com/satori/go.uuid"
 )
+
+var curIndex = 0
 
 func (this *Login) MsgLogin(w http.ResponseWriter, req *http.Request, data string, sign string) {
 	msg := &proto.MsgLogin{}
@@ -83,11 +85,13 @@ func (this *Login) MsgLogin(w http.ResponseWriter, req *http.Request, data strin
 	}
 
 	// 获取一个Gateway
-	_, gw, _ := discovery.GetNode().Servers.GetOne(int(common.Gateway))
-	if gw == nil {
+	endpoints, err := k8s.GetEndpoints(common.GetArgs().GetBase().K8S["gateway"].NS, common.GetArgs().GetBase().K8S["gateway"].SVC)
+	if err != nil || len(endpoints) == 0 {
 		w.Write(getErrRepString(proto.EnumLogin_ErrGateway))
 		return
 	}
+	endpointIndex := curIndex % len(endpoints)
+	curIndex++
 
 	// 生成Token、保存Token
 	temptkn := ""
@@ -109,7 +113,8 @@ func (this *Login) MsgLogin(w http.ResponseWriter, req *http.Request, data strin
 	}
 
 	// 登录成功
-	addr := fmt.Sprintf("%s:%d", gw.IP, gw.Ports[""])
+	endpoint := endpoints[endpointIndex]
+	addr := fmt.Sprintf("%s:%d", endpoint.IP, endpoint.Ports[""])
 	common.GetLogger().Debugln("accountId =", accountId)
 	common.GetLogger().Debugln("gateway address =", addr)
 	rep := &proto.MsgLoginResult{}

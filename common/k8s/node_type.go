@@ -16,3 +16,17 @@ func RegisterNodeType(t int, ns, svc string) {
 	}
 	gNodeTypes[t] = nt
 }
+
+func GetNamespace(t int) string {
+	if v, ok := gNodeTypes[t]; ok {
+		return v.ns
+	}
+	return ""
+}
+
+func GetServiceName(t int) string {
+	if v, ok := gNodeTypes[t]; ok {
+		return v.svc
+	}
+	return ""
+}

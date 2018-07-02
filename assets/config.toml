@@ -37,29 +37,3 @@ Connect = [3, 5]            #1: login; 2: gateway; 3: lobby; 4: room; 5: hub
 
 [hub]
 
-
-[k8s]
-	[k8s.login]
-	t = 1
-	ns = "go-x"
-	svc = "login"
-
-	[k8s.gateway]
-	t = 2
-	ns = "go-x"
-	svc = "gateway"
-
-	[k8s.Lobby]
-	t = 3
-	ns = "go-x"
-	svc = "Lobby"
-
-	[k8s.room]
-	t = 4
-	ns = "go-x"
-	svc = "room"
-
-	[k8s.hub]
-	t = 5
-	ns = "go-x"
-	svc = "hub"

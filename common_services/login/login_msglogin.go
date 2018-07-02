@@ -85,7 +85,7 @@ func (this *Login) MsgLogin(w http.ResponseWriter, req *http.Request, data strin
 	}
 
 	// 获取一个Gateway
-	endpoints, err := k8s.GetEndpoints(common.GetArgs().GetBase().K8S["gateway"].NS, common.GetArgs().GetBase().K8S["gateway"].SVC)
+	endpoints, err := k8s.GetEndpoints(k8s.GetNamespace(int(common.Gateway)), k8s.GetServiceName(int(common.Gateway)))
 	if err != nil || len(endpoints) == 0 {
 		w.Write(getErrRepString(proto.EnumLogin_ErrGateway))
 		return

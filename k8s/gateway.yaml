@@ -7,7 +7,7 @@ metadata:
     app: gateway
 spec:
   ports:
-    - port: 3200
+    - port: 30200
       name: ""
   clusterIP: None
   selector:

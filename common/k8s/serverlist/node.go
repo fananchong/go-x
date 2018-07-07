@@ -13,7 +13,7 @@ type Node struct {
 	mutex   sync.RWMutex
 }
 
-func NewNode(inst interface{}) *Node {
+func NewNode() *Node {
 	this := &Node{}
 	this.Servers = NewServersPolicyRoundRobin()
 	return this

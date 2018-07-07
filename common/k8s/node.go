@@ -24,6 +24,7 @@ func (this *Node) Init(nodeType int, watchNodeTypes []int, d time.Duration, inst
 	if nt, ok := gNodeTypes[nodeType]; ok {
 		this.ctx, this.ctxCancel = context.WithCancel(context.Background())
 		index := getIndex(nt.svc, os.Getenv("POD_NAME"))
+	LABEL_GETEP:
 		if eps, err := GetEndpoints(nt.ns, nt.svc); err == nil {
 			for _, ep := range eps {
 				if index == ep.Index {
@@ -32,7 +33,8 @@ func (this *Node) Init(nodeType int, watchNodeTypes []int, d time.Duration, inst
 				}
 			}
 			if this.endpoint == nil {
-				return errors.New("no find my endpoint!")
+				time.Sleep(1 * time.Second)
+				goto LABEL_GETEP
 			}
 			for _, v := range watchNodeTypes {
 				if nt, ok := gNodeTypes[v]; ok {
@@ -80,3 +82,4 @@ func (this *Node) OnNodeLeave(endpoint *Endpoint) {
 		v.OnLoseEndpoint(endpoint.Index)
 	}
 }
+

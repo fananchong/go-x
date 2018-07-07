@@ -7,19 +7,19 @@ IntranetToken = "6d8f1f3a-739f-47fe-9ed1-ea39276cd10d"
 
 [dbaccount]
 Name = "account"
-Addrs = ["101.132.47.70:39379", "101.132.47.70:39381", "101.132.47.70:39383"]
+Addrs = ["redis.go-x:6379"]
 Password = ""
 DBIndex = 0
 
 [dbtoken]
 Name = "token"
-Addrs = ["101.132.47.70:39379", "101.132.47.70:39381", "101.132.47.70:39383"]
+Addrs = ["redis.go-x:6379"]
 Password = ""
 DBIndex = 0
 
 [dbserver]
 Name = "server"
-Addrs = ["101.132.47.70:39379", "101.132.47.70:39381", "101.132.47.70:39383"]
+Addrs = ["redis.go-x:6379"]
 Password = ""
 DBIndex = 0
 

@@ -9,7 +9,7 @@ spec:
   type: NodePort
   ports:
     - port: 8000
-      nodePort: 31000
+      nodePort: 30100
   selector:
     app: login
 

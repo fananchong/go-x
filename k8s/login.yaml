@@ -34,7 +34,7 @@ spec:
       serviceAccountName: sa-go-x
       containers:
       - name: login
-        image: fananchong/go-x
+        image: 127.0.0.1:5000/fananchong/go-x
         imagePullPolicy: Always
         command: [ "./login", "--cfg=config.toml" ]
         ports:

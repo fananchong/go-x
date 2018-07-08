@@ -7,9 +7,9 @@ call build.bat
 
 cd %MYDIR%
 
-start login.exe -assets ..\..\assets
+start login.exe -assets ..\..\assets -common-loglevel 0
 ping -n 3 127.0.0.1>nul
-start gateway.exe -assets ..\..\assets
+start gateway.exe -assets ..\..\assets -common-loglevel 0
 ping -n 3 127.0.0.1>nul
-start hub.exe -assets ..\..\assets
+start hub.exe -assets ..\..\assets -common-loglevel 0
 ping -n 3 127.0.0.1>nul

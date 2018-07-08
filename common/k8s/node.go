@@ -37,8 +37,8 @@ func (this *Node) Init(nodeType int, watchNodeTypes []int, d time.Duration, inst
 				goto LABEL_GETEP
 			}
 			for _, v := range watchNodeTypes {
-				if nt, ok := gNodeTypes[v]; ok {
-					w := NewWatch(nt, this.ctx, d, inst)
+				if v_nt, ok := gNodeTypes[v]; ok {
+					w := NewWatch(v_nt, this.ctx, d, inst)
 					this.watchs = append(this.watchs, w)
 				}
 			}

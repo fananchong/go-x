@@ -29,6 +29,12 @@ func (this *ArgsBase) Init(derived IArgs) {
 		if v == "-assets" || v == "--assets" {
 			index = i + 1
 		}
+		if v == "-h" || v == "-help" || v == "--help" || v == "/?" {
+			fl := &multiconfig.FlagLoader{}
+			fl.Load(derived)
+			flag.CommandLine.PrintDefaults()
+			os.Exit(0)
+		}
 	}
 	assetsPath := ""
 	if index != 0 && index < len(os.Args) {
@@ -39,13 +45,13 @@ func (this *ArgsBase) Init(derived IArgs) {
 	}
 	dir, err := filepath.Abs(filepath.Dir(assetsPath))
 	if err != nil {
-		panic("no find assets path, path: " + assetsPath)
+		fmt.Println("no find assets path, path: " + assetsPath)
 	}
 	fmt.Println("Assets Path:", dir)
 	cfg := assetsPath + "config.toml"
 	_, err = os.Stat(cfg)
 	if !(err == nil || os.IsExist(err)) {
-		panic("no find config.toml, path: " + cfg)
+		fmt.Println("no find config.toml " + cfg)
 	}
 	m := multiconfig.NewWithPath(cfg)
 	m.MustLoad(derived)

@@ -46,7 +46,7 @@ func (this *SessionIntranet) doVerify(data []byte, flag byte) {
 	this.Id = msg.GetId()
 	xnodes.Store(this.Id, this)
 	this.Verify()
-	common.GetLogger().Debugln("Id:", msg.GetId(), "verify success.")
+	common.GetLogger().Debugln("Id:", msg.GetId(), "verify success. My Node Id:", discovery.GetNode().Id())
 
 	msg.Reset()
 	msg.Id = discovery.GetNode().Id()

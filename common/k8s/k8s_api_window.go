@@ -7,8 +7,10 @@ func GetEndpoints(namespace, service string) ([]*Endpoint, error) {
 
 	switch service {
 	case "gateway":
+		item.NodeType = 2
 		item.Ports[""] = 30200
 	case "hub":
+		item.NodeType = 5
 		item.Ports[""] = 30500
 	}
 

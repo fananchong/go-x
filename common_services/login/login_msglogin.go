@@ -9,6 +9,7 @@ import (
 	go_redis_orm "github.com/fananchong/go-redis-orm.v2"
 	"github.com/fananchong/go-x/common"
 	"github.com/fananchong/go-x/common/k8s"
+	"github.com/fananchong/go-x/common_services"
 	"github.com/fananchong/go-x/common_services/db"
 	"github.com/fananchong/go-x/common_services/proto"
 	proto1 "github.com/golang/protobuf/proto"
@@ -114,7 +115,12 @@ func (this *Login) MsgLogin(w http.ResponseWriter, req *http.Request, data strin
 
 	// 登录成功
 	endpoint := endpoints[endpointIndex]
-	addr := fmt.Sprintf("%s:%d", endpoint.IP, endpoint.Ports[""])
+	ip := endpoint.IP
+	iplist := service.GetIpList()
+	if v, ok := (*iplist)[ip]; ok {
+		ip = v
+	}
+	addr := fmt.Sprintf("%s:%d", ip, endpoint.Ports[""])
 	common.GetLogger().Debugln("accountId =", accountId)
 	common.GetLogger().Debugln("gateway address =", addr)
 	rep := &proto.MsgLoginResult{}
@@ -164,3 +170,4 @@ func (this *Login) loginByDefault(msg *proto.MsgLogin) (uint64, string, error) {
 	}
 	return account.GetUid(), account.GetPswd(), nil
 }
+

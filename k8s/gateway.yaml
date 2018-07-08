@@ -26,7 +26,7 @@ spec:
   selector:
     matchLabels:
       app: gateway
-  replicas: 3
+  replicas: 2
   template:
     metadata:
       labels:
@@ -39,7 +39,7 @@ spec:
       - name: gateway
         image: 127.0.0.1:5000/fananchong/go-x
         imagePullPolicy: Always
-        command: [ "./gateway", "--cfg=config.toml" ]
+        command: [ "./gateway" ]
         env:
         - name: POD_NAME
           valueFrom:

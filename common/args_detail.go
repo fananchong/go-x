@@ -19,27 +19,28 @@ type IArgsBase interface {
 }
 
 var (
-	cfgpath = flag.String("cfg", "", "path of cfg file")
+	assetsPath = flag.String("assets", "", "path of assets")
 )
 
 func (this *ArgsBase) Init(derived IArgs) {
 	index := 0
 	for i, v := range os.Args {
-		if v == "-cfg" || v == "--cfg" {
+		if v == "-assets" || v == "--assets" {
 			index = i + 1
 		}
 	}
-	cfg := ""
+	assetsPath := ""
 	if index != 0 && index < len(os.Args) {
-		cfg = os.Args[index]
-		fmt.Println("cfg file:", cfg)
+		assetsPath = os.Args[index] + "/"
 	}
-	if cfg == "" {
-		defaultCfg := "./config.toml"
-		_, err := os.Stat(defaultCfg)
-		if err == nil || os.IsExist(err) {
-			cfg = defaultCfg
-		}
+	if assetsPath == "" {
+		assetsPath = "./"
+	}
+	fmt.Println("assets path:", assetsPath)
+	cfg := assetsPath + "config.toml"
+	_, err := os.Stat(cfg)
+	if !(err == nil || os.IsExist(err)) {
+		panic("no find config.toml, path: " + cfg)
 	}
 	m := multiconfig.NewWithPath(cfg)
 	m.MustLoad(derived)
@@ -58,3 +59,8 @@ func SetArgs(args *ArgsBase) {
 func GetArgs() *ArgsBase {
 	return xargs
 }
+
+func GetAssetsPath() string {
+	return *assetsPath
+}
+

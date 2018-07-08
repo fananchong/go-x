@@ -10,13 +10,14 @@ import (
 )
 
 type Node struct {
-	discovery.Node
+	*discovery.Node
 	nodes   sync.Map
 	pending sync.Map
 }
 
 func NewNode() *Node {
 	this := &Node{}
+	this.Node = discovery.NewNode()
 	return this
 }
 
@@ -71,3 +72,4 @@ func (this *Node) has(id uint32) bool {
 	}
 	return false
 }
+

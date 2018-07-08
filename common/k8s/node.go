@@ -79,7 +79,9 @@ func (this *Node) OnNodeJoin(endpoint *Endpoint) {
 
 func (this *Node) OnNodeLeave(endpoint *Endpoint) {
 	for _, v := range this.watchs {
-		v.OnLoseEndpoint(endpoint.Index)
+		if v.nt.t == endpoint.NodeType {
+			v.OnLoseEndpoint(endpoint.Index)
+			break
+		}
 	}
 }
-

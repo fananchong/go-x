@@ -133,7 +133,7 @@ func (this *App) initNode() {
 			this.Node = discovery.NewNode()
 		}
 		node := this.Node.(godiscovery.INode).GetBase().(*discovery.Node)
-		node.Init(args.Pending.NodeType, args.Pending.WatchNodeTypes, 5*time.Second, node)
+		node.Init(args.Pending.NodeType, args.Pending.WatchNodeTypes, 5*time.Second, this.Node.(godiscovery.INode))
 		discovery.SetNode(node)
 	}
 }

@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: hub
+  namespace: go-x
+  labels:
+    app: hub
+spec:
+  ports:
+    - port: 30500
+      name: ""
+  clusterIP: None
+  selector:
+    app: hub
+
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: hub
+  namespace: go-x
+  labels:
+    app: hub
+spec:
+  serviceName: hub
+  selector:
+    matchLabels:
+      app: hub
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: hub
+    spec:
+      serviceAccountName: sa-go-x
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      containers:
+      - name: hub
+        image: 127.0.0.1:5000/fananchong/go-x
+        imagePullPolicy: Always
+        command: [ "./hub" ]
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+
+
+

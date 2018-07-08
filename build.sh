@@ -1,5 +1,11 @@
 #!/bin/bash
 
+
+#temp
+kubectl delete -f k8s/login.yaml
+kubectl delete -f k8s/gateway.yaml
+kubectl delete -f k8s/hub.yaml
+
 set -ex
 
 rm -rf ./bin
@@ -22,3 +28,5 @@ kubectl delete -f k8s/login.yaml
 kubectl create -f k8s/login.yaml
 kubectl delete -f k8s/gateway.yaml
 kubectl create -f k8s/gateway.yaml
+kubectl delete -f k8s/hub.yaml
+kubectl create -f k8s/hub.yaml

@@ -9,9 +9,10 @@ import (
 	"reflect"
 	"runtime"
 	"syscall"
+	"time"
 
-	godiscovery "github.com/fananchong/go-discovery"
-	discovery "github.com/fananchong/go-discovery/serverlist"
+	godiscovery "github.com/fananchong/go-x/common/k8s"
+	discovery "github.com/fananchong/go-x/common/k8s/serverlist"
 	"github.com/fatih/structs"
 )
 
@@ -118,32 +119,27 @@ func (this *App) initArgsDetail(fields []*structs.Field) {
 			}
 		}
 	}
-	this.Args.GetBase().Pending.NodeType = this.Type
 }
 
 func (this *App) initNode() {
 	if this.Args != nil {
 		args := this.Args.GetBase()
-		if args.Pending.NodeType == 0 &&
-			len(args.Pending.WatchNodeTypes) == 0 &&
-			len(args.Etcd.Hosts) == 0 {
+		if this.Type == 0 &&
+			len(args.Pending.WatchNodeTypes) == 0 {
 			return
 		}
 		if this.Node == nil {
-			this.Node = &discovery.Node{}
+			this.Node = discovery.NewNode()
 		}
 		node := this.Node.(godiscovery.INode).GetBase().(*discovery.Node)
-		node.InitPolicy(discovery.RoundRobin)
-		discovery.SetLogger(xlog)
-		node.Init(this.Node)
-		node.Open(args.Etcd.Hosts, args.Etcd.WhatsMyIP, args.Pending.NodeType, args.Pending.WatchNodeTypes, int64(args.Etcd.PutInterval))
+		node.Init(this.Type, args.Pending.WatchNodeTypes, 5*time.Second, this.Node.(godiscovery.INode))
 		discovery.SetNode(node)
 	}
 }
 
 func (this *App) initProf() {
 	if this.Args != nil && this.Args.GetBase().Common.Debug {
-		port := 58000 + this.Args.GetBase().Pending.NodeType
+		port := 58000 + this.Type
 		go http.ListenAndServe(fmt.Sprintf(":%d", port), nil)
 	}
 }

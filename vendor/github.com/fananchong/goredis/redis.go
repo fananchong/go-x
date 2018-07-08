@@ -4,7 +4,7 @@ import (
 	"errors"
 	"strings"
 
-	"github.com/garyburd/redigo/redis"
+	"github.com/gomodule/redigo/redis"
 )
 
 type IClient interface {

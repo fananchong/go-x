@@ -5,25 +5,21 @@ LogLevel = 0
 Debug = true
 IntranetToken = "6d8f1f3a-739f-47fe-9ed1-ea39276cd10d"
 
-[etcd]
-Hosts = ["101.132.47.70:12379", "101.132.47.70:22379", "101.132.47.70:32379"]
-WhatsMyIP = "127.0.0.1:3000"
-
 [dbaccount]
 Name = "account"
-Addrs = ["101.132.47.70:39379", "101.132.47.70:39381", "101.132.47.70:39383"]
+Addrs = ["redis.go-x:32000"]
 Password = ""
 DBIndex = 0
 
 [dbtoken]
 Name = "token"
-Addrs = ["101.132.47.70:39379", "101.132.47.70:39381", "101.132.47.70:39383"]
+Addrs = ["redis.go-x:32000"]
 Password = ""
 DBIndex = 0
 
 [dbserver]
 Name = "server"
-Addrs = ["101.132.47.70:39379", "101.132.47.70:39381", "101.132.47.70:39383"]
+Addrs = ["redis.go-x:32000"]
 Password = ""
 DBIndex = 0
 
@@ -34,9 +30,10 @@ Sign2 = "3wokZB%q"
 Sign3 = "%2Fi9TRf"
 
 [gateway]
-Connect = [3, 5]            #1: login; 2: gateway; 3: base; 4: room; 5: hub
+Connect = [3, 5]            #1: login; 2: gateway; 3: lobby; 4: room; 5: hub
 
 
 [lobby]
 
 [hub]
+

@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: login
+  namespace: go-x
+  labels:
+    app: login
+spec:
+  type: NodePort
+  ports:
+    - port: 8080
+      nodePort: 30100
+  selector:
+    app: login
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: login
+  namespace: go-x
+  labels:
+    app: login
+spec:
+  selector:
+    matchLabels:
+      app: login
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: login
+    spec:
+      serviceAccountName: sa-go-x
+      containers:
+      - name: login
+        image: 127.0.0.1:5000/fananchong/go-x
+        imagePullPolicy: Always
+        command: [ "./login", "--common-loglevel=0" ]
+        ports:
+        - containerPort: 8080
+
+
+

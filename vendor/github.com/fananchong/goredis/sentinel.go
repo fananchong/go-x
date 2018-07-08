@@ -4,8 +4,8 @@ import (
 	"errors"
 	"time"
 
-	sentinel "github.com/FZambia/go-sentinel"
-	"github.com/garyburd/redigo/redis"
+	"github.com/FZambia/sentinel"
+	"github.com/gomodule/redigo/redis"
 )
 
 type SentinelClient struct {

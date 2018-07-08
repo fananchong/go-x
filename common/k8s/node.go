@@ -27,6 +27,7 @@ func (this *Node) Init(nodeType int, watchNodeTypes []int, d time.Duration, inst
 	LABEL_GETEP:
 		if eps, err := GetEndpoints(nt.ns, nt.svc); err == nil {
 			for _, ep := range eps {
+				ep.NodeType = nt.t
 				if index == ep.Index {
 					this.endpoint = ep
 					break
@@ -81,3 +82,4 @@ func (this *Node) OnNodeLeave(endpoint *Endpoint) {
 		v.OnLoseEndpoint(endpoint.Index)
 	}
 }
+

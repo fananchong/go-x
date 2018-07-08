@@ -119,13 +119,12 @@ func (this *App) initArgsDetail(fields []*structs.Field) {
 			}
 		}
 	}
-	this.Args.GetBase().Pending.NodeType = this.Type
 }
 
 func (this *App) initNode() {
 	if this.Args != nil {
 		args := this.Args.GetBase()
-		if args.Pending.NodeType == 0 &&
+		if this.Type == 0 &&
 			len(args.Pending.WatchNodeTypes) == 0 {
 			return
 		}
@@ -133,14 +132,14 @@ func (this *App) initNode() {
 			this.Node = discovery.NewNode()
 		}
 		node := this.Node.(godiscovery.INode).GetBase().(*discovery.Node)
-		node.Init(args.Pending.NodeType, args.Pending.WatchNodeTypes, 5*time.Second, this.Node.(godiscovery.INode))
+		node.Init(this.Type, args.Pending.WatchNodeTypes, 5*time.Second, this.Node.(godiscovery.INode))
 		discovery.SetNode(node)
 	}
 }
 
 func (this *App) initProf() {
 	if this.Args != nil && this.Args.GetBase().Common.Debug {
-		port := 58000 + this.Args.GetBase().Pending.NodeType
+		port := 58000 + this.Type
 		go http.ListenAndServe(fmt.Sprintf(":%d", port), nil)
 	}
 }

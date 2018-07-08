@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"path/filepath"
 
 	"github.com/fananchong/multiconfig"
 )
@@ -36,9 +37,13 @@ func (this *ArgsBase) Init(derived IArgs) {
 	if assetsPath == "" {
 		assetsPath = "./"
 	}
-	fmt.Println("assets path:", assetsPath)
+	dir, err := filepath.Abs(filepath.Dir(assetsPath))
+	if err != nil {
+		panic("no find assets path, path: " + assetsPath)
+	}
+	fmt.Println("Assets Path:", dir)
 	cfg := assetsPath + "config.toml"
-	_, err := os.Stat(cfg)
+	_, err = os.Stat(cfg)
 	if !(err == nil || os.IsExist(err)) {
 		panic("no find config.toml, path: " + cfg)
 	}
@@ -63,4 +68,3 @@ func GetArgs() *ArgsBase {
 func GetAssetsPath() string {
 	return *assetsPath
 }
-

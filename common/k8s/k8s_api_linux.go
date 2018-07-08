@@ -1,11 +1,7 @@
-// +build !debug
-
 package k8s
 
 import (
 	"context"
-	"errors"
-	"os"
 	"strconv"
 
 	"github.com/ericchiang/k8s"
@@ -39,31 +35,6 @@ func GetEndpoints(namespace, service string) ([]*Endpoint, error) {
 	}
 
 	return ips, nil
-}
-
-func GetVaildPort(namespace, service string) (map[string]int, error) {
-	client, err := k8s.NewInClusterClient()
-	if err != nil {
-		return nil, err
-	}
-	var endpoints corev1.Endpoints
-	err = client.Get(context.Background(), namespace, service, &endpoints)
-	if err != nil {
-		return nil, err
-	}
-
-	ports := make(map[string]int)
-	for _, endpoint := range endpoints.Subsets {
-		for _, port := range endpoint.Ports {
-			podName := os.Getenv("POD_NAME")
-			if podName == "" {
-				return nil, errors.New("not set env POD_NAME")
-			}
-			ports[*port.Name] = int(*port.Port) + getIndex(service, podName)
-		}
-		break
-	}
-	return ports, nil
 }
 
 func getIndex(service string, name string) int {

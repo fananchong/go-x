@@ -17,8 +17,7 @@ type ArgsCommon struct {
 }
 
 type ArgsPending struct {
-	NodeType       int   `default:"0"` // 本节点类型。填0，则本节点不会上报自身信息给etcd。
-	WatchNodeTypes []int `default:""`  // 本节点要watch其他节点的节点类型
+	WatchNodeTypes []int `default:""` // 本节点要watch其他节点的节点类型
 }
 
 type ArgsRedis struct {

@@ -38,8 +38,7 @@ func (this *Node) Init(nodeType int, watchNodeTypes []int, d time.Duration, inst
 			}
 			for _, v := range watchNodeTypes {
 				if nt, ok := gNodeTypes[v]; ok {
-					w := NewWatch(nt, this.ctx, d)
-					w.Derived = inst
+					w := NewWatch(nt, this.ctx, d, inst)
 					this.watchs = append(this.watchs, w)
 				}
 			}
@@ -82,4 +81,3 @@ func (this *Node) OnNodeLeave(endpoint *Endpoint) {
 		v.OnLoseEndpoint(endpoint.Index)
 	}
 }
-

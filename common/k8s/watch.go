@@ -13,12 +13,13 @@ type Watch struct {
 	ctx       context.Context
 	ctxCancel context.CancelFunc
 	tick      *time.Ticker
-	Derived   INode
+	derived   INode
 }
 
-func NewWatch(nt *NodeType, ctx context.Context, d time.Duration) *Watch {
+func NewWatch(nt *NodeType, ctx context.Context, d time.Duration, derived INode) *Watch {
 	this := &Watch{
-		nt: nt,
+		nt:      nt,
+		derived: derived,
 	}
 	this.init(ctx, d)
 	return this
@@ -46,7 +47,7 @@ func (this *Watch) checkEndpoints() {
 			if _, ok := this.endpoints.Load(ep.Index); !ok {
 				ep.NodeType = this.nt.t
 				this.endpoints.Store(ep.Index, ep)
-				this.Derived.OnNodeJoin(ep)
+				this.derived.OnNodeJoin(ep)
 			}
 		}
 	} else {

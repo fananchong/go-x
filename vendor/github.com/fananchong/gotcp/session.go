@@ -23,14 +23,15 @@ const (
 )
 
 type Session struct {
-	Conn      net.Conn
-	ctx       context.Context
-	ctxCancel context.CancelFunc
-	sendChan  chan []byte
-	sendCount int32
-	closed    int32
-	verified  bool
-	Derived   ISession
+	Conn         net.Conn
+	ctx          context.Context
+	ctxCancel    context.CancelFunc
+	sendChan     chan []byte
+	sendCount    int32
+	closed       int32
+	verified     bool
+	verifiedChan chan int
+	Derived      ISession
 }
 
 func (this *Session) Init(conn net.Conn, root context.Context, derived ISession) {
@@ -45,6 +46,7 @@ func (this *Session) Init(conn net.Conn, root context.Context, derived ISession)
 	atomic.StoreInt32(&this.sendCount, 0)
 	atomic.StoreInt32(&this.closed, 0)
 	this.verified = false
+	this.verifiedChan = make(chan int, 1)
 }
 
 func (this *Session) Start() {
@@ -158,8 +160,19 @@ func (this *Session) recvloop(job *sync.WaitGroup) {
 				recvBuff.WrFlip(readnum)
 				msgbuff = recvBuff.RdBuf()
 			}
+
+			checkVerified := 0
+			if this.verified {
+				checkVerified++
+			}
 			this.Derived.OnRecv(msgbuff[cmd_header_size:cmd_header_size+datasize], msgbuff[3])
 			recvBuff.RdFlip(cmd_header_size + datasize)
+			if this.verified {
+				checkVerified++
+				if checkVerified == 1 {
+					this.verifiedChan <- 1
+				}
+			}
 		}
 	}
 }
@@ -202,11 +215,11 @@ func (this *Session) sendloop(job *sync.WaitGroup) {
 			}
 		case <-this.ctx.Done():
 			return
+		case <-this.verifiedChan:
+			timeout.Stop()
 		case <-timeout.C:
-			if !this.IsVerified() {
-				xlog.Infoln("verify timeout, remote address =", this.RemoteAddr())
-				return
-			}
+			xlog.Infoln("verify timeout, remote address =", this.RemoteAddr())
+			return
 		}
 	}
 }

@@ -13,7 +13,7 @@ const (
 	Hub                       // 5
 )
 
-func init() {
+func initServerType() {
 	const ns = "go-x"
 	k8s.RegisterNodeType(int(Login), ns, "login")
 	k8s.RegisterNodeType(int(Gateway), ns, "gateway")

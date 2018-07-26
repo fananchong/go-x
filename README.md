@@ -45,4 +45,5 @@ Go游戏服务器框架
   - Gateway转发客户端消息时，附带上UID信息
   - uid-gatewayId 键值对加过期时间，且gate且gateway定时刷新它
   - session发送缓冲区[]byte不必频繁创建（gotcp优化）
+  - 增加服务器间相互ping操作
   - 待续

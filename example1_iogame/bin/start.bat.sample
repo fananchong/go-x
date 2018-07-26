@@ -12,15 +12,16 @@ call build.bat
 
 cd %MYDIR%
 
-start %COMMONSRVDIR%\bin\WhatsMyIP.exe
+
+start lobby.exe -assets ..\..\assets -common-loglevel 0
 ping -n 3 127.0.0.1>nul
-start %COMMONSRVDIR%\bin\login.exe -cfg %ASSETSDIR%\config.toml
+start room.exe -assets ..\..\assets -common-loglevel 0
 ping -n 3 127.0.0.1>nul
-start %COMMONSRVDIR%\bin\gateway.exe -cfg %ASSETSDIR%\config.toml
+
+
+start %COMMONSRVDIR%\bin\login.exe -assets ..\..\assets -common-loglevel 0
 ping -n 3 127.0.0.1>nul
-start %COMMONSRVDIR%\bin\hub.exe -cfg %ASSETSDIR%\config.toml
+start %COMMONSRVDIR%\bin\gateway.exe -assets ..\..\assets -common-loglevel 0
 ping -n 3 127.0.0.1>nul
-start lobby.exe -cfg %ASSETSDIR%\config.toml
-ping -n 3 127.0.0.1>nul
-start room.exe -cfg %ASSETSDIR%\config.toml
+start %COMMONSRVDIR%\bin\hub.exe -assets ..\..\assets -common-loglevel 0
 ping -n 3 127.0.0.1>nul

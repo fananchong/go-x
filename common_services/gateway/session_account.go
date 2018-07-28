@@ -30,7 +30,7 @@ func (this *SessionAccount) OnRecv(data []byte, flag byte) {
 			this.Close()
 			return
 		}
-		Forward(common.ServerType(msg.GetType()), msg.GetData())
+		Forward(int(msg.GetType()), msg.GetData())
 	default:
 		xlog.Debugln("unkown msg")
 		this.Close()
@@ -81,7 +81,7 @@ func (this *SessionAccount) doVerify(data []byte, flag byte) {
 
 	kickmsg := &proto.MsgKick{}
 	kickmsg.UID = this.uid
-	ForwardMsg(common.Hub, proto.MsgTypeCmd_Kick, kickmsg)
+	ForwardMsg(int(common.Hub), proto.MsgTypeCmd_Kick, kickmsg)
 
 	this.Verify()
 

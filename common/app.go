@@ -123,6 +123,7 @@ func (this *App) initArgsDetail(fields []*structs.Field) {
 
 func (this *App) initNode() {
 	if this.Args != nil {
+		initServerType()
 		args := this.Args.GetBase()
 		if this.Type == 0 &&
 			len(args.Pending.WatchNodeTypes) == 0 {

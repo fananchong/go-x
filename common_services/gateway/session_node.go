@@ -3,7 +3,6 @@ package main
 import (
 	"sync"
 
-	"github.com/fananchong/go-x/common"
 	"github.com/fananchong/go-x/common/k8s"
 	discovery "github.com/fananchong/go-x/common/k8s/serverlist"
 	"github.com/fananchong/go-x/common_services/proto"
@@ -41,9 +40,9 @@ func (this *SessionNode) OnRecv(data []byte, flag byte) {
 			ForwardById(msg.GetId(), msg.GetData())
 		} else {
 			if msg.GetId() == 0 {
-				Forward(common.ServerType(msg.GetType()), msg.GetData())
+				Forward(int(msg.GetType()), msg.GetData())
 			} else {
-				ForwardAll(common.ServerType(msg.GetType()), msg.GetData(), msg.GetId())
+				ForwardAll(int(msg.GetType()), msg.GetData(), msg.GetId())
 			}
 		}
 	default:
@@ -100,8 +99,8 @@ func (this *SessionNode) OnClose() {
 	}
 }
 
-func Forward(serverType common.ServerType, data []byte) {
-	id, _, _ := xnode.Servers.GetOne(int(serverType))
+func Forward(serverType int, data []byte) {
+	id, _, _ := xnode.Servers.GetOne(serverType)
 	if id == 0 {
 		xlog.Errorln("no find server. #1")
 		return
@@ -119,10 +118,10 @@ func ForwardById(id uint32, data []byte) {
 	}
 }
 
-func ForwardAll(serverType common.ServerType, data []byte, excludeId uint32) {
+func ForwardAll(serverType int, data []byte, excludeId uint32) {
 	xnodesMutex.RLock()
 	defer xnodesMutex.RUnlock()
-	if items, ok := xnodesByType[int(serverType)]; ok {
+	if items, ok := xnodesByType[serverType]; ok {
 		for id, node := range items {
 			if id != excludeId {
 				// 转发的包不可以太大。这里硬编码flag为0
@@ -132,8 +131,8 @@ func ForwardAll(serverType common.ServerType, data []byte, excludeId uint32) {
 	}
 }
 
-func ForwardMsg(serverType common.ServerType, cmd proto.MsgTypeCmd, msg proto1.Message) {
-	id, _, _ := xnode.Servers.GetOne(int(serverType))
+func ForwardMsg(serverType int, cmd proto.MsgTypeCmd, msg proto1.Message) {
+	id, _, _ := xnode.Servers.GetOne(serverType)
 	if id == 0 {
 		xlog.Errorln("no find server. #1")
 		return
@@ -146,10 +145,10 @@ func ForwardMsg(serverType common.ServerType, cmd proto.MsgTypeCmd, msg proto1.M
 	}
 }
 
-func ForwardMsgAll(serverType common.ServerType, cmd proto.MsgTypeCmd, msg proto1.Message, excludeId uint32) {
+func ForwardMsgAll(serverType int, cmd proto.MsgTypeCmd, msg proto1.Message, excludeId uint32) {
 	xnodesMutex.RLock()
 	defer xnodesMutex.RUnlock()
-	if items, ok := xnodesByType[int(serverType)]; ok {
+	if items, ok := xnodesByType[serverType]; ok {
 		for id, node := range items {
 			if id != excludeId {
 				node.SendMsg(uint64(cmd), msg)

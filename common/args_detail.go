@@ -20,7 +20,8 @@ type IArgsBase interface {
 }
 
 var (
-	assetsPath = flag.String("assets", "", "path of assets")
+	_          = flag.String("assets", "", "path of assets")
+	assetsPath string
 )
 
 func (this *ArgsBase) Init(derived IArgs) {
@@ -36,7 +37,7 @@ func (this *ArgsBase) Init(derived IArgs) {
 			os.Exit(0)
 		}
 	}
-	assetsPath := ""
+	assetsPath = ""
 	if index != 0 && index < len(os.Args) {
 		assetsPath = os.Args[index] + "/"
 	}
@@ -48,6 +49,7 @@ func (this *ArgsBase) Init(derived IArgs) {
 		fmt.Println("no find assets path, path: " + assetsPath)
 	}
 	fmt.Println("Assets Path:", dir)
+	assetsPath = dir + "/"
 	cfg := assetsPath + "config.toml"
 	_, err = os.Stat(cfg)
 	if !(err == nil || os.IsExist(err)) {
@@ -72,5 +74,5 @@ func GetArgs() *ArgsBase {
 }
 
 func GetAssetsPath() string {
-	return *assetsPath
+	return assetsPath
 }

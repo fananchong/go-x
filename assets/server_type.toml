@@ -1,0 +1,27 @@
+# 服务名及命名空间
+# 请与 go-x/k8s/ 目录中编排脚本中的服务名、命名空间名 保持一致
+
+[[ServerType]]
+Type = 1
+Name = "login"
+Namespace = "go-x"
+
+[[ServerType]]
+Type = 2
+Name = "gateway"
+Namespace = "go-x"
+
+[[ServerType]]
+Type = 3
+Name = "hub"
+Namespace = "go-x"
+
+[[ServerType]]
+Type = 10
+Name = "lobby"
+Namespace = "go-x"
+
+[[ServerType]]
+Type = 11
+Name = "room"
+Namespace = "go-x"

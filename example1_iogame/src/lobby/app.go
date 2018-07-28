@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/fananchong/go-x/common"
+	"github.com/fananchong/go-x/example1_iogame/src"
 )
 
 var (
@@ -15,7 +16,7 @@ type App struct {
 
 func NewApp() *App {
 	this := &App{}
-	this.Type = int(common.Lobby)
+	this.Type = int(iogame.Lobby)
 	this.Args = xargs
 	this.Logger = xlog
 	this.Derived = this

@@ -1,16 +1,10 @@
 #!/bin/bash
 
-
-#temp
-kubectl delete -f k8s/login.yaml
-kubectl delete -f k8s/gateway.yaml
-kubectl delete -f k8s/hub.yaml
-
 set -ex
 
 rm -rf ./bin
 docker run --rm -e GOBIN=/go/bin/ -v "$PWD"/bin:/go/bin/ -v "$PWD":/go/src/github.com/fananchong/go-x -w /go/src/github.com/fananchong/go-x/common_services golang go install ./...
-#docker run --rm -e GOBIN=/go/bin/ -v "$PWD"/bin:/go/bin/ -v "$PWD":/go/src/github.com/fananchong/go-x -w /go/src/github.com/fananchong/go-x/example1_iogame golang go install ./...
+docker run --rm -e GOBIN=/go/bin/ -v "$PWD"/bin:/go/bin/ -v "$PWD":/go/src/github.com/fananchong/go-x -w /go/src/github.com/fananchong/go-x/example1_iogame golang go install ./...
 
 docker build -t go-x .
 
@@ -30,3 +24,8 @@ kubectl delete -f k8s/gateway.yaml
 kubectl create -f k8s/gateway.yaml
 kubectl delete -f k8s/hub.yaml
 kubectl create -f k8s/hub.yaml
+kubectl delete -f k8s/lobby.yaml
+kubectl create -f k8s/lobby.yaml
+kubectl delete -f k8s/room.yaml
+kubectl create -f k8s/room.yaml
+

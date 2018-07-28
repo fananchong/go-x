@@ -35,14 +35,13 @@ Go游戏服务器框架
 
   - 客户端查询玩家基本信息，返回玩家名字
 
-  
 - match匹配逻辑
 
 - room实现一个简单的场景
 
 - 其他
 
-  - Gateway转发客户端消息时，附带上UID信息
+  - Gateway转发客户端消息时，附带上UID信息（且Gateway需要实现消息路由转发功能）
   - uid-gatewayId 键值对加过期时间，且gate且gateway定时刷新它
   - session发送缓冲区[]byte不必频繁创建（gotcp优化）
   - 增加服务器间相互ping操作

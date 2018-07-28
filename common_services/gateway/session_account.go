@@ -23,14 +23,14 @@ func (this *SessionAccount) OnRecv(data []byte, flag byte) {
 
 	cmd := proto.MsgTypeCmd(gotcp.GetCmd(data))
 	switch cmd {
-	case proto.MsgTypeCmd_ForwardC:
-		msg := &proto.MsgForwardC{}
-		if gotcp.DecodeCmd(data, flag, msg) == nil {
-			xlog.Debugln("decodeMsg fail.")
-			this.Close()
-			return
-		}
-		Forward(int(msg.GetType()), msg.GetData())
+	//	case proto.MsgTypeCmd_ForwardC:
+	//		msg := &proto.MsgForwardC{}
+	//		if gotcp.DecodeCmd(data, flag, msg) == nil {
+	//			xlog.Debugln("decodeMsg fail.")
+	//			this.Close()
+	//			return
+	//		}
+	//		Forward(int(msg.GetType()), msg.GetData())
 	default:
 		xlog.Debugln("unkown msg")
 		this.Close()

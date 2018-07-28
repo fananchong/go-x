@@ -37,12 +37,12 @@ func (this *SessionNode) OnRecv(data []byte, flag byte) {
 			return
 		}
 		if msg.GetType() == 0 {
-			ForwardById(msg.GetId(), msg.GetData())
+			ForwardById(msg.GetId(), msg.GetData(), byte(msg.GetFlag()))
 		} else {
 			if msg.GetId() == 0 {
-				Forward(int(msg.GetType()), msg.GetData())
+				Forward(int(msg.GetType()), msg.GetData(), byte(msg.GetFlag()))
 			} else {
-				ForwardAll(int(msg.GetType()), msg.GetData(), msg.GetId())
+				ForwardAll(int(msg.GetType()), msg.GetData(), byte(msg.GetFlag()), msg.GetId())
 			}
 		}
 	default:
@@ -99,33 +99,31 @@ func (this *SessionNode) OnClose() {
 	}
 }
 
-func Forward(serverType int, data []byte) {
+func Forward(serverType int, data []byte, flag byte) {
 	id, _, _ := xnode.Servers.GetOne(serverType)
 	if id == 0 {
 		xlog.Errorln("no find server. #1")
 		return
 	}
-	ForwardById(id, data)
+	ForwardById(id, data, flag)
 }
 
-func ForwardById(id uint32, data []byte) {
+func ForwardById(id uint32, data []byte, flag byte) {
 	if node, loaded := xnodes.Load(id); loaded {
-		// 转发的包不可以太大。这里硬编码flag为0
-		node.(*SessionNode).Send(data, 0)
+		node.(*SessionNode).Send(data, flag)
 	} else {
 		xlog.Errorln("no find server. #2")
 		return
 	}
 }
 
-func ForwardAll(serverType int, data []byte, excludeId uint32) {
+func ForwardAll(serverType int, data []byte, flag byte, excludeId uint32) {
 	xnodesMutex.RLock()
 	defer xnodesMutex.RUnlock()
 	if items, ok := xnodesByType[serverType]; ok {
 		for id, node := range items {
 			if id != excludeId {
-				// 转发的包不可以太大。这里硬编码flag为0
-				node.Send(data, 0)
+				node.Send(data, flag)
 			}
 		}
 	}

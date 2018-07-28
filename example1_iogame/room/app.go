@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/fananchong/go-x/common"
-	"github.com/fananchong/go-x/example1_iogame/src"
+	"github.com/fananchong/go-x/example1_iogame"
 )
 
 var (

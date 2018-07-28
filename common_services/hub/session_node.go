@@ -16,7 +16,7 @@ func (this *SessionNode) Init(conn net.Conn, root context.Context, derived gotcp
 	this.SessionIntranet.Init(conn, root, derived)
 
 	// init cmd
-	this.DefaultCmd = this.cmdDefault
+	this.DefaultHandler = this.cmdDefault
 }
 
 func (this *SessionNode) cmdDefault(data []byte, flag byte) {

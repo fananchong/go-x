@@ -1,6 +1,8 @@
 package service
 
 import (
+	"context"
+	"net"
 	"sync"
 
 	"github.com/fananchong/go-x/common"
@@ -12,9 +14,14 @@ import (
 
 type SessionIntranet struct {
 	gotcp.Session
-	Id         uint32
-	Cmds       map[uint64]func(data []byte, flag byte)
-	DefaultCmd func(data []byte, flag byte)
+	Id             uint32
+	Msgs           *common.Messages
+	DefaultHandler func(data []byte, flag byte)
+}
+
+func (this *SessionIntranet) Init(conn net.Conn, root context.Context, derived gotcp.ISession) {
+	this.Session.Init(conn, root, derived)
+	this.Msgs = common.NewMessages()
 }
 
 func (this *SessionIntranet) OnRecv(data []byte, flag byte) {
@@ -23,11 +30,11 @@ func (this *SessionIntranet) OnRecv(data []byte, flag byte) {
 		return
 	}
 	cmd := proto.MsgTypeCmd(gotcp.GetCmd(data))
-	if handler, ok := this.Cmds[uint64(cmd)]; ok {
+	if handler, ok := this.Msgs.Handlers[uint32(cmd)]; ok {
 		handler(data, flag)
 	} else {
-		if this.DefaultCmd != nil {
-			this.DefaultCmd(data, flag)
+		if this.DefaultHandler != nil {
+			this.DefaultHandler(data, flag)
 		}
 	}
 }

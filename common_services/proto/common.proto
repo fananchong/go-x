@@ -9,8 +9,9 @@ enum MsgTypeCmd {
     VerifyS = 3;            // 验证令牌(S->S)
     Kick = 4;               // 踢人(S->S)
     VerifySuccess = 5;      // 验证结果(S->C)
-    ForwardC = 6;           // 转发(S->S)，客户端协议，Gateway通过路由表，转发给对应服务器
-    ForwardS = 7;           // 转发(S->S)
+    SyncProto = 6;          // 同步协议(S->S)，服务器同步自身协议给Gateway，这样Gateway可以自动构建路由表
+    ForwardC = 7;           // 转发(S->S)，客户端协议，Gateway通过路由表，转发给对应服务器
+    ForwardS = 8;           // 转发(S->S)
 };
 
 
@@ -74,6 +75,14 @@ message MsgKick
 message MsgVerifySuccess
 {
 }
+
+// SyncProto (S->S)
+message MsgSyncProto
+{
+    uint32 Type = 1;          // 类型
+    repeated uint32 Cmds = 2; // 协议号
+}
+
 
 /// ForwardC (S->S)
 message MsgForwardC

@@ -9,11 +9,12 @@ type ArgsBase struct {
 }
 
 type ArgsCommon struct {
-	Version       string `default:""` // 版本号
-	LogDir        string `default:""` // log路径
-	LogLevel      int    `default:2`  // log等级
-	Debug         bool   `default:0`  // debug版本标志
-	IntranetToken string `default:""` // 内部服务器验证TOKEN
+	Version       string `default:""`  // 版本号
+	LogDir        string `default:""`  // log路径
+	LogLevel      int    `default:2`   // log等级
+	Debug         bool   `default:0`   // debug版本标志
+	IntranetToken string `default:""`  // 内部服务器验证TOKEN
+	MsgCmdOffset  int    `default:100` // 消息号 = 服务类型 * MsgCmdOffset + 数字
 }
 
 type ArgsPending struct {

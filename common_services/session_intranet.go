@@ -15,13 +15,13 @@ import (
 type SessionIntranet struct {
 	gotcp.Session
 	Id             uint32
-	Msgs           *common.Messages
+	Msgs           *Messages
 	DefaultHandler func(data []byte, flag byte)
 }
 
 func (this *SessionIntranet) Init(conn net.Conn, root context.Context, derived gotcp.ISession) {
 	this.Session.Init(conn, root, derived)
-	this.Msgs = common.NewMessages()
+	this.Msgs = NewMessages()
 }
 
 func (this *SessionIntranet) OnRecv(data []byte, flag byte) {
@@ -114,3 +114,20 @@ func (this *SessionIntranet) BroadcastMsgExcludeMe(cmd uint64, msg proto1.Messag
 // 这里内网session管理，没有做成单例管理类。
 // 请不要模仿这种不好的习惯:)
 var xnodes sync.Map
+
+// Handlers
+type MessagesFunc func(data []byte, flag byte)
+
+type Messages struct {
+	Handlers map[uint32]MessagesFunc
+}
+
+func NewMessages() *Messages {
+	return &Messages{
+		Handlers: make(map[uint32]MessagesFunc),
+	}
+}
+
+func (this *Messages) RegisterMessage(cmd uint32, f MessagesFunc) {
+	this.Handlers[cmd] = f
+}

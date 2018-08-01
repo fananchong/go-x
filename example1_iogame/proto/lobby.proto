@@ -1,10 +1,10 @@
 syntax = "proto3";
 
-package lobbymsg;
+package proto;
 
-enum MsgTypeCmd {
+enum MsgTypeCmd_Lobby {
     UNSPECIFIED = 0;
-    PlayerBaseInfo = 10001;     			// 玩家基本信息(C->S)
+    PlayerBaseInfo = 10001;                 // 玩家基本信息(C->S)
 };
 
 
@@ -14,7 +14,7 @@ message EnumPlayerBaseInfo
 {
     enum Error {
         NoErr = 0;
-        ErrDB = 1;              			// 数据库错误
+        ErrDB = 1;                          // 数据库错误
     }
 }
 
@@ -24,7 +24,7 @@ message MsgPlayerBaseInfo
 
 message MsgPlayerBaseInfoResult
 {
-    EnumPlayerBaseInfo.Error Err = 1;     		// 0:成功；非0:错误号
-    string Name = 2;            			// 玩家名字
+    EnumPlayerBaseInfo.Error Err = 1;       // 0:成功；非0:错误号
+    string Name = 2;                        // 玩家名字
 }
 

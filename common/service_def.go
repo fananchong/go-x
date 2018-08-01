@@ -8,10 +8,11 @@ import (
 type CommonServerType int
 
 const (
-	Client  CommonServerType = iota // 0
-	Login                           // 1
-	Gateway                         // 2
-	Hub                             // 3
+	Client            CommonServerType = iota // 0
+	Login                                     // 1
+	Gateway                                   // 2
+	Hub                                       // 3
+	COMMON_SERVER_END = 9                     // 9
 )
 
 type ServerTypeConfig struct {

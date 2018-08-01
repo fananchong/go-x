@@ -20,21 +20,26 @@ func (this *SessionAccount) OnRecv(data []byte, flag byte) {
 		this.doVerify(data, flag)
 		return
 	}
-
 	cmd := proto.MsgTypeCmd(gotcp.GetCmd(data))
-	switch cmd {
-	//	case proto.MsgTypeCmd_ForwardC:
-	//		msg := &proto.MsgForwardC{}
-	//		if gotcp.DecodeCmd(data, flag, msg) == nil {
-	//			xlog.Debugln("decodeMsg fail.")
-	//			this.Close()
-	//			return
-	//		}
-	//		Forward(int(msg.GetType()), msg.GetData())
-	default:
-		xlog.Debugln("unkown msg")
+	if cmd <= proto.MsgTypeCmd_COMMON_CMD_END {
+		xlog.Debugln("inner msg!")
 		this.Close()
 	}
+	serverType := int(cmd) / int(common.GetArgs().Common.MsgCmdOffset)
+	if serverType <= int(common.COMMON_SERVER_END) {
+		xlog.Debugln("inner server!")
+		this.Close()
+	}
+	msg := &proto.MsgForward{}
+	msg.UID = this.uid
+	msg.Data = data
+	msg.Flag = int32(flag)
+	newData, newFlag, err := gotcp.EncodeCmd(uint64(proto.MsgTypeCmd_Forward), msg)
+	if err != nil {
+		xlog.Errorln(err)
+		this.Close()
+	}
+	Forward(serverType, newData, newFlag)
 }
 
 func (this *SessionAccount) OnClose() {

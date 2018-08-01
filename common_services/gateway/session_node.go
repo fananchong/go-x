@@ -30,6 +30,17 @@ func (this *SessionNode) OnRecv(data []byte, flag byte) {
 				xaccounts.Delete(msg.GetUID())
 			}
 		}
+	case proto.MsgTypeCmd_Forward:
+		msg := &proto.MsgForward{}
+		if gotcp.DecodeCmd(data, flag, msg) == nil {
+			xlog.Debugln("decodeMsg fail.")
+			return
+		}
+		if s, loaded := xaccounts.Load(msg.GetUID()); loaded {
+			s.(*SessionAccount).Send(msg.GetData(), byte(msg.GetFlag()))
+		} else {
+			xlog.Debugln("no find account session.")
+		}
 	case proto.MsgTypeCmd_ForwardS:
 		msg := &proto.MsgForwardS{}
 		if gotcp.DecodeCmd(data, flag, msg) == nil {

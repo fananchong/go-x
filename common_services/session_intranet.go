@@ -16,7 +16,7 @@ type SessionIntranet struct {
 	gotcp.Session
 	Id             uint32
 	Msgs           *Messages
-	DefaultHandler func(data []byte, flag byte)
+	DefaultHandler func(uid uint64, data []byte, flag byte)
 }
 
 func (this *SessionIntranet) Init(conn net.Conn, root context.Context, derived gotcp.ISession) {
@@ -29,12 +29,26 @@ func (this *SessionIntranet) OnRecv(data []byte, flag byte) {
 		this.doVerify(data, flag)
 		return
 	}
+	var uid uint64 = 0
+LABEL_AGAIN:
 	cmd := proto.MsgTypeCmd(gotcp.GetCmd(data))
 	if handler, ok := this.Msgs.Handlers[uint32(cmd)]; ok {
-		handler(data, flag)
+		handler(0, data, flag)
 	} else {
+		if uid == 0 && cmd == proto.MsgTypeCmd_Forward {
+			msg := &proto.MsgForward{}
+			if gotcp.DecodeCmd(data, flag, msg) == nil {
+				common.GetLogger().Errorln("decodeMsg fail.")
+				return
+			}
+			data = msg.GetData()
+			flag = byte(msg.GetFlag())
+			uid = msg.GetUID()
+			goto LABEL_AGAIN
+		}
+
 		if this.DefaultHandler != nil {
-			this.DefaultHandler(data, flag)
+			this.DefaultHandler(uid, data, flag)
 		}
 	}
 }
@@ -65,6 +79,19 @@ func (this *SessionIntranet) OnClose() {
 	if _, loaded := xnodes.Load(this.Id); loaded {
 		xnodes.Delete(this.Id)
 	}
+}
+
+func (this *SessionIntranet) SendMsgtoClient(uid uint64, cmd uint64, msg proto1.Message) {
+	data, flag, err := gotcp.EncodeCmd(cmd, msg)
+	if err != nil {
+		common.GetLogger().Errorln(err)
+		return
+	}
+	newMsg := &proto.MsgForward{}
+	newMsg.UID = uid
+	newMsg.Data = data
+	newMsg.Flag = int32(flag)
+	this.SendMsg(uint64(proto.MsgTypeCmd_Forward), newMsg)
 }
 
 func (this *SessionIntranet) Forward(id string, data []byte, flag byte) {
@@ -116,7 +143,7 @@ func (this *SessionIntranet) BroadcastMsgExcludeMe(cmd uint64, msg proto1.Messag
 var xnodes sync.Map
 
 // Handlers
-type MessagesFunc func(data []byte, flag byte)
+type MessagesFunc func(uid uint64, data []byte, flag byte)
 
 type Messages struct {
 	Handlers map[uint32]MessagesFunc

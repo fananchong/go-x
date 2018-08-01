@@ -19,6 +19,6 @@ func (this *SessionNode) Init(conn net.Conn, root context.Context, derived gotcp
 	this.DefaultHandler = this.cmdDefault
 }
 
-func (this *SessionNode) cmdDefault(data []byte, flag byte) {
+func (this *SessionNode) cmdDefault(_ uint64, data []byte, flag byte) {
 	this.BroadcastExcludeMe(data, flag)
 }

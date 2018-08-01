@@ -76,6 +76,7 @@ func (this *Session) IsClosed() bool {
 
 func (this *Session) Verify() {
 	this.verified = true
+	this.verifiedChan <- 1
 }
 
 func (this *Session) IsVerified() bool {
@@ -90,6 +91,21 @@ func (this *Session) Send(buffer []byte, flag byte) bool {
 	data := []byte{byte(bsize), byte(bsize >> 8), byte(bsize >> 16), flag}
 	if bsize != 0 {
 		data = append(data, buffer...)
+	}
+	select {
+	case this.sendChan <- data:
+		atomic.AddInt32(&this.sendCount, 1)
+	default:
+		xlog.Errorln("send buffer is full! the connection will be closed!")
+		this.Close()
+		return false
+	}
+	return true
+}
+
+func (this *Session) SendRaw(data []byte) bool {
+	if this.IsClosed() {
+		return false
 	}
 	select {
 	case this.sendChan <- data:
@@ -161,18 +177,8 @@ func (this *Session) recvloop(job *sync.WaitGroup) {
 				msgbuff = recvBuff.RdBuf()
 			}
 
-			checkVerified := 0
-			if this.verified {
-				checkVerified++
-			}
 			this.Derived.OnRecv(msgbuff[cmd_header_size:cmd_header_size+datasize], msgbuff[3])
 			recvBuff.RdFlip(cmd_header_size + datasize)
-			if this.verified {
-				checkVerified++
-				if checkVerified == 1 {
-					this.verifiedChan <- 1
-				}
-			}
 		}
 	}
 }

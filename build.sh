@@ -15,9 +15,10 @@ set +ex
 docker push 127.0.0.1:5000/fananchong/go-x:latest
 
 
-#kubectl apply -f k8s/namespace.yaml
-#kubectl apply -f k8s/service_account.yaml
-#kubectl create -f k8s/redis.yaml
+kubectl apply -f k8s/namespace.yaml
+kubectl apply -f k8s/service_account.yaml
+kubectl delete -f k8s/redis.yaml
+kubectl create -f k8s/redis.yaml
 kubectl delete -f k8s/login.yaml
 kubectl create -f k8s/login.yaml
 kubectl delete -f k8s/gateway.yaml

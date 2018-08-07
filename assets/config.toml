@@ -4,7 +4,7 @@ LogDir = "./logs"
 LogLevel = 0
 Debug = true
 IntranetToken = "6d8f1f3a-739f-47fe-9ed1-ea39276cd10d"
-MsgCmdOffset = 100
+MsgCmdOffset = 1000
 
 [dbaccount]
 Name = "account"

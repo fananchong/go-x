@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"sync"
+	"time"
 
 	"github.com/fananchong/go-x/common/k8s"
 	discovery "github.com/fananchong/go-x/common/k8s/serverlist"
@@ -11,65 +12,84 @@ import (
 
 type Node struct {
 	*discovery.Node
-	nodes   sync.Map
-	pending sync.Map
+	nodes   map[uint32]*SessionNode
+	pending map[uint32]*SessionNode
+	mutex   sync.Mutex
 }
 
 func NewNode() *Node {
-	this := &Node{}
+	this := &Node{
+		nodes:   make(map[uint32]*SessionNode),
+		pending: make(map[uint32]*SessionNode),
+	}
 	this.Node = discovery.NewNode()
+	go this.loopCheck()
 	return this
 }
 
 func (this *Node) OnNodeJoin(endpoint *k8s.Endpoint) {
 	this.Node.OnNodeJoin(endpoint)
 	id := endpoint.Id()
+	defer this.mutex.Unlock()
+	this.mutex.Lock()
 	this.tryConnect(id, endpoint)
 }
 
 func (this *Node) OnNodeLeave(endpoint *k8s.Endpoint) {
 	this.Node.OnNodeLeave(endpoint)
 	id := endpoint.Id()
+	defer this.mutex.Unlock()
+	this.mutex.Lock()
 	this.tryDelete(id)
 }
 
 func (this *Node) tryConnect(id uint32, endpoint *k8s.Endpoint) {
 	this.tryDelete(id)
 	session := &SessionNode{}
-	this.pending.Store(id, session)
-	go func() {
-		addr := fmt.Sprintf("%s:%d", endpoint.IP, endpoint.Ports[""])
-		if session.Connect(addr, session) == true {
-			this.nodes.Store(id, session)
-			session.endpoint = endpoint
-
-			msg := &proto.MsgVerifyS{}
-			msg.Id = this.Node.Id()
-			msg.Token = xargs.Common.IntranetToken
-			session.SendMsg(uint64(proto.MsgTypeCmd_Verify), msg)
-		}
-		this.pending.Delete(id)
-	}()
+	this.pending[id] = session
+	session.endpoint = endpoint
 }
 
-func (this *Node) tryDelete(id uint32) {
-	if session, loaded := this.nodes.Load(id); loaded {
-		session.(*SessionNode).Close()
-		this.nodes.Delete(id)
-	}
-	if session, loaded := this.pending.Load(id); loaded {
-		session.(*SessionNode).Close()
-		this.pending.Delete(id)
-	}
-}
-
-func (this *Node) has(id uint32) bool {
-	if _, loaded := this.nodes.Load(id); loaded {
-		return true
-	}
-	if _, loaded := this.pending.Load(id); loaded {
+func (this *Node) tryConnectDetail(id uint32, session *SessionNode) bool {
+	addr := fmt.Sprintf("%s:%d", session.endpoint.IP, session.endpoint.Ports[""])
+	if session.Connect(addr, session) == true {
+		this.nodes[id] = session
+		msg := &proto.MsgVerifyS{}
+		msg.Id = this.Node.Id()
+		msg.Token = xargs.Common.IntranetToken
+		session.SendMsg(uint64(proto.MsgTypeCmd_Verify), msg)
 		return true
 	}
 	return false
 }
 
+func (this *Node) tryDelete(id uint32) {
+	if session, ok := this.nodes[id]; ok {
+		session.Close()
+		delete(this.nodes, id)
+	}
+	if session, ok := this.pending[id]; ok {
+		session.Close()
+		delete(this.pending, id)
+	}
+}
+
+func (this *Node) loopCheck() {
+	t := time.NewTicker(1 * time.Second)
+	for {
+		select {
+		case <-t.C:
+			this.mutex.Lock()
+			var dels []uint32
+			for id, session := range this.pending {
+				if this.tryConnectDetail(id, session) {
+					dels = append(dels, id)
+				}
+			}
+			for _, id := range dels {
+				delete(this.pending, id)
+			}
+			this.mutex.Unlock()
+		}
+	}
+}

@@ -39,7 +39,7 @@ func (this *SessionNode) OnRecv(data []byte, flag byte) {
 		if s, loaded := xaccounts.Load(msg.GetUID()); loaded {
 			s.(*SessionAccount).Send(msg.GetData(), byte(msg.GetFlag()))
 		} else {
-			xlog.Debugln("no find account session.")
+			xlog.Debugln("no find account session. uid:", msg.GetUID())
 		}
 	case proto.MsgTypeCmd_ForwardS:
 		msg := &proto.MsgForwardS{}
@@ -113,7 +113,7 @@ func (this *SessionNode) OnClose() {
 func Forward(serverType int, data []byte, flag byte) {
 	id, _, _ := xnode.Servers.GetOne(serverType)
 	if id == 0 {
-		xlog.Errorln("no find server. #1")
+		xlog.Errorln("no find server. serverType:", serverType)
 		return
 	}
 	ForwardById(id, data, flag)
@@ -123,7 +123,7 @@ func ForwardById(id uint32, data []byte, flag byte) {
 	if node, loaded := xnodes.Load(id); loaded {
 		node.(*SessionNode).Send(data, flag)
 	} else {
-		xlog.Errorln("no find server. #2")
+		xlog.Errorln("no find server. id:", id)
 		return
 	}
 }

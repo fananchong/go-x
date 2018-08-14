@@ -21,8 +21,8 @@ func (this *SessionNode) Init(conn net.Conn, root context.Context, derived gotcp
 }
 
 func (this *SessionNode) cmdPlayerBaseInfo(uid uint64, data []byte, flag byte) {
-	xlog.Debugln("cmdPlayerBaseInfo")
+	xlog.Debugln("cmdPlayerBaseInfo, uid =", uid)
 	rep := &proto.MsgPlayerBaseInfoResult{}
-	rep.Name = "test1" // TODO: 先调通网络消息流程，再处理角色数据相关
+	rep.Name = "test1_name" // TODO: 先调通网络消息流程，再处理角色数据相关
 	this.SendMsgtoClient(uid, uint64(proto.MsgTypeCmd_Lobby_PlayerBaseInfo), rep)
 }

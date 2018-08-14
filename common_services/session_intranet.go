@@ -33,7 +33,7 @@ func (this *SessionIntranet) OnRecv(data []byte, flag byte) {
 LABEL_AGAIN:
 	cmd := proto.MsgTypeCmd(gotcp.GetCmd(data))
 	if handler, ok := this.Msgs.Handlers[uint32(cmd)]; ok {
-		handler(0, data, flag)
+		handler(uid, data, flag)
 	} else {
 		if uid == 0 && cmd == proto.MsgTypeCmd_Forward {
 			msg := &proto.MsgForward{}

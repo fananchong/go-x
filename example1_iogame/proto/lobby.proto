@@ -4,17 +4,42 @@ package proto;
 
 enum MsgTypeCmd_Lobby {
     UNSPECIFIED = 0;
-    PlayerBaseInfo = 10001;                 // 玩家基本信息(C->S)
+    CreatePlayer = 10001;                   // 创建角色
+    PlayerBaseInfo = 10002;                 // 角色基本信息
 };
 
 
-/// PlayerBaseInfo (C->S)
+/// CreatePlayer
+
+message EnumCreatePlayer
+{
+    enum Error {
+        NoErr = 0;
+        ErrDB = 1;                          // 数据库错误
+        ErrExist = 2;                       // 已经存在
+    }
+}
+
+message MsgCreatePlayer
+{
+    string Name = 1;                        // 角色名字
+    int32 Sex = 2;                          // 角色性别
+}
+
+message MsgCreatePlayerResult
+{
+    EnumCreatePlayer.Error Err = 1;         // 0:成功；非0:错误号
+}
+
+
+/// PlayerBaseInfo
 
 message EnumPlayerBaseInfo
 {
     enum Error {
         NoErr = 0;
         ErrDB = 1;                          // 数据库错误
+        ErrNoExist = 2;                     // 角色不存在
     }
 }
 
@@ -25,6 +50,6 @@ message MsgPlayerBaseInfo
 message MsgPlayerBaseInfoResult
 {
     EnumPlayerBaseInfo.Error Err = 1;       // 0:成功；非0:错误号
-    string Name = 2;                        // 玩家名字
+    string Name = 2;                        // 角色名字
+    int32 Sex = 3;                          // 角色性别
 }
-

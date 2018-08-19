@@ -3,7 +3,6 @@ package main
 import (
 	"sync"
 
-	go_redis_orm "github.com/fananchong/go-redis-orm.v2"
 	"github.com/fananchong/go-x/common"
 	"github.com/fananchong/go-x/common_services/db"
 	"github.com/fananchong/go-x/common_services/proto"
@@ -99,20 +98,3 @@ func (this *SessionAccount) doVerify(data []byte, flag byte) {
 // 由于Gateway功能相当简单，这里session管理，没有做成单例管理类。
 // 请不要模仿这种不好的习惯:)
 var xaccounts sync.Map
-
-func initRedis() bool {
-	go_redis_orm.SetNewRedisHandler(go_redis_orm.NewDefaultRedisClient)
-	dbTokenName := common.GetArgs().DbToken.Name
-	err := go_redis_orm.CreateDB(dbTokenName, common.GetArgs().DbToken.Addrs, common.GetArgs().DbToken.Password, common.GetArgs().DbToken.DBIndex)
-	if err != nil {
-		common.GetLogger().Errorln(err)
-		return false
-	}
-	dbTokenName = common.GetArgs().DbServer.Name
-	err = go_redis_orm.CreateDB(dbTokenName, common.GetArgs().DbServer.Addrs, common.GetArgs().DbServer.Password, common.GetArgs().DbServer.DBIndex)
-	if err != nil {
-		common.GetLogger().Errorln(err)
-		return false
-	}
-	return true
-}

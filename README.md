@@ -70,8 +70,7 @@ Go游戏服务器框架
 
 - Login 服务器
 
-  - 帐号验证
-  - 分配 Gateway 给客户端
+  - 帐号验证、登录
   
 
 - Gateway 服务器
@@ -87,15 +86,19 @@ Go游戏服务器框架
 - Lobby 服务器
 
   - 创建角色信息
-  - 查询玩家名
+  - 查询角色信息
   
 
 ## 支持 kubernetes 部署
 
-- Linux 直接支持 kubernetes 部署
+- Linux 完整支持 kubernetes 部署
 - Windows 仅做单节点开发调试用
 
 ## TODO
+
+- example1_iogame 从 go-x 中分离， go-x 将作为 example1_iogame 的 第三方库方式来使用
+
+- Hub 重命名为 Center
 
 - match匹配逻辑
 

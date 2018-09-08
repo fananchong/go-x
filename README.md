@@ -100,9 +100,9 @@ Go游戏服务器框架
 
 - Hub 重命名为 Center
 
-- 实现 [Gateway 的 session affinity 处理](doc/Gateway 的 session affinity 处理.md)
+- 实现 Gateway 的 session affinity 处理
 
-- 实现 [Lobby 的 session affinity 处理](doc/Lobby 的 session affinity 处理.md)
+- 实现 Lobby 的 session affinity 处理
 
 - match匹配逻辑
 

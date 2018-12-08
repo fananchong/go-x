@@ -104,6 +104,8 @@ Go游戏服务器框架
 
 - 实现 Lobby 的 session affinity 处理
 
+- 实现连接管理服务，使之可以不依赖 K8S ，来服务发现
+
 - match匹配逻辑
 
 - room实现一个简单的场景

@@ -11,7 +11,7 @@ const (
 	Client            CommonServerType = iota // 0
 	Login                                     // 1
 	Gateway                                   // 2
-	Hub                                       // 3
+	Mgr                                       // 3
 	COMMON_SERVER_END = 9                     // 9
 )
 

@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mgr
+  namespace: go-x
+  labels:
+    app: mgr
+spec:
+  ports:
+    - port: 30300
+      name: ""
+  clusterIP: None
+  selector:
+    app: mgr
+
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mgr
+  namespace: go-x
+  labels:
+    app: mgr
+spec:
+  serviceName: mgr
+  selector:
+    matchLabels:
+      app: mgr
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: mgr
+    spec:
+      serviceAccountName: sa-go-x
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      containers:
+      - name: mgr
+        image: 127.0.0.1:5000/fananchong/go-x
+        imagePullPolicy: Always
+        command: [ "./mgr", "--common-loglevel=0" ]
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+
+
+

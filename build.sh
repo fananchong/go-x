@@ -2,9 +2,13 @@
 
 set -ex
 
+
+SRC_DIR=/go/src/github.com/fananchong/go-x
+
 rm -rf ./bin
-docker run --rm -e GOBIN=/go/bin/ -v "$PWD"/bin:/go/bin/ -v "$PWD":/go/src/github.com/fananchong/go-x -w /go/src/github.com/fananchong/go-x/common_services golang go install ./...
-docker run --rm -e GOBIN=/go/bin/ -v "$PWD"/bin:/go/bin/ -v "$PWD":/go/src/github.com/fananchong/go-x -w /go/src/github.com/fananchong/go-x/example1_iogame golang go install ./...
+mkdir -p $PWD/bin
+docker run --rm -v $PWD/bin:/go/bin/ -v $PWD:$SRC_DIR -w $SRC_DIR golang go install ./common_services/...
+docker run --rm -v $PWD/bin:/go/bin/ -v $PWD:$SRC_DIR -w $SRC_DIR golang go install ./example1_iogame/...
 
 docker build -t go-x .
 
@@ -21,13 +25,13 @@ kubectl apply -f k8s/service_account.yaml
 kubectl delete -f k8s/redis.yaml
 kubectl delete -f k8s/login.yaml
 kubectl delete -f k8s/gateway.yaml
-kubectl delete -f k8s/hub.yaml
+kubectl delete -f k8s/mgr.yaml
 kubectl delete -f k8s/lobby.yaml
 kubectl delete -f k8s/room.yaml
 
 kubectl create -f k8s/redis.yaml
 kubectl create -f k8s/login.yaml
 kubectl create -f k8s/gateway.yaml
-kubectl create -f k8s/hub.yaml
+kubectl create -f k8s/mgr.yaml
 kubectl create -f k8s/lobby.yaml
 kubectl create -f k8s/room.yaml

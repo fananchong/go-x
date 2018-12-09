@@ -85,7 +85,7 @@ func (this *SessionAccount) doVerify(data []byte, flag byte) {
 
 	kickmsg := &proto.MsgKick{}
 	kickmsg.UID = this.uid
-	ForwardMsg(int(common.Hub), proto.MsgTypeCmd_Kick, kickmsg)
+	ForwardMsg(int(common.Mgr), proto.MsgTypeCmd_Kick, kickmsg)
 
 	this.Verify()
 

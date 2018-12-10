@@ -13,7 +13,7 @@ Namespace = "go-x"
 
 [[ServerType]]
 Type = 3
-Name = "hub"
+Name = "mgr"
 Namespace = "go-x"
 
 [[ServerType]]

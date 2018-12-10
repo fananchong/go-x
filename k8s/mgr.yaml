@@ -39,7 +39,7 @@ spec:
       - name: mgr
         image: 127.0.0.1:5000/fananchong/go-x
         imagePullPolicy: Always
-        command: [ "./mgr", "--common-loglevel=0" ]
+        command: [ "./mgr", "-assets", "../assets", "-common-loglevel", "0" ]
         env:
         - name: POD_NAME
           valueFrom:

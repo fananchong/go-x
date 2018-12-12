@@ -4,8 +4,7 @@ import (
 	"crypto/md5"
 	"fmt"
 	"net/http"
-	"time"
-
+	
 	go_redis_orm "github.com/fananchong/go-redis-orm.v2"
 	"github.com/fananchong/go-x/common"
 	"github.com/fananchong/go-x/common/k8s"
@@ -96,12 +95,7 @@ func (this *Login) MsgLogin(w http.ResponseWriter, req *http.Request, data strin
 
 	// 生成Token、保存Token
 	temptkn := ""
-	uid, err := uuid.NewV4()
-	if err == nil {
-		temptkn = uid.String()
-	} else {
-		temptkn = fmt.Sprintf("%d%d", time.Now().UnixNano()*1234, accountId*2345)
-	}
+	temptkn = uuid.NewV4().String()
 
 	token := db.NewToken(this.dbTokenName, msg.GetAccount())
 	token.Expire(60 * 30) // 30分钟

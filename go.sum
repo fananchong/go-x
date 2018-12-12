@@ -14,8 +14,6 @@ github.com/fananchong/glog v0.0.0-20180227162431-8c2b0620ede5 h1:Gak8Ezscl+mRl95
 github.com/fananchong/glog v0.0.0-20180227162431-8c2b0620ede5/go.mod h1:GEGZvOvgIeNNhzjxczz39fvYeYwhrRVyfYB+n3GcFeo=
 github.com/fananchong/go-redis-orm.v2 v0.0.0-20181126160840-4eabcb1c883c h1:46L7LTm9GTmaEe82iZZcrwRXPIQeyxmWz3gZ8zl9SQA=
 github.com/fananchong/go-redis-orm.v2 v0.0.0-20181126160840-4eabcb1c883c/go.mod h1:SRtJdSFnzzCa1LMEmyVCs5fWzjLCPsMDTYVAvyjOPK0=
-github.com/fananchong/go-x v0.0.0-20181208133354-ad38536bb731 h1:B5sVdYIe9J0Hc1/H5ZEp5eZu53jXcXzKksUPXbFPcOc=
-github.com/fananchong/go-x v0.0.0-20181208133354-ad38536bb731/go.mod h1:NygqHPRi8nT+MqyhV/CYqlFUSprHrSlvepIyT5OMXrc=
 github.com/fananchong/gochart v0.0.0-20180117141114-a0d1b57622da h1:JXVmFeLKkurYDYZVo1U8bjU1hHsZ4jsWebClB3CItDk=
 github.com/fananchong/gochart v0.0.0-20180117141114-a0d1b57622da/go.mod h1:ap4SnxxhjF9sX5UCRHX7CBT65dQcCplCsESQP8Fts4Q=
 github.com/fananchong/gomap v0.0.0-20180521025422-828333b1f5bc h1:I9o7MTrcEFiEIospZNtHgE2Um+PIbKLk/b8uIDuL1tY=

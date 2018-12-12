@@ -1,4 +1,4 @@
-module contrib
+module github.com/fananchong/go-x
 
 require (
 	github.com/BurntSushi/toml v0.3.1 // indirect
@@ -9,7 +9,6 @@ require (
 	github.com/ericchiang/k8s v1.2.0
 	github.com/fananchong/glog v0.0.0-20180227162431-8c2b0620ede5
 	github.com/fananchong/go-redis-orm.v2 v0.0.0-20181126160840-4eabcb1c883c
-	github.com/fananchong/go-x v0.0.0-20181208133354-ad38536bb731
 	github.com/fananchong/gochart v0.0.0-20180117141114-a0d1b57622da
 	github.com/fananchong/gomap v0.0.0-20180521025422-828333b1f5bc
 	github.com/fananchong/goredis v0.0.0-20181126144706-9df88e90c48c // indirect

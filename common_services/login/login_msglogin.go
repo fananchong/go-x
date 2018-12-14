@@ -4,11 +4,11 @@ import (
 	"crypto/md5"
 	"fmt"
 	"net/http"
-	
+
 	go_redis_orm "github.com/fananchong/go-redis-orm.v2"
 	"github.com/fananchong/go-x/common"
 	"github.com/fananchong/go-x/common/k8s"
-	"github.com/fananchong/go-x/common_services"
+	service "github.com/fananchong/go-x/common_services"
 	"github.com/fananchong/go-x/common_services/db"
 	"github.com/fananchong/go-x/common_services/proto"
 	proto1 "github.com/golang/protobuf/proto"
@@ -164,4 +164,3 @@ func (this *Login) loginByDefault(msg *proto.MsgLogin) (uint64, string, error) {
 	}
 	return account.GetUid(), account.GetPswd(), nil
 }
-

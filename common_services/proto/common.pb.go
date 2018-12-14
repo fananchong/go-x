@@ -6,6 +6,7 @@
 
 	It is generated from these files:
 		common.proto
+		mgr.proto
 
 	It has these top-level messages:
 		EnumLogin
@@ -17,6 +18,9 @@
 		MsgVerifySuccess
 		MsgForward
 		MsgForwardS
+		SERVER_INFO
+		MSG_MGR_REGISTER_SERVER
+		MSG_MGR_LOSE_SERVER
 */
 package proto
 

@@ -8,25 +8,25 @@ MsgCmdOffset = 1000
 
 [dbaccount]
 Name = "account"
-Addrs = ["redis.go-x:32000"]
+Addrs = ["127.0.0.1:6379"]
 Password = ""
 DBIndex = 0
 
 [dbtoken]
 Name = "token"
-Addrs = ["redis.go-x:32000"]
+Addrs = ["127.0.0.1:6379"]
 Password = ""
 DBIndex = 0
 
 [dbserver]
 Name = "server"
-Addrs = ["redis.go-x:32000"]
+Addrs = ["127.0.0.1:6379"]
 Password = ""
 DBIndex = 0
 
 [dbmgr]
 Name = "mgr"
-Addrs = ["redis.go-x:32000"]
+Addrs = ["127.0.0.1:6379"]
 Password = ""
 DBIndex = 0
 

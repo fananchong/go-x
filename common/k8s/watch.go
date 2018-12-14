@@ -42,7 +42,8 @@ func (this *Watch) init(ctx context.Context, d time.Duration) {
 }
 
 func (this *Watch) checkEndpoints() {
-	if eps, err := GetEndpoints(this.nt.ns, this.nt.svc); err == nil {
+	eps, err := GetEndpoints(this.nt.ns, this.nt.svc)
+	if err == nil {
 		for _, ep := range eps {
 			if _, ok := this.endpoints.Load(ep.Index); !ok {
 				ep.NodeType = this.nt.t
@@ -51,7 +52,7 @@ func (this *Watch) checkEndpoints() {
 			}
 		}
 	} else {
-		fmt.Errorf("%v\n", err)
+		fmt.Println(err)
 	}
 }
 

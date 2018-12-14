@@ -1,0 +1,19 @@
+FROM golang AS build-delve
+ENV DELVE_VERSION=1.1.0
+RUN go get github.com/derekparker/delve/cmd/dlv \
+    && cd /go/src/github.com/derekparker/delve \
+    && git checkout v${DELVE_VERSION} \
+    && go install github.com/derekparker/delve/cmd/dlv
+
+
+FROM golang:stretch
+WORKDIR /app/
+COPY assets                     assets
+COPY common                     common
+COPY common_services            common_services
+COPY example1_iogame            example1_iogame
+WORKDIR /app/bin
+EXPOSE 30000
+EXPOSE 7500
+EXPOSE 2345
+CMD ["./dlv", "debug", "--headless", "--listen=:2345", "--log"]

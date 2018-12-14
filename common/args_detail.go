@@ -21,14 +21,15 @@ type IArgsBase interface {
 
 var (
 	_          = flag.String("assets", "", "path of assets")
+	_          = flag.String("app", "", "app name")
 	assetsPath string
+	app        string
 )
 
 func (this *ArgsBase) Init(derived IArgs) {
-	index := 0
 	for i, v := range os.Args {
 		if v == "-assets" || v == "--assets" {
-			index = i + 1
+			assetsPath = os.Args[i+1] + "/"
 		}
 		if v == "-h" || v == "-help" || v == "--help" || v == "/?" {
 			fl := &multiconfig.FlagLoader{}
@@ -36,10 +37,6 @@ func (this *ArgsBase) Init(derived IArgs) {
 			flag.CommandLine.PrintDefaults()
 			os.Exit(0)
 		}
-	}
-	assetsPath = ""
-	if index != 0 && index < len(os.Args) {
-		assetsPath = os.Args[index] + "/"
 	}
 	if assetsPath == "" {
 		assetsPath = "./"
@@ -75,4 +72,16 @@ func GetArgs() *ArgsBase {
 
 func GetAssetsPath() string {
 	return assetsPath
+}
+
+func GetAppName() string {
+	if app == "" {
+		for i, v := range os.Args {
+			if v == "-app" || v == "--app" {
+				app = os.Args[i+1]
+				break
+			}
+		}
+	}
+	return app
 }

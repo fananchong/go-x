@@ -6,3 +6,5 @@ bin
 .idea
 *.toml
 .vscode
+debug
+logs

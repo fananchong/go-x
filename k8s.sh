@@ -2,16 +2,11 @@
 
 set -ex
 
-
-SRC_DIR=/go/src/github.com/fananchong/go-x
-
 rm -rf ./bin
 mkdir -p $PWD/bin
 
 
 if [[ $1 == "build" ]]; then
-	docker run --rm -v $PWD/bin:/go/bin/ -v $PWD:$SRC_DIR -w $SRC_DIR golang go install ./common_services/...
-	docker run --rm -v $PWD/bin:/go/bin/ -v $PWD:$SRC_DIR -w $SRC_DIR golang go install ./example1_iogame/...
 	docker build -t go-x .
 	docker tag go-x:latest 127.0.0.1:5000/fananchong/go-x:latest
 	docker push 127.0.0.1:5000/fananchong/go-x:latest

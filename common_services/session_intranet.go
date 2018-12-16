@@ -5,9 +5,9 @@ import (
 	"net"
 	"sync"
 
-	"github.com/fananchong/go-x/common"
-	discovery "github.com/fananchong/go-x/common/k8s/serverlist"
+	"github.com/fananchong/go-x/base"
 	"github.com/fananchong/go-x/common_services/proto"
+	discovery "github.com/fananchong/go-x/internal/common/k8s/serverlist"
 	"github.com/fananchong/gotcp"
 	proto1 "github.com/golang/protobuf/proto"
 )
@@ -38,7 +38,7 @@ LABEL_AGAIN:
 		if uid == 0 && cmd == proto.MsgTypeCmd_Forward {
 			msg := &proto.MsgForward{}
 			if gotcp.DecodeCmd(data, flag, msg) == nil {
-				common.GetLogger().Errorln("decodeMsg fail.")
+				base.XLOG.Errorln("decodeMsg fail.")
 				return
 			}
 			data = msg.GetData()
@@ -56,22 +56,22 @@ LABEL_AGAIN:
 func (this *SessionIntranet) doVerify(data []byte, flag byte) {
 	msg := &proto.MsgVerifyS{}
 	if gotcp.DecodeCmd(data, flag, msg) == nil {
-		common.GetLogger().Errorln("decodeMsg fail.")
+		base.XLOG.Errorln("decodeMsg fail.")
 		this.Close()
 		return
 	}
-	if msg.GetToken() != common.GetArgs().Common.IntranetToken {
-		common.GetLogger().Errorln("token error.")
+	if msg.GetToken() != base.XARGS.Common.IntranetToken {
+		base.XLOG.Errorln("token error.")
 		this.Close()
 	}
 	this.Id = msg.GetId()
 	xnodes.Store(this.Id, this)
 	this.Verify()
-	common.GetLogger().Debugln("Id:", msg.GetId(), "verify success. My Node Id:", discovery.GetNode().Id())
+	base.XLOG.Debugln("Id:", msg.GetId(), "verify success. My Node Id:", discovery.GetNode().Id())
 
 	msg.Reset()
 	msg.Id = discovery.GetNode().Id()
-	msg.Token = common.GetArgs().Common.IntranetToken
+	msg.Token = base.XARGS.Common.IntranetToken
 	this.SendMsg(uint64(proto.MsgTypeCmd_Verify), msg)
 }
 
@@ -84,7 +84,7 @@ func (this *SessionIntranet) OnClose() {
 func (this *SessionIntranet) SendMsgtoClient(uid uint64, cmd uint64, msg proto1.Message) {
 	data, flag, err := gotcp.EncodeCmd(cmd, msg)
 	if err != nil {
-		common.GetLogger().Errorln(err)
+		base.XLOG.Errorln(err)
 		return
 	}
 	newMsg := &proto.MsgForward{}

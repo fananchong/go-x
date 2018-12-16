@@ -4,7 +4,8 @@ import (
 	"context"
 	"net"
 
-	"github.com/fananchong/go-redis-orm.v2"
+	go_redis_orm "github.com/fananchong/go-redis-orm.v2"
+	"github.com/fananchong/go-x/base"
 	service "github.com/fananchong/go-x/common_services"
 	"github.com/fananchong/go-x/example1_iogame/db"
 	"github.com/fananchong/go-x/example1_iogame/proto"
@@ -24,11 +25,11 @@ func (this *SessionNode) Init(conn net.Conn, root context.Context, derived gotcp
 }
 
 func (this *SessionNode) cmdCreatePlayer(uid uint64, data []byte, flag byte) {
-	xlog.Debugln("cmdCreatePlayer, uid =", uid)
+	base.XLOG.Debugln("cmdCreatePlayer, uid =", uid)
 
 	msg := &proto.MsgCreatePlayer{}
 	if gotcp.DecodeCmd(data, flag, msg) == nil {
-		xlog.Debugln("decodeMsg fail. MsgCreatePlayer, uid =", uid)
+		base.XLOG.Debugln("decodeMsg fail. MsgCreatePlayer, uid =", uid)
 		this.Close()
 		return
 	}
@@ -69,7 +70,7 @@ func (this *SessionNode) cmdCreatePlayer(uid uint64, data []byte, flag byte) {
 }
 
 func (this *SessionNode) cmdPlayerBaseInfo(uid uint64, data []byte, flag byte) {
-	xlog.Debugln("cmdPlayerBaseInfo, uid =", uid)
+	base.XLOG.Debugln("cmdPlayerBaseInfo, uid =", uid)
 
 	role := db.NewRole(DbAccount, uid)
 	err := role.Load()

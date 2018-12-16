@@ -3,7 +3,7 @@ package main
 import (
 	"sync"
 
-	"github.com/fananchong/go-x/common"
+	"github.com/fananchong/go-x/base"
 	"github.com/fananchong/go-x/common_services/db"
 	"github.com/fananchong/go-x/common_services/proto"
 	"github.com/fananchong/gotcp"
@@ -21,12 +21,12 @@ func (this *SessionAccount) OnRecv(data []byte, flag byte) {
 	}
 	cmd := proto.MsgTypeCmd(gotcp.GetCmd(data))
 	if cmd <= proto.MsgTypeCmd_COMMON_CMD_END {
-		xlog.Debugln("inner msg!")
+		base.XLOG.Debugln("inner msg!")
 		this.Close()
 	}
-	serverType := int(cmd) / int(common.GetArgs().Common.MsgCmdOffset)
-	if serverType <= int(common.COMMON_SERVER_END) {
-		xlog.Debugln("inner server!")
+	serverType := int(cmd) / int(base.XARGS.Common.MsgCmdOffset)
+	if serverType <= int(base.COMMON_SERVER_END) {
+		base.XLOG.Debugln("inner server!")
 		this.Close()
 	}
 	msg := &proto.MsgForward{}
@@ -35,7 +35,7 @@ func (this *SessionAccount) OnRecv(data []byte, flag byte) {
 	msg.Flag = int32(flag)
 	newData, newFlag, err := gotcp.EncodeCmd(uint64(proto.MsgTypeCmd_Forward), msg)
 	if err != nil {
-		xlog.Errorln(err)
+		base.XLOG.Errorln(err)
 		this.Close()
 	}
 	Forward(serverType, newData, newFlag)
@@ -50,28 +50,28 @@ func (this *SessionAccount) OnClose() {
 func (this *SessionAccount) doVerify(data []byte, flag byte) {
 	msg := &proto.MsgVerify{}
 	if gotcp.DecodeCmd(data, flag, msg) == nil {
-		xlog.Debugln("decodeMsg fail.")
+		base.XLOG.Debugln("decodeMsg fail.")
 		this.Close()
 		return
 	}
 
-	token := db.NewToken(common.GetArgs().DbToken.Name, msg.GetAccount())
+	token := db.NewToken(base.XARGS.DbToken.Name, msg.GetAccount())
 	if err := token.Load(); err != nil {
-		xlog.Debugln(err)
+		base.XLOG.Debugln(err)
 		this.Close()
 		return
 	}
 
 	if token.GetToken() != msg.GetToken() {
-		xlog.Debugln("token error.")
+		base.XLOG.Debugln("token error.")
 		this.Close()
 		return
 	}
 
-	uidserver := db.NewUIDServer(common.GetArgs().DbServer.Name, token.GetUid())
-	uidserver.SetGateway(xnode.Id())
+	uidserver := db.NewUIDServer(base.XARGS.DbServer.Name, token.GetUid())
+	uidserver.SetGateway(XNODE.Id())
 	if err := uidserver.Save(); err != nil {
-		xlog.Debugln(err)
+		base.XLOG.Debugln(err)
 		this.Close()
 		return
 	}
@@ -85,14 +85,14 @@ func (this *SessionAccount) doVerify(data []byte, flag byte) {
 
 	kickmsg := &proto.MsgKick{}
 	kickmsg.UID = this.uid
-	ForwardMsg(int(common.Mgr), proto.MsgTypeCmd_Kick, kickmsg)
+	ForwardMsg(int(base.Mgr), proto.MsgTypeCmd_Kick, kickmsg)
 
 	this.Verify()
 
 	rep := &proto.MsgVerifySuccess{}
 	this.SendMsg(uint64(proto.MsgTypeCmd_VerifySuccess), rep)
 
-	xlog.Debugln("account:", msg.GetAccount(), "verify success.")
+	base.XLOG.Debugln("account:", msg.GetAccount(), "verify success.")
 }
 
 // 由于Gateway功能相当简单，这里session管理，没有做成单例管理类。

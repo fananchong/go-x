@@ -1,11 +1,9 @@
 package main
 
-import (
-	"github.com/fananchong/go-x/common"
-)
+import "github.com/fananchong/go-x/base"
 
 type Args struct {
-	common.ArgsBase
+	base.ArgsBase
 	Gateway ArgsGateway
 }
 

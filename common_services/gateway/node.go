@@ -5,9 +5,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/fananchong/go-x/common/k8s"
-	discovery "github.com/fananchong/go-x/common/k8s/serverlist"
+	"github.com/fananchong/go-x/base"
 	"github.com/fananchong/go-x/common_services/proto"
+	"github.com/fananchong/go-x/internal/common/k8s"
+	discovery "github.com/fananchong/go-x/internal/common/k8s/serverlist"
 )
 
 type Node struct {
@@ -56,7 +57,7 @@ func (this *Node) tryConnectDetail(id uint32, session *SessionNode) bool {
 		this.nodes[id] = session
 		msg := &proto.MsgVerifyS{}
 		msg.Id = this.Node.Id()
-		msg.Token = xargs.Common.IntranetToken
+		msg.Token = base.XARGS.Common.IntranetToken
 		session.SendMsg(uint64(proto.MsgTypeCmd_Verify), msg)
 		return true
 	}

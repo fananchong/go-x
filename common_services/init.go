@@ -1,8 +1,7 @@
 package service
 
-import "github.com/fananchong/go-x/common"
+import "github.com/fananchong/go-x/base"
 
 func init() {
-	LoadIpConfig(common.GetAssetsPath() + "ip.toml")
+	LoadIpConfig(base.ASSETS_PATH + "ip.toml")
 }
-

@@ -1,13 +1,13 @@
 package main
 
 import (
-	"github.com/fananchong/go-x/common"
+	"github.com/fananchong/go-x/base"
 )
 
 var DbAccount string
 
 type Args struct {
-	common.ArgsBase
+	base.ArgsBase
 	Lobby ArgsLobby
 }
 

@@ -3,7 +3,7 @@ package main
 import (
 	"plugin"
 
-	"github.com/fananchong/go-x/common"
+	"github.com/fananchong/go-x/internal/common"
 )
 
 func main() {

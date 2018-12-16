@@ -22,7 +22,7 @@ func UdpServer() {
 	var buf [20]byte
 	_, raddr, err := conn.ReadFromUDP(buf[0:])
 	if err != nil {
-		xlog.Infoln(err)
+		base.XLOG.Infoln(err)
 		return
 	}
 

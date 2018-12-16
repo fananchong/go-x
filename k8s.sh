@@ -13,7 +13,6 @@ if [[ $1 == "build" ]]; then
 elif [[ $1 == "delete" ]]; then
 	kubectl apply -f k8s/namespace.yaml
 	kubectl apply -f k8s/service_account.yaml
-	kubectl delete -f k8s/redis.yaml
 	kubectl delete -f k8s/login.yaml
 	kubectl delete -f k8s/gateway.yaml
 	kubectl delete -f k8s/mgr.yaml
@@ -22,7 +21,6 @@ elif [[ $1 == "delete" ]]; then
 elif [[ $1 == "create" ]]; then
 	kubectl apply -f k8s/namespace.yaml
 	kubectl apply -f k8s/service_account.yaml
-	kubectl create -f k8s/redis.yaml
 	kubectl create -f k8s/login.yaml
 	kubectl create -f k8s/gateway.yaml
 	kubectl create -f k8s/mgr.yaml

@@ -11,8 +11,9 @@ import (
 	"syscall"
 	"time"
 
-	godiscovery "github.com/fananchong/go-x/common/k8s"
-	discovery "github.com/fananchong/go-x/common/k8s/serverlist"
+	"github.com/fananchong/go-x/base"
+	godiscovery "github.com/fananchong/go-x/internal/common/k8s"
+	discovery "github.com/fananchong/go-x/internal/common/k8s/serverlist"
 	"github.com/fatih/structs"
 )
 
@@ -25,12 +26,10 @@ type App struct {
 	signal  chan os.Signal
 	Derived AppInterface
 	Type    int
-	Args    IArgs
-	Logger  ILogger
 	Node    interface{}
 }
 
-func (this *App) Run() {
+func (this *App) Run(argsObj interface{}) {
 	runtime.GOMAXPROCS(runtime.NumCPU())
 	runtime.GC()
 
@@ -38,12 +37,12 @@ func (this *App) Run() {
 	this.signal = make(chan os.Signal)
 	signal.Notify(this.signal, syscall.SIGINT, syscall.SIGQUIT, syscall.SIGABRT, syscall.SIGTERM, syscall.SIGPIPE)
 
-	if this.Logger == nil {
-		this.Logger = NewDefaultLogger()
+	if base.XLOG == nil {
+		base.XLOG = base.NewDefaultLogger()
 	}
-	defer this.Logger.Flush()
+	defer base.XLOG.Flush()
 
-	this.initArgs()
+	this.initArgs(argsObj)
 	this.initProf()
 	this.initNode()
 
@@ -57,7 +56,7 @@ func (this *App) Run() {
 			default:
 				termination = true
 			}
-			xlog.Infoln("[app] recive signal. signal no =", sig)
+			base.XLOG.Infoln("[app] recive signal. signal no =", sig)
 		}
 	}
 
@@ -70,37 +69,36 @@ func (this *App) Close() {
 }
 
 func (this *App) closeDetail() {
-	xlog.Infoln("app close ...")
+	base.XLOG.Infoln("app close ...")
 	node := this.Node.(godiscovery.INode).GetBase().(*discovery.Node)
 	node.Close()
 }
 
 func (this *App) initLog() {
-	if this.Args.GetBase().Common.LogDir != "" {
-		os.MkdirAll(this.Args.GetBase().Common.LogDir, os.ModeDir)
+	base.XLOG = base.NewGLogger()
+	if base.XARGS.Common.LogDir != "" {
+		os.MkdirAll(base.XARGS.Common.LogDir, os.ModeDir)
 	}
-	this.Logger.SetLogDir(this.Args.GetBase().Common.LogDir)
-	this.Logger.SetLogLevel(this.Args.GetBase().Common.LogLevel)
-	SetLogger(this.Logger)
+	base.XLOG.SetLogDir(base.XARGS.Common.LogDir)
+	base.XLOG.SetLogLevel(base.XARGS.Common.LogLevel)
 }
 
-func (this *App) initArgs() {
-	if this.Args == nil {
+func (this *App) initArgs(argsObj interface{}) {
+	if argsObj == nil {
 		return
 	}
-	this.Args.Init(this.Args)
+	base.XARGS = argsObj.(*base.ArgsBase)
+	parseArgs(argsObj)
 	this.initLog()
 
-	fields := structs.Fields(this.Args)
+	fields := structs.Fields(argsObj)
 	this.initArgsDetail(fields)
 
 	// OnInit
-	f := reflect.ValueOf(this.Args).MethodByName("OnInit")
+	f := reflect.ValueOf(argsObj).MethodByName("OnInit")
 	if f.IsValid() {
 		f.Call([]reflect.Value{})
 	}
-
-	SetArgs(this.Args.GetBase())
 }
 
 func (this *App) initArgsDetail(fields []*structs.Field) {
@@ -115,16 +113,16 @@ func (this *App) initArgsDetail(fields []*structs.Field) {
 		default:
 			switch field.Name() {
 			case "Connect":
-				this.Args.GetBase().Pending.WatchNodeTypes = append(this.Args.GetBase().Pending.WatchNodeTypes, field.Value().([]int)...)
+				base.XARGS.Pending.WatchNodeTypes = append(base.XARGS.Pending.WatchNodeTypes, field.Value().([]int)...)
 			}
 		}
 	}
 }
 
 func (this *App) initNode() {
-	if this.Args != nil {
+	if base.XARGS != nil {
 		initServerType()
-		args := this.Args.GetBase()
+		args := base.XARGS
 		if this.Type == 0 &&
 			len(args.Pending.WatchNodeTypes) == 0 {
 			return
@@ -139,7 +137,7 @@ func (this *App) initNode() {
 }
 
 func (this *App) initProf() {
-	if this.Args != nil && this.Args.GetBase().Common.Debug {
+	if base.XARGS != nil && base.XARGS.Common.Debug {
 		port := 58000 + this.Type
 		go http.ListenAndServe(fmt.Sprintf(":%d", port), nil)
 	}

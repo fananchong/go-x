@@ -6,7 +6,7 @@ import (
 )
 
 var (
-	xlog common.ILogger = common.NewDefaultLogger()
+	XLOG common.ILogger = common.NewDefaultLogger()
 )
 
 type App struct {

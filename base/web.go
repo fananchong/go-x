@@ -1,4 +1,4 @@
-package common
+package base
 
 import (
 	"net/http"
@@ -16,16 +16,16 @@ func NewWebService() *WebService {
 }
 
 func (this *WebService) ListenAndServe(addr string) {
-	xlog.Infoln("start listen", addr)
+	XLOG.Infoln("start listen", addr)
 	this.termination = false
 	for !this.termination {
+		if this.server != nil {
+			this.server.Close()
+		}
 		this.server = &http.Server{Addr: addr, Handler: this.serverMux}
 		err := this.server.ListenAndServe()
 		if err != nil {
-			xlog.Errorln("[web]", err)
-			if this.server != nil {
-				this.server.Close()
-			}
+			XLOG.Errorln("[web]", err)
 			time.Sleep(5 * time.Second)
 		}
 	}

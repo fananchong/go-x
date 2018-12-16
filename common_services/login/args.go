@@ -1,11 +1,11 @@
 package main
 
-import (
-	"github.com/fananchong/go-x/common"
-)
+import "github.com/fananchong/go-x/base"
+
+var externArgs ArgsLogin
 
 type Args struct {
-	common.ArgsBase
+	base.ArgsBase
 	Login ArgsLogin // 登录服务配置
 }
 
@@ -17,5 +17,6 @@ type ArgsLogin struct {
 }
 
 func (this *Args) OnInit() {
-	this.Pending.WatchNodeTypes = append(this.Pending.WatchNodeTypes, int(common.Gateway)) // 监视服务节点类型
+	this.Pending.WatchNodeTypes = append(this.Pending.WatchNodeTypes, int(base.Gateway)) // 监视服务节点类型
+	externArgs = this.Login
 }

@@ -3,7 +3,7 @@ package discovery
 import (
 	"sync"
 
-	"github.com/fananchong/go-x/common/k8s"
+	"github.com/fananchong/go-x/internal/common/k8s"
 	"github.com/fananchong/gomap"
 )
 

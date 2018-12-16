@@ -3,9 +3,10 @@ package main
 import (
 	"sync"
 
-	"github.com/fananchong/go-x/common/k8s"
-	discovery "github.com/fananchong/go-x/common/k8s/serverlist"
+	"github.com/fananchong/go-x/base"
 	"github.com/fananchong/go-x/common_services/proto"
+	"github.com/fananchong/go-x/internal/common/k8s"
+	discovery "github.com/fananchong/go-x/internal/common/k8s/serverlist"
 	"github.com/fananchong/gotcp"
 	proto1 "github.com/gogo/protobuf/proto"
 )
@@ -33,18 +34,18 @@ func (this *SessionNode) OnRecv(data []byte, flag byte) {
 	case proto.MsgTypeCmd_Forward:
 		msg := &proto.MsgForward{}
 		if gotcp.DecodeCmd(data, flag, msg) == nil {
-			xlog.Debugln("decodeMsg fail.")
+			base.XLOG.Debugln("decodeMsg fail.")
 			return
 		}
 		if s, loaded := xaccounts.Load(msg.GetUID()); loaded {
 			s.(*SessionAccount).Send(msg.GetData(), byte(msg.GetFlag()))
 		} else {
-			xlog.Debugln("no find account session. uid:", msg.GetUID())
+			base.XLOG.Debugln("no find account session. uid:", msg.GetUID())
 		}
 	case proto.MsgTypeCmd_ForwardS:
 		msg := &proto.MsgForwardS{}
 		if gotcp.DecodeCmd(data, flag, msg) == nil {
-			xlog.Debugln("decodeMsg fail.")
+			base.XLOG.Debugln("decodeMsg fail.")
 			return
 		}
 		if msg.GetType() == 0 {
@@ -63,19 +64,19 @@ func (this *SessionNode) OnRecv(data []byte, flag byte) {
 func (this *SessionNode) doVerify(data []byte, flag byte) {
 	msg := &proto.MsgVerifyS{}
 	if gotcp.DecodeCmd(data, flag, msg) == nil {
-		xlog.Errorln("decodeMsg fail.")
+		base.XLOG.Errorln("decodeMsg fail.")
 		this.Close()
 		return
 	}
 
 	if this.endpoint.Id() != msg.GetId() {
-		xlog.Errorln("verify fail. id error")
+		base.XLOG.Errorln("verify fail. id error")
 		this.Close()
 		return
 	}
 
-	if msg.GetToken() != xargs.Common.IntranetToken {
-		xlog.Errorln("verify fail. token error")
+	if msg.GetToken() != base.XARGS.Common.IntranetToken {
+		base.XLOG.Errorln("verify fail. token error")
 		this.Close()
 		return
 	}
@@ -88,7 +89,7 @@ func (this *SessionNode) doVerify(data []byte, flag byte) {
 	}
 	xnodesByType[this.endpoint.NodeType][this.endpoint.Id()] = this
 	this.Verify()
-	xlog.Debugln("Id:", msg.GetId(), "verify success.")
+	base.XLOG.Debugln("Id:", msg.GetId(), "verify success.")
 }
 
 func (this *SessionNode) OnClose() {
@@ -111,9 +112,9 @@ func (this *SessionNode) OnClose() {
 }
 
 func Forward(serverType int, data []byte, flag byte) {
-	id, _, _ := xnode.Servers.GetOne(serverType)
+	id, _, _ := XNODE.Servers.GetOne(serverType)
 	if id == 0 {
-		xlog.Errorln("no find server. serverType:", serverType)
+		base.XLOG.Errorln("no find server. serverType:", serverType)
 		return
 	}
 	ForwardById(id, data, flag)
@@ -123,7 +124,7 @@ func ForwardById(id uint32, data []byte, flag byte) {
 	if node, loaded := xnodes.Load(id); loaded {
 		node.(*SessionNode).Send(data, flag)
 	} else {
-		xlog.Errorln("no find server. id:", id)
+		base.XLOG.Errorln("no find server. id:", id)
 		return
 	}
 }
@@ -141,15 +142,15 @@ func ForwardAll(serverType int, data []byte, flag byte, excludeId uint32) {
 }
 
 func ForwardMsg(serverType int, cmd proto.MsgTypeCmd, msg proto1.Message) {
-	id, _, _ := xnode.Servers.GetOne(serverType)
+	id, _, _ := XNODE.Servers.GetOne(serverType)
 	if id == 0 {
-		xlog.Errorln("no find server. #1")
+		base.XLOG.Errorln("no find server. #1")
 		return
 	}
 	if node, loaded := xnodes.Load(id); loaded {
 		node.(*SessionNode).SendMsg(uint64(cmd), msg)
 	} else {
-		xlog.Errorln("no find server. #2")
+		base.XLOG.Errorln("no find server. #2")
 		return
 	}
 }

@@ -6,11 +6,11 @@ import (
 	"net/http"
 
 	go_redis_orm "github.com/fananchong/go-redis-orm.v2"
-	"github.com/fananchong/go-x/common"
-	"github.com/fananchong/go-x/common/k8s"
+	"github.com/fananchong/go-x/base"
 	service "github.com/fananchong/go-x/common_services"
 	"github.com/fananchong/go-x/common_services/db"
 	"github.com/fananchong/go-x/common_services/proto"
+	"github.com/fananchong/go-x/internal/common/k8s"
 	proto1 "github.com/golang/protobuf/proto"
 	uuid "github.com/satori/go.uuid"
 )
@@ -23,9 +23,9 @@ func (this *Login) MsgLogin(w http.ResponseWriter, req *http.Request, data strin
 		w.Write(getErrRepString(proto.EnumLogin_ErrParams))
 		return
 	}
-	common.GetLogger().Debugln("account =", msg.GetAccount())
-	common.GetLogger().Debugln("password =", msg.GetPassword())
-	common.GetLogger().Debugln("mode =", msg.GetMode())
+	base.XLOG.Debugln("account =", msg.GetAccount())
+	base.XLOG.Debugln("password =", msg.GetPassword())
+	base.XLOG.Debugln("mode =", msg.GetMode())
 
 	var accountId uint64
 	var password string
@@ -41,7 +41,7 @@ func (this *Login) MsgLogin(w http.ResponseWriter, req *http.Request, data strin
 			}
 			// 密码可以为空，因此不需要做否为空的判断
 		default:
-			common.GetLogger().Debugln("unknow mode, mode =", msg.GetMode())
+			base.XLOG.Debugln("unknow mode, mode =", msg.GetMode())
 			w.Write(getErrRepString(proto.EnumLogin_ErrMode))
 			return
 		}
@@ -85,7 +85,7 @@ func (this *Login) MsgLogin(w http.ResponseWriter, req *http.Request, data strin
 	}
 
 	// 获取一个Gateway
-	endpoints, err := k8s.GetEndpoints(k8s.GetNamespace(int(common.Gateway)), k8s.GetServiceName(int(common.Gateway)))
+	endpoints, err := k8s.GetEndpoints(k8s.GetNamespace(int(base.Gateway)), k8s.GetServiceName(int(base.Gateway)))
 	if err != nil || len(endpoints) == 0 {
 		w.Write(getErrRepString(proto.EnumLogin_ErrGateway))
 		return
@@ -115,8 +115,8 @@ func (this *Login) MsgLogin(w http.ResponseWriter, req *http.Request, data strin
 		ip = v
 	}
 	addr := fmt.Sprintf("%s:%d", ip, endpoint.Ports[""])
-	common.GetLogger().Debugln("accountId =", accountId)
-	common.GetLogger().Debugln("gateway address =", addr)
+	base.XLOG.Debugln("accountId =", accountId)
+	base.XLOG.Debugln("gateway address =", addr)
 	rep := &proto.MsgLoginResult{}
 	rep.Err = proto.EnumLogin_NoErr
 	rep.Token = temptkn
@@ -134,7 +134,7 @@ func checkSalt(mode proto.LoginMode) bool {
 }
 
 func getErrRepString(err proto.EnumLogin_Error) []byte {
-	common.GetLogger().Debugln("err =", err)
+	base.XLOG.Debugln("err =", err)
 	rep := &proto.MsgLoginResult{}
 	rep.Err = err
 	data, _ := proto1.Marshal(rep)
@@ -143,7 +143,7 @@ func getErrRepString(err proto.EnumLogin_Error) []byte {
 
 func (this *Login) checkPassword(msgPassword, dbPassword string, isSalt bool) bool {
 	if isSalt {
-		s1 := []byte(xargs.Login.Sign1 + dbPassword + xargs.Login.Sign2 + xargs.Common.Version)
+		s1 := []byte(externArgs.Sign1 + dbPassword + externArgs.Sign2 + base.XARGS.Common.Version)
 		s2 := md5.Sum(s1)
 		s3 := fmt.Sprintf("%x", s2)
 		return msgPassword == s3

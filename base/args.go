@@ -1,4 +1,10 @@
-package common
+package base
+
+type IArgs interface {
+	GetBase() *ArgsBase
+	Init(derived IArgs)
+	OnInit()
+}
 
 type ArgsBase struct {
 	Common    ArgsCommon  // 一些基础参数

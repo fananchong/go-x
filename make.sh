@@ -9,7 +9,7 @@ export EXAMPLE1_IOGAME=$PWD/example1_iogame/
 export FLAG_RACE=-race
 export GOBIN=$BIN_DIR
 
-go vet ./...
+#go vet ./...
 for dir in $COMMON_SERVICE_DIR $EXAMPLE1_IOGAME; do
     if [[ $dir ]]; then
         cd $dir && ./build.sh

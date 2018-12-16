@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	go_redis_orm "github.com/fananchong/go-redis-orm.v2"
-	"github.com/fananchong/go-x/common"
+	"github.com/fananchong/go-x/base"
 	"github.com/fananchong/go-x/common_services/db"
 	"github.com/fananchong/go-x/common_services/proto"
 	"github.com/fananchong/gotcp"
@@ -13,7 +13,7 @@ import (
 type LoginMsgHandlerType func(http.ResponseWriter, *http.Request, string, string)
 
 type Login struct {
-	common.WebService
+	base.WebService
 	cmds          map[proto.MsgTypeCmd]LoginMsgHandlerType
 	dbAccountName string
 	dbTokenName   string
@@ -33,18 +33,18 @@ func (this *Login) Start() bool {
 	go_redis_orm.SetNewRedisHandler(go_redis_orm.NewDefaultRedisClient)
 
 	// db account
-	this.dbAccountName = common.GetArgs().DbAccount.Name
-	err := go_redis_orm.CreateDB(this.dbAccountName, common.GetArgs().DbAccount.Addrs, common.GetArgs().DbAccount.Password, common.GetArgs().DbAccount.DBIndex)
+	this.dbAccountName = base.XARGS.DbAccount.Name
+	err := go_redis_orm.CreateDB(this.dbAccountName, base.XARGS.DbAccount.Addrs, base.XARGS.DbAccount.Password, base.XARGS.DbAccount.DBIndex)
 	if err != nil {
-		common.GetLogger().Errorln(err)
+		base.XLOG.Errorln(err)
 		return false
 	}
 
 	// db token
-	this.dbTokenName = common.GetArgs().DbToken.Name
-	err = go_redis_orm.CreateDB(this.dbTokenName, common.GetArgs().DbToken.Addrs, common.GetArgs().DbToken.Password, common.GetArgs().DbToken.DBIndex)
+	this.dbTokenName = base.XARGS.DbToken.Name
+	err = go_redis_orm.CreateDB(this.dbTokenName, base.XARGS.DbToken.Addrs, base.XARGS.DbToken.Password, base.XARGS.DbToken.DBIndex)
 	if err != nil {
-		common.GetLogger().Errorln(err)
+		base.XLOG.Errorln(err)
 		return false
 	}
 
@@ -52,11 +52,11 @@ func (this *Login) Start() bool {
 	this.suid = &db.SUID{Cli: go_redis_orm.GetDB(this.dbAccountName)}
 
 	// logger
-	gotcp.SetLogger(common.GetLogger())
+	gotcp.SetLogger(base.XLOG)
 
 	// http service
 	this.HandleFunc("/msg", this.request)
-	this.ListenAndServe(xargs.Login.Listen)
+	this.ListenAndServe(externArgs.Listen)
 	return true
 }
 

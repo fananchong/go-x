@@ -1,13 +1,9 @@
-package common
+package base
 
 import (
 	"fmt"
 
 	"github.com/fananchong/glog"
-)
-
-var (
-	xlog ILogger = nil
 )
 
 type ILogger interface {
@@ -32,14 +28,6 @@ type ILogger interface {
 	Flush()
 	SetLogLevel(level int)
 	SetLogDir(dir string)
-}
-
-func SetLogger(log ILogger) {
-	xlog = log
-}
-
-func GetLogger() ILogger {
-	return xlog
 }
 
 func NewGLogger() *glog.LoggingT {

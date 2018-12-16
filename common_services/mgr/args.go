@@ -1,11 +1,11 @@
 package main
 
 import (
-	"github.com/fananchong/go-x/common"
+	"github.com/fananchong/go-x/base"
 )
 
 type Args struct {
-	common.ArgsBase
+	base.ArgsBase
 	Mgr ArgsMgr
 }
 

@@ -7,6 +7,6 @@ func init() {
 }
 
 func Run() {
-	app := NewApp()
-	app.Run()
+	// app := NewApp()
+	// app.Run()
 }

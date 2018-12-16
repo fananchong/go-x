@@ -3,7 +3,8 @@ package common
 import (
 	"fmt"
 
-	discovery "github.com/fananchong/go-x/common/k8s/serverlist"
+	"github.com/fananchong/go-x/base"
+	discovery "github.com/fananchong/go-x/internal/common/k8s/serverlist"
 	"github.com/fananchong/gotcp"
 )
 
@@ -19,7 +20,7 @@ func NewTcpServer() *TcpServer {
 }
 
 func (this *TcpServer) Start() bool {
-	gotcp.SetLogger(xlog)
+	gotcp.SetLogger(base.XLOG)
 	if this.startServer() == false {
 		return false
 	}

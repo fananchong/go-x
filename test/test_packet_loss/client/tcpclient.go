@@ -17,7 +17,7 @@ func TcpClient() {
 		panic(err)
 	}
 
-	xlog.Infoln("connect to ", conn.RemoteAddr().String())
+	base.XLOG.Infoln("connect to ", conn.RemoteAddr().String())
 
 	go func() {
 
@@ -32,7 +32,7 @@ func TcpClient() {
 			leastlen := msglen - buf.RdSize()
 			readnum, err := io.ReadAtLeast(conn, tempbuf[0:], leastlen)
 			if err != nil {
-				xlog.Infoln(err)
+				base.XLOG.Infoln(err)
 				return
 			}
 			buf.Append(tempbuf[:readnum])

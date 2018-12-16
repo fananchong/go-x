@@ -7,7 +7,7 @@ import (
 
 	"github.com/fananchong/go-x/base"
 	"github.com/fananchong/go-x/common_services/proto"
-	discovery "github.com/fananchong/go-x/internal/common/k8s/serverlist"
+	discovery "github.com/fananchong/go-x/internal/k8s/serverlist"
 	"github.com/fananchong/gotcp"
 	proto1 "github.com/golang/protobuf/proto"
 )

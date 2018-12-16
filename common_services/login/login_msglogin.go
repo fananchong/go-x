@@ -10,7 +10,7 @@ import (
 	service "github.com/fananchong/go-x/common_services"
 	"github.com/fananchong/go-x/common_services/db"
 	"github.com/fananchong/go-x/common_services/proto"
-	"github.com/fananchong/go-x/internal/common/k8s"
+	"github.com/fananchong/go-x/internal/k8s"
 	proto1 "github.com/golang/protobuf/proto"
 	uuid "github.com/satori/go.uuid"
 )

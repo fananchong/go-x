@@ -1,29 +1,12 @@
 package main
 
-import (
-	"github.com/fananchong/go-x/common"
-	"github.com/fananchong/gochart"
-)
-
-var (
-	XLOG common.ILogger = common.NewDefaultLogger()
-)
-
-type App struct {
-	common.App
-}
-
-func NewApp() *App {
-	this := &App{}
-	this.Derived = this
-	return this
-}
+import "github.com/fananchong/gochart"
 
 var (
 	g_chart *Chart = nil
 )
 
-func (this *App) OnAppReady() {
+func main() {
 	g_chart = NewChart()
 	s := &gochart.ChartServer{}
 	s.AddChart("chart", g_chart, false)
@@ -31,8 +14,4 @@ func (this *App) OnAppReady() {
 
 	TcpClient()
 	UdpClient()
-}
-
-func (this *App) OnAppShutDown() {
-
 }

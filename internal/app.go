@@ -1,4 +1,4 @@
-package common
+package internal
 
 import (
 	"fmt"
@@ -12,8 +12,8 @@ import (
 	"time"
 
 	"github.com/fananchong/go-x/base"
-	godiscovery "github.com/fananchong/go-x/internal/common/k8s"
-	discovery "github.com/fananchong/go-x/internal/common/k8s/serverlist"
+	godiscovery "github.com/fananchong/go-x/internal/k8s"
+	discovery "github.com/fananchong/go-x/internal/k8s/serverlist"
 	"github.com/fatih/structs"
 )
 
@@ -29,7 +29,7 @@ type App struct {
 	Node    interface{}
 }
 
-func (this *App) Run(argsObj interface{}) {
+func (this *App) Run(t base.CommonServerType, argsObj interface{}) {
 	runtime.GOMAXPROCS(runtime.NumCPU())
 	runtime.GC()
 
@@ -37,6 +37,7 @@ func (this *App) Run(argsObj interface{}) {
 	this.signal = make(chan os.Signal)
 	signal.Notify(this.signal, syscall.SIGINT, syscall.SIGQUIT, syscall.SIGABRT, syscall.SIGTERM, syscall.SIGPIPE)
 
+	this.Type = (int)(t)
 	if base.XLOG == nil {
 		base.XLOG = base.NewDefaultLogger()
 	}

@@ -4,7 +4,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/fananchong/go-x/internal/common/k8s"
+	"github.com/fananchong/go-x/internal/k8s"
 )
 
 type Node struct {

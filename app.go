@@ -1,32 +1,34 @@
-package internal
+package main
 
 import (
-	"github.com/fananchong/go-x/internal/common"
+	"github.com/fananchong/go-x/base"
+	"github.com/fananchong/go-x/internal"
 )
 
 type App struct {
-	common.App
+	internal.App
+	runner base.Plugin
 }
 
-func NewApp() *App {
+func NewApp(runner base.Plugin) *App {
 	this := &App{}
-	this.Type = int(common.Login)
-	this.Args = XARGS
-	this.Logger = XLOG
 	this.Derived = this
+	this.runner = runner
 	return this
 }
 
-var runner = NewLogin()
-
 func (this *App) OnAppReady() {
+	if this.runner.Init() == false {
+		this.Close()
+		return
+	}
 	go func() {
-		if runner.Start() == false {
+		if this.runner.Start() == false {
 			this.Close()
 		}
 	}()
 }
 
 func (this *App) OnAppShutDown() {
-	runner.Close()
+	this.runner.Close()
 }

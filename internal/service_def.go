@@ -1,8 +1,8 @@
-package common
+package internal
 
 import (
 	"github.com/fananchong/go-x/base"
-	"github.com/fananchong/go-x/internal/common/k8s"
+	"github.com/fananchong/go-x/internal/k8s"
 	"github.com/fananchong/multiconfig"
 )
 

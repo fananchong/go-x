@@ -3,18 +3,22 @@ package main
 import (
 	"plugin"
 
-	"github.com/fananchong/go-x/internal/common"
+	"github.com/fananchong/go-x/base"
+	"github.com/fananchong/go-x/internal"
 )
 
 func main() {
-	app := common.GetAppName()
-	p, err := plugin.Open(app + ".so")
+	appName := internal.GetAppName()
+	p, err := plugin.Open(appName + ".so")
 	if err != nil {
 		panic(err)
 	}
-	f, err := p.Lookup("Run")
+	obj, err := p.Lookup("MainObj")
 	if err != nil {
 		panic(err)
 	}
-	f.(func())()
+
+	app := NewApp(obj.(base.Plugin))
+	//app.Run()
+	app.Close()
 }

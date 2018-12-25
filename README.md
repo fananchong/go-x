@@ -1,6 +1,6 @@
 # go-x
 
-Go游戏服务器框架
+本库不再维护，请移步：https://github.com/fananchong/go-xserver
 
 ## 编译
 
